@@ -1,0 +1,124 @@
+div { border: 0; outline: 0; vertical-align: baseline; background: transparent; margin: 0; padding: 0; }
+:focus { outline: 0; }
+::selection { background: transparent; }
+
+#actionmenu {
+    background-color: #eaeaea;
+    display: none;
+    top: 50%;
+    left: 50%;
+    width: 55rem;
+    height: 35rem;
+    transform: translate(-50%,-50%);
+    overflow: auto;
+    position: fixed;
+    border-top: solid 8px black;
+    border-left: solid 8px black;
+    border-right: solid 8px black;
+    border-bottom: solid 16px black;
+    border-radius: 10px;
+}
+
+#actionmenu button {
+    background: #3d3d3d;
+    width: 183px;
+    height: 40px;
+    border: 0;
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    transition: .2s all;
+    cursor: pointer;
+}
+
+#actionmenu button:hover {
+    background: #666666;
+}
+
+.sc-header{
+    width: 100%;
+    background-color: #3d3d3d;
+    border-bottom: 2px solid #ff0000;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+}
+
+.sc-image-profile{
+    width: 65px;
+    padding: 2px;
+}
+
+.sc-profile{
+    display: flex;
+    align-items: center;
+}
+
+.sc-profile img{
+    margin-left: 2.5rem;
+}
+
+.sc-profile p{
+    margin-left: 1rem;
+    color: #ffffffff;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0;
+
+}
+
+.sc-icons{
+    display: flex;
+    margin-right: 2.5rem;
+    color: #ffffffff;
+}
+.sc-icons p{
+    margin-left: 1em;
+}
+
+#mainmenu{
+    margin-top: 5rem;
+    overflow: auto;
+    width: 980px;
+    height: 460px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.box{
+    width: 21%;
+    margin-top: 1rem;
+    background: #d8d6d6;
+    border-radius: .2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 11px;
+}
+
+.box2{
+    width: 21%;
+    height: 120px;
+    margin-top: 1rem;
+    background: #d8d6d6;
+    border-radius: .2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    height: 179px;
+}
+
+*::-webkit-scrollbar {
+   display: none;
+}
