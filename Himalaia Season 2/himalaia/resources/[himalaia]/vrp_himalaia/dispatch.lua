@@ -21,12 +21,12 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		SetDiscordAppId(886013439913373698)--Colocar o ID do Dispatch aq
+		SetDiscordAppId(936250353450627102)--Colocar o ID do Dispatch aq
 		SetDiscordRichPresenceAsset('cruz')--a logo tem que ser colocada no Dispatch criada no site do discord 
-        SetDiscordRichPresenceAssetText('Cruz Commmunity')
+        SetDiscordRichPresenceAssetText('WIPE HIMALAIA')
         SetDiscordRichPresenceAssetSmall('--')
         SetDiscordRichPresenceAssetSmallText('--')
-        SetDiscordRichPresenceAction(1, "Discord", "https://discord.gg/BmN9dWb9Nj")
+        SetDiscordRichPresenceAction(1, "Discord", "https://discord.gg/BRhMcVGRWT")
 		Citizen.Wait(60000)
 	end
 end)
