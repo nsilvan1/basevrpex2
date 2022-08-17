@@ -61,7 +61,6 @@ cfg.items = {
 	["anfetamina"] = { "Anfetamina",0.30 },
 	["metanfetamina"] = { "Metanfetamina",0.3 },
 	["lancaperfume"] = { "Lança Perfume",0.3 },
-	["pecadearma"] = { "Peça de Arma",0.20 },
 	["armacaodearma"] = { "Armacao de Arma",0.20 },
 	["armacaodeak"] = { "Armacao de Ak",0.20 },
 	["armacaodeg3"] = { "Armacao de G3",0.20 },

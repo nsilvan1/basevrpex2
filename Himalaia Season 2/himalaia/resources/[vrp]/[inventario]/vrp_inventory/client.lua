@@ -85,6 +85,7 @@ end)
 -- DROPITEM
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNUICallback("dropItem",function(data)
+  print(data.item)
   if (string.match(data.item, "wbody") or
   string.match(data.item, "wammo") or
   data.item == "cocaina" or
