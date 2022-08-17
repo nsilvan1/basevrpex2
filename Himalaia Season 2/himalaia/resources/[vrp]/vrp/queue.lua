@@ -9,15 +9,15 @@ Config.IsBanned = function(src,callback)
 end
 
 Config.Language = {
-	joining = "[DEV] Entrando...",
-	connecting = "[DEV] Conectando...",
-	err = "[DEV] Não foi possível identificar sua Steam ou Social Club.",
-	_err = "[DEV] Você foi desconectado por demorar demais na fila.",
-	pos = "[DEV] Você é o %d/%d da fila, aguarde sua conexão",
-	connectingerr = "[DEV] Não foi possível adiciona-lo na fila.",
-    wlonly = "[DEV] Você não está aprovado na whitelist.",
-	banned = "[DEV] Seu passaporte foi revogado na cidade.",
-	steam = "[DEV] Você precisa estar com a Steam aberta para conectar."
+	joining = "[CRUZ] Entrando...",
+	connecting = "[CRUZ] Conectando...",
+	err = "[CRUZ] Não foi possível identificar sua Steam ou Social Club.",
+	_err = "[CRUZ] Você foi desconectado por demorar demais na fila.",
+	pos = "[CRUZ] Você é o %d/%d da fila, aguarde sua conexão",
+	connectingerr = "[CRUZ] Não foi possível adiciona-lo na fila.",
+    wlonly = "[CRUZ] Você não está aprovado na whitelist.",
+	banned = "[CRUZ] Seu passaporte foi revogado na cidade.",
+	steam = "[CRUZ] Você precisa estar com a Steam aberta para conectar."
 }
 
 local Queue = {}
@@ -25,7 +25,7 @@ Queue.QueueList = {}
 Queue.PlayerList = {}
 Queue.PlayerCount = 0
 Queue.Priority = {
-	-- ["steam:11000011a5f40d0"] = 100, -- cruz
+	["steam:11000011a5f40d0"] = 100, -- cruz
 }
 Queue.Connecting = {}
 Queue.ThreadCount = 0
