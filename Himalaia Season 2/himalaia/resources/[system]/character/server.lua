@@ -66,7 +66,7 @@ end
 function doSpawnPlayer(source,user_id,firstspawn)
 	TriggerClientEvent("character:normalSpawn",source,firstspawn)
 	-- TriggerEvent("ms:character-barbershop:init",user_id)
-	TriggerEvent("nyo_barbershop:init",user_id) -- sincronizar barbearia
+	TriggerEvent("disney-barbershop:init",user_id)
 	SetTimeout(120000,function()
         TriggerClientEvent("checkcam",source,true)
     end)
