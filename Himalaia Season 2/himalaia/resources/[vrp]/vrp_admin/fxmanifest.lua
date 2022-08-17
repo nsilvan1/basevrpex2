@@ -6,6 +6,7 @@ client_scripts {
 	"admin/client.lua",
 	"emergencyblips/client.lua",
 	"hospital/client.lua",
+	"player/client.lua",
 	"policia/client.lua"
 
 
@@ -17,6 +18,7 @@ server_scripts {
 	"admin/server.lua",
 	"emergencyblips/server.lua",
 	"hospital/server.lua",
+	"player/server.lua",
 	"policia/server.lua"
 
 
