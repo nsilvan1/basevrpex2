@@ -32,6 +32,9 @@ end
 -- VARIÁVEIS
 -----------------------------------------------------------------------------------------------------------------------------------------
 local actived = {}
+
+local vthirst = 0
+local vhunger = 0
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- MOCHILA
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -203,15 +206,15 @@ function cRP.useItem(itemName,type,ramount)
                     actived[user_id] = true
                     TriggerClientEvent('Creative:Update',source,'updateMochila')
                     vRPclient._CarregarObjeto(src,"mp_player_intdrink","loop_bottle","prop_ld_flow_bottle",49,60309)
-                    TriggerClientEvent("progress",source,10000,"tomando")
+                    TriggerClientEvent("progress",source,10000,"Bebendo")
 
                     SetTimeout(10000,function()
                         actived[user_id] = nil
+						vthirst = -20
                         vRPclient._stopAnim(source,false)
-                        vRP.varyThirst(user_id,-25)
+                        vRP.varyThirst(user_id,vthirst)
                         vRP.varyHunger(user_id,0)
                         vRPclient._DeletarObjeto(src)
-						vRP.giveInventoryItem(user_id,"garrafa-vazia",1)
                         TriggerClientEvent("Notify",source,"sucesso","Você tomou <b>Água</b>.")
                     end)
 
@@ -228,9 +231,10 @@ function cRP.useItem(itemName,type,ramount)
 
 					SetTimeout(10000,function()
 						actived[user_id] = nil
+						vhunger = -20
 						vRPclient._stopAnim(source,false)
-						vRP.varyThirst(user_id,-40)
-						vRP.varyHunger(user_id,0)
+						vRP.varyThirst(user_id,0)
+						vRP.varyHunger(user_id,vhunger)
 						vRPclient._DeletarObjeto(src)
 						TriggerClientEvent("Notify",source,"sucesso","Você tomou <b>Leite</b>.")
 					end)

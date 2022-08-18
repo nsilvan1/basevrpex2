@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,700;1,800;1,900&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="bibs/loading-bar.css" />
+    <script type="text/javascript" src="bibs/loading-bar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">    
+		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+<body>
+        <img src="https://cdn.discordapp.com/attachments/913250396363972649/913250479604121600/Gamboz_Logo_GIF.png" class="logo">
+    
+        <div id="hud">
+
+              
+                <div class="item-hud">
+                    <i class="far fa-heart icon vida"></i>
+                    <div class="bar1">
+                        <div class="bar2 vida2" id="vida"></div>
+                    </div>
+                </div>
+                <div class="item-hud" id="coletediv">
+                    <i class="far fa-shield icon colete"></i>
+                    <div class="bar1">
+                        <div class="bar2 colete2" id="colete"></div>
+                    </div>
+                </div>
+                <div class="item-hud">
+                    <i class="far fa-hamburger icon hunger"></i>
+                    <div class="bar1">
+                        <div class="bar2 hunger2" id="fome"></div>
+                    </div>
+                </div>
+                <div class="item-hud">
+                    <i class="far fa-wine-bottle icon water"></i>
+                    <div class="bar1">
+                        <div class="bar2 water2" id="sede"></div>
+                    </div>
+                </div>
+
+
+
+        </div>
+
+        <div class="hud-carro" style="display: none;">
+                
+            <div class="veloBar" clipPathUnits="objectBoundingBox">
+                <div class='veloFill'></div>
+            </div>
+
+            <div class="speed" id="speed"></div>
+            <div class="km">km/h</div>
+
+            <div class="bar-fuel">
+                <div class="bar-fuel2"></div>
+            </div>
+
+            <div class="cinto">
+                <img src="svgs/cintooff.png" alt="">
+            </div>
+
+        </div>
+    
+    <script src="script.js"></script>
+</body>
+
+</html>

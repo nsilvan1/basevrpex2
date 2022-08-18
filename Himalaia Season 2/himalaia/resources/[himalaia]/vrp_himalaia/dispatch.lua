@@ -18,7 +18,9 @@ Citizen.CreateThread(function()
 	end
 
 end)
-
+-------------------
+-- Discord rich
+-------------------
 Citizen.CreateThread(function()
 	while true do
 		SetDiscordAppId(936250353450627102)--Colocar o ID do Dispatch aq
@@ -30,7 +32,16 @@ Citizen.CreateThread(function()
 		Citizen.Wait(60000)
 	end
 end)
-
+-------------------
+-- Tirar som ambiente do gta
+-------------------
+CreateThread(function()
+	while true do
+		StartAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE");
+		SetAudioFlag("PoliceScannerDisabled",true);
+		Wait(0)
+	end
+  end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- DISPATCH
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -150,67 +161,82 @@ end)
 -- BLIPS
 -----------------------------------------------------------------------------------------------------------------------------------------
 local blips = {
-	{ -29.99,-1105.07,26.43,225,4,"Concessionária",0.5 },
-	{ 597.3, -1.74, 117.24,60,3,"Departamento Policial",0.5 },
-    { 1851.45,3686.71,34.26,60,3,"Departamento Policial",0.5 },
-    { -448.18,6011.68,31.71,60,3,"Departamento Policial",0.5 },
-	{ 317.25,2623.14,44.46,289,4,"Garagem",0.4 },
-	{ -773.34,5598.15,33.60,289,4,"Garagem",0.4 },
-	{ 596.40,90.65,93.12,289,4,"Garagem",0.4 },
-	{ -340.76,265.97,85.67,289,4,"Garagem",0.4 },
-	{ -2030.01,-465.97,11.60,289,4,"Garagem",0.4 },
-	{ -1184.92,-1510.00,4.64,289,4,"Garagem",0.4 },
-	{ -73.44,-2004.99,18.27,289,4,"Garagem",0.4 },
-	{ -348.88,-874.02,31.31,289,4,"Garagem",0.4 },
-	{ 67.74,12.27,69.21,289,4,"Garagem",0.4 },
-	{ 361.90,297.81,103.88,289,4,"Garagem",0.4 },
-	{ 1156.90,-453.73,66.98,289,4,"Garagem",0.4 },
-	{ -102.21,6345.18,31.57,289,4,"Garagem",0.4 },
-	{ -830.74,-420.58,36.77,289,4,"Garagem",0.4 },
-	{ 1990.01,3052.29,47.22,385,5,"Yellow Jack",0.5 },
-	{ 128.96,-1299.03,29.24,121,7,"Vanilla Unicorn",0.5 },
-	{ 265.05,-1262.65,29.3,361,41,"Posto de Gasolina",0.4 },
-	{ 819.02,-1027.96,26.41,361,41,"Posto de Gasolina",0.4 },
-	{ 1208.61,-1402.43,35.23,361,41,"Posto de Gasolina",0.4 },
-	{ 1181.48,-330.26,69.32,361,41,"Posto de Gasolina",0.4 },
-	{ 621.01,268.68,103.09,361,41,"Posto de Gasolina",0.4 },
-	{ 2581.09,361.79,108.47,361,41,"Posto de Gasolina",0.4 },
-	{ 175.08,-1562.12,29.27,361,41,"Posto de Gasolina",0.4 },
-	{ -319.76,-1471.63,30.55,361,41,"Posto de Gasolina",0.4 },
-	{ 1782.33,3328.46,41.26,361,41,"Posto de Gasolina",0.4 },
-	{ 49.42,2778.8,58.05,361,41,"Posto de Gasolina",0.4 },
-	{ 264.09,2606.56,44.99,361,41,"Posto de Gasolina",0.4 },
-	{ 1039.38,2671.28,39.56,361,41,"Posto de Gasolina",0.4 },
-	{ 1207.4,2659.93,37.9,361,41,"Posto de Gasolina",0.4 },
-	{ 2539.19,2594.47,37.95,361,41,"Posto de Gasolina",0.4 },
-	{ 2679.95,3264.18,55.25,361,41,"Posto de Gasolina",0.4 },
-	{ 2005.03,3774.43,32.41,361,41,"Posto de Gasolina",0.4 },
-	{ 1687.07,4929.53,42.08,361,41,"Posto de Gasolina",0.4 },
-	{ 1701.53,6415.99,32.77,361,41,"Posto de Gasolina",0.4 },
-	{ 180.1,6602.88,31.87,361,41,"Posto de Gasolina",0.4 },
-	{ -94.46,6419.59,31.48,361,41,"Posto de Gasolina",0.4 },
-	{ -2555.17,2334.23,33.08,361,41,"Posto de Gasolina",0.4 },
-	{ -1800.09,803.54,138.72,361,41,"Posto de Gasolina",0.4 },
-	{ -1437.0,-276.8,46.21,361,41,"Posto de Gasolina",0.4 },
-	{ -2096.3,-320.17,13.17,361,41,"Posto de Gasolina",0.4 },
-	{ -724.56,-935.97,19.22,361,41,"Posto de Gasolina",0.4 },
-	{ -525.26,-1211.19,18.19,361,41,"Posto de Gasolina",0.4 },
-	{ -70.96,-1762.21,29.54,361,41,"Posto de Gasolina",0.4 },
-	{ 46.73,-1749.55,29.64,78,30,"Mega Mall",0.4 },
-	{ -576.24, 276.63, 94.73,267,2,"Emprego | Entregador",0.4 },
-	{ -470.8,-1718.2,18.69,171,2,"Emprego | Lixeiro",0.5 },
-	{ 455.15,-601.45,28.53,513,2,"Emprego | Motoristas",0.5 },
+	{ ['x'] = 265.64, ['y'] = -1261.30, ['z'] = 29.29, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 819.65, ['y'] = -1028.84, ['z'] = 26.40, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 1208.95, ['y'] = -1402.56, ['z'] = 35.22, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 1181.38, ['y'] = -330.84, ['z'] = 69.31, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 620.84, ['y'] = 269.10, ['z'] = 103.08, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 2581.32, ['y'] = 362.03, ['z'] = 108.46, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 176.63, ['y'] = -1562.02, ['z'] = 29.26, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 176.63, ['y'] = -1562.02, ['z'] = 29.26, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -319.29, ['y'] = -1471.71, ['z'] = 30.54, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 1784.32, ['y'] = 3330.55, ['z'] = 41.25, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 49.418, ['y'] = 2778.79, ['z'] = 58.04, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 263.89, ['y'] = 2606.46, ['z'] = 44.98, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 1039.95, ['y'] = 2671.13, ['z'] = 39.55, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 1207.26, ['y'] = 2660.17, ['z'] = 37.89, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 2539.68, ['y'] = 2594.19, ['z'] = 37.94, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 2679.85, ['y'] = 3263.94, ['z'] = 55.24, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 2005.05, ['y'] = 3773.88, ['z'] = 32.40, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 1687.15, ['y'] = 4929.39, ['z'] = 42.07, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 1701.31, ['y'] = 6416.02, ['z'] = 32.76, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = 179.85, ['y'] = 6602.83, ['z'] = 31.86, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -94.46, ['y'] = 6419.59, ['z'] = 31.48, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -2554.99, ['y'] = 2334.40, ['z'] = 33.07, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -1800.37, ['y'] = 803.66, ['z'] = 138.65, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -1437.62, ['y'] = -276.74, ['z'] = 46.20, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -2096.24, ['y'] = -320.28, ['z'] = 13.16, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -724.61, ['y'] = -935.16, ['z'] = 19.21, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -526.01, ['y'] = -1211.00, ['z'] = 18.18, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	{ ['x'] = -70.21, ['y'] = -1761.79, ['z'] = 29.53, ['sprite'] = 361, ['color'] = 41, ['nome'] = "Posto de Gasolina", ['scale'] = 0.3 },
+	----
+
+	{ ['x'] = -633.99, ['y'] = -238.98, ['z'] = 38.53, ['sprite'] = 617, ['color'] = 0, ['nome'] = "Joalheria", ['scale'] = 0.4 },
+	{ ['x'] = 161.01, ['y'] = -1110.98, ['z'] = 29.89, ['sprite'] = 102, ['color'] = 13, ['nome'] = "Advogados / Tribunal", ['scale'] = 0.6 },
+
+	{ ['x'] = 1308.01, ['y'] = 4261.0, ['z'] = 33.92, ['sprite'] = 68, ['color'] = 13, ['nome'] = "Central | Pescadores", ['scale'] = 0.4 },
+	{ ['x'] = -1816.96, ['y'] = -1193.92, ['z'] = 14.32, ['sprite'] = 68, ['color'] = 13, ['nome'] = "Venda | Pescados", ['scale'] = 0.3 },
+
+	{ ['x'] = 740.2, ['y'] = 6454.31, ['z'] = 31.93, ['sprite'] = 67, ['color'] = 45, ['nome'] = "Colher-Graos", ['scale'] = 0.6 },
+	{ ['x'] = 1706.62, ['y'] = 4727.93, ['z'] = 42.18, ['sprite'] = 67, ['color'] = 45, ['nome'] = "Processar-Graos", ['scale'] = 0.6 },
+	{ ['x'] = 2888.16, ['y'] = 4383.27, ['z'] = 50.31, ['sprite'] = 67, ['color'] = 45, ['nome'] = "Vender-Graos", ['scale'] = 0.6 },
+
+	{ ['x'] = 460.249, ['y'] = -604.30,   ['z'] = 28.499, ['sprite'] = 513, ['color'] = 45, ['nome'] = "Central de Motorista", ['scale'] = 0.5 },
+	{ ['x'] = 2832.0, ['y'] = 2797.02, ['z'] = 57.5, ['sprite'] = 513, ['color'] = 45, ['nome'] = "Minerador", ['scale'] = 0.5 },
+	{ ['x'] = 1218.01, ['y'] = -1266.98, ['z'] = 36.43, ['sprite'] = 513, ['color'] = 45, ['nome'] = "Lenhadores", ['scale'] = 0.5 },
+	{ ['x'] = -1576.99, ['y'] = 4504.0, ['z'] = 20.87, ['sprite'] = 285, ['color'] = 45, ['nome'] = "Floresta", ['scale'] = 0.5 },
+
+
+	{ ['x'] = 902.98, ['y'] = -182.11, ['z'] = 73.97, ['sprite'] = 56, ['color'] = 38, ['nome'] = "Taxi", ['scale'] = 0.8 }, 
+	{ ['x'] = -1135.23, ['y'] = -2860.82, ['z'] = 13.95, ['sprite'] = 43, ['color'] = 0, ['nome'] = "Helicoptero", ['scale'] = 0.4 }, 
+
+	{ ['x'] = 55.34, ['y'] = -876.67, ['z'] = 30.66, ['sprite'] = 357, ['color'] = 3, ['nome'] = "Garagem", ['scale'] = 0.4 }, 
+	{ ['x'] = 214.09, ['y'] = -809.02, ['z'] = 31.02, ['sprite'] = 357, ['color'] = 3, ['nome'] = "Garagem", ['scale'] = 0.4 }, 
+	{ ['x'] = 55.34, ['y'] = -876.67, ['z'] = 30.66, ['sprite'] = 357, ['color'] = 3, ['nome'] = "Garagem", ['scale'] = 0.4 }, 
+	{ ['x'] = 55.34, ['y'] = -876.67, ['z'] = 30.66, ['sprite'] = 357, ['color'] = 3, ['nome'] = "Garagem", ['scale'] = 0.4 }, 
+
+
+
+
+	{ ['x'] = -1085.32, ['y'] = -802.17, ['z'] = 19.25, ['sprite'] = 60, ['color'] = 38, ['nome'] = "Departamento de Policia", ['scale'] = 0.5 },
+	{ ['x'] = 287.06, ['y'] = -581.14, ['z'] = 49.72, ['sprite'] = 489, ['color'] = 59, ['nome'] = "Hospital", ['scale'] = 0.5 },
+	{ ['x'] = 839.0, ['y'] = -917.0, ['z'] = 25.6, ['sprite'] = 402, ['color'] = 51, ['nome'] = "Mecânica", ['scale'] = 0.7 },
+	{ ['x'] = -1200.77, ['y'] = -880.1, ['z'] = 13.35, ['sprite'] = 106, ['color'] = 51, ['nome'] = "Burger-shot", ['scale'] = 0.5 },
+	{ ['x'] = -3405.51, ['y'] = 967.8, ['z'] = 8.3, ['sprite'] = 606, ['color'] = 56, ['nome'] = "Café", ['scale'] = 0.5 },
+	{ ['x'] = -358.17, ['y'] = -1562.58, ['z'] = 26.21, ['sprite'] = 318, ['color'] = 0, ['nome'] = "Lixeiro", ['scale'] = 0.5 },
+	{ ['x'] = -52.11, ['y'] = -1111.07, ['z'] = 26.82, ['sprite'] = 225, ['color'] = 3, ['nome'] = "Concessionária", ['scale'] = 0.5 }
+	
 }
 
 Citizen.CreateThread(function()
 	for _,v in pairs(blips) do
-		local blip = AddBlipForCoord(v[1],v[2],v[3])
-		SetBlipSprite(blip,v[4])
+		local blip = AddBlipForCoord(v.x,v.y,v.z)
+		SetBlipSprite(blip,v.sprite)
 		SetBlipAsShortRange(blip,true)
-		SetBlipColour(blip,v[5])
-		SetBlipScale(blip,v[7])
+		SetBlipColour(blip,v.color)
+		SetBlipScale(blip,v.scale)
 		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString(v[6])
+		AddTextComponentString(v.nome)
 		EndTextCommandSetBlipName(blip)
 	end
 end)
@@ -339,3 +365,59 @@ function dwText(text,height)
 	AddTextComponentString(text)
 	DrawText(0.5,height)
 end
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-- BLACKOUT
+-----------------------------------------------------------------------------------------------------------------------------------------
+local blackOut = false
+local oldSpeed = 0
+
+local function blackout()
+	if not blackOut then
+		blackOut = true
+		Citizen.CreateThread(function()
+			DoScreenFadeOut(1000)
+			SetEntityHealth(PlayerPedId(),GetEntityHealth(PlayerPedId())-40)
+			while not IsScreenFadedOut() do
+				Citizen.Wait(10)
+			end
+			Citizen.Wait(5000)
+			DoScreenFadeIn(1000)
+			blackOut = false
+		end)
+	end
+end
+
+Citizen.CreateThread(function()
+	while true do
+		local ORTiming = 500
+		local ped = PlayerPedId()
+		if IsPedInAnyVehicle(ped) then
+			ORTiming = 4
+			local veh = GetVehiclePedIsIn(ped)
+			if IsEntityAVehicle(veh) and GetPedInVehicleSeat(veh,-1) == ped and not IsPedOnAnyBike(ped) then
+				local speed = GetEntitySpeed(veh) * 3.6
+				if speed ~= oldSpeed then
+					if not blackOut and ((oldSpeed - speed) >= 500000000000) then
+						blackout()
+					end
+					oldSpeed = speed
+				end
+			end
+
+			if blackOut then
+				DisableControlAction(0,71,true)
+				DisableControlAction(0,72,true)
+				DisableControlAction(0,63,true)
+				DisableControlAction(0,64,true)
+				DisableControlAction(0,75,true)
+			end
+		else
+			blackOut = false
+			oldSpeed = 0
+			speed = 0
+		end
+
+		Citizen.Wait(ORTiming)
+	end
+end)
