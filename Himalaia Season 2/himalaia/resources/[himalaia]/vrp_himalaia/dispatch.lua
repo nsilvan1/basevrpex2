@@ -1,22 +1,63 @@
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- DENSITY NPCS
 -----------------------------------------------------------------------------------------------------------------------------------------
-Citizen.CreateThread(function()
-    while true do
+-- Citizen.CreateThread(function()
+--     while true do
 			
-    	SetVehicleDensityMultiplierThisFrame(0.0)
-		SetPedDensityMultiplierThisFrame(0.0)
-		SetRandomVehicleDensityMultiplierThisFrame(0.0)
-		SetParkedVehicleDensityMultiplierThisFrame(0.0)
-		SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
+--     	SetVehicleDensityMultiplierThisFrame(0.0)
+-- 		SetPedDensityMultiplierThisFrame(0.5)
+-- 		SetRandomVehicleDensityMultiplierThisFrame(0.5)
+-- 		SetParkedVehicleDensityMultiplierThisFrame(0.0)
+-- 		SetScenarioPedDensityMultiplierThisFrame(0.5, 0.5)
 		
-		local playerPed = GetPlayerPed(-1)
-		local pos = GetEntityCoords(playerPed) 
-		RemoveVehiclesFromGeneratorsInArea(pos['x'] - 500.0, pos['y'] - 500.0, pos['z'] - 500.0, pos['x'] + 500.0, pos['y'] + 500.0, pos['z'] + 500.0);
+-- 		local playerPed = GetPlayerPed(-1)
+-- 		local pos = GetEntityCoords(playerPed) 
+-- 		RemoveVehiclesFromGeneratorsInArea(pos['x'] - 500.0, pos['y'] - 500.0, pos['z'] - 500.0, pos['x'] + 500.0, pos['y'] + 500.0, pos['z'] + 500.0);
     	
+-- 		Citizen.Wait(1)
+-- 	end
+
+-- end)
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-- DENSITY NPCS
+-----------------------------------------------------------------------------------------------------------------------------------------
+local density = false
+Citizen.CreateThread(function()
+	SetTimeout(60000,function()
+		density = true
+	end)
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		if not density then
+			SetVehicleDensityMultiplierThisFrame(5.0)
+			SetSomeVehicleDensityMultiplierThisFrame(5.0)
+			SetRandomVehicleDensityMultiplierThisFrame(5.0)
+			SetParkedVehicleDensityMultiplierThisFrame(5.0)
+			SetScenarioPedDensityMultiplierThisFrame(5.0,5.0)
+			SetPedDensityMultiplierThisFrame(5.0)
+		else
+			if IsPedSittingInAnyVehicle(PlayerPedId()) then
+				if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId()),-1) == PlayerPedId() then
+					SetVehicleDensityMultiplierThisFrame(5.0)
+					SetRandomVehicleDensityMultiplierThisFrame(0.0)
+					SetParkedVehicleDensityMultiplierThisFrame(0.0)
+				else
+					SetVehicleDensityMultiplierThisFrame(5.0)
+					SetRandomVehicleDensityMultiplierThisFrame(5.0)
+					SetParkedVehicleDensityMultiplierThisFrame(5.0)
+				end
+			else
+				SetParkedVehicleDensityMultiplierThisFrame(5.0)
+				SetVehicleDensityMultiplierThisFrame(5.0)
+			end
+			SetScenarioPedDensityMultiplierThisFrame(5.0,5.0)
+			SetPedDensityMultiplierThisFrame(5.0)
+		end
 		Citizen.Wait(1)
 	end
-
 end)
 -------------------
 -- Discord rich
@@ -24,7 +65,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		SetDiscordAppId(936250353450627102)--Colocar o ID do Dispatch aq
-		SetDiscordRichPresenceAsset('cruz')--a logo tem que ser colocada no Dispatch criada no site do discord 
+		SetDiscordRichPresenceAsset('logo')--a logo tem que ser colocada no Dispatch criada no site do discord 
         SetDiscordRichPresenceAssetText('WIPE HIMALAIA')
         SetDiscordRichPresenceAssetSmall('--')
         SetDiscordRichPresenceAssetSmallText('--')

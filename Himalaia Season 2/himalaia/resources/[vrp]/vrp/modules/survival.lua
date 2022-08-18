@@ -31,7 +31,7 @@ function vRP.setHunger(user_id,value)
 
     -- update bar
     local source = vRP.getUserSource(user_id)
-    TriggerClientEvent("vrp_hud:setHunger",source, 1 - (data.hunger / 100))
+    TriggerClientEvent("wnHud:setHunger",source, 1 - (data.hunger / 100))
    -- TriggerClientEvent("vrp_ladderhud:updateBasics",source, data.hunger, data.thirst)
     --vRPclient._setProgressBarValue(source, "vRP:hunger",data.hunger)
     if data.hunger >= 100 then
@@ -52,7 +52,7 @@ function vRP.setThirst(user_id,value)
 
     -- update bar
     local source = vRP.getUserSource(user_id)
-    TriggerClientEvent("vrp_hud:setThirst",source, 1 - (data.thirst / 100))
+    TriggerClientEvent("wnHud:setThirst",source, 1 - (data.thirst / 100))
     --TriggerClientEvent("vrp_ladderhud:updateBasics",source, data.hunger, data.thirst)
     --vRPclient._setProgressBarValue(source, "vRP:thirst",data.thirst)
     if data.thirst >= 100 then
@@ -82,7 +82,7 @@ function vRP.varyHunger(user_id, variation)
 
     -- set progress bar data
     local source = vRP.getUserSource(user_id)
-    TriggerClientEvent("vrp_hud:setHunger",source, 1 - (data.hunger / 100))
+    TriggerClientEvent("wnHud:setHunger",source, 1 - (data.hunger / 100))
     --TriggerClientEvent("vrp_ladderhud:updateBasics",source, data.hunger, data.thirst)
     --vRPclient._setProgressBarValue(source,"vRP:hunger",data.hunger)
     if was_starving and not is_starving then
@@ -113,7 +113,7 @@ function vRP.varyThirst(user_id, variation)
     -- set progress bar data
     local source = vRP.getUserSource(user_id)
     --TriggerClientEvent("vrp_ladderhud:updateBasics",source, data.hunger, data.thirst)
-    TriggerClientEvent("vrp_hud:setThirst",source, 1 - (data.thirst / 100))
+    TriggerClientEvent("vwnHud:setThirst",source, 1 - (data.thirst / 100))
     --vRPclient._setProgressBarValue(source,"vRP:thirst",data.thirst)
     if was_thirsty and not is_thirsty then
       --vRPclient._setProgressBarText(source,"vRP:thirst","")
