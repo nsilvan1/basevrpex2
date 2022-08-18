@@ -167,7 +167,7 @@ Citizen.CreateThread(function()
                     old = {}
 
                     cor = 0
-		            dados, tipo = nil
+		            -- dados, tipo = nil
 
                     TaskGoToCoordAnyMeans(ped, provador.x, provador.y, provador.z, 1.0, 0, 0, 786603, 0xbf800000)
                 end

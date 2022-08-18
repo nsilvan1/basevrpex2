@@ -4,7 +4,7 @@ window.addEventListener("load",function(){
 		errdiv.classList.add("console");
 		document.body.appendChild(errdiv);
 		window.onerror = function(errorMsg,url,lineNumber,column,errorObj){
-			errdiv.innerHTML += '<br />Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber + ' Column: ' + column + ' StackTrace: ' +  errorObj;
+			errdiv.innerHTML += "Você entrou bugado, por favor relogue.";
 		}
 	}
 
@@ -118,6 +118,12 @@ window.addEventListener("load",function(){
 			}
 			else if(data.event == "U"){
 				requestmgr.respond(false);
+			}else if(data.act == "capuz"){
+				if (data.status) {
+					$(".capuz").css("display","block");
+				}else{
+					$(".capuz").css("display","none");
+				}
 			}
 		}
 	});

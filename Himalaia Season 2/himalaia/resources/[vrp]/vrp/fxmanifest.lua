@@ -13,11 +13,12 @@ server_scripts {
 	"modules/business.lua",
 	"modules/map.lua",
 	"modules/money.lua",
+	"modules/survival.lua",
 	"modules/inventory.lua",
 	"modules/identity.lua",
 	"modules/aptitude.lua",
 	"modules/basic_items.lua",
-	"modules/basic_skinshop.lua",
+	-- "modules/basic_skinshop.lua",
 	"modules/cloakroom.lua"
 }
 client_scripts {

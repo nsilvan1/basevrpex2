@@ -1,0 +1,178 @@
+<html lang="en">
+
+<head>
+    <script src="loading-bar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" integrity="sha512-jQqzj2vHVxA/yCojT8pVZjKGOe9UmoYvnOuM/2sQ110vxiajBU+4WkyRs1ODMmd4AfntwUEV4J+VfM6DkfjLRg==" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="app.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <script type="text/javascript" src="loading-bar.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="https://yata-apix-3646ea34-c236-4b10-a76b-e6e364c5e897.s3-object.locaweb.com.br/764c3d7bc4794eae80d25fb8d06d0479.png"
+                alt="">
+        </div>
+        <div id="displayHud">
+            <div class="game-info">
+                <div class="row">
+                    <div id="location"><span><i class="far fa-compass"></i></span><span id="rua">Rua Mars Lindo</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--div id="radio"> <img src="radio.svg" /><strong id="frequencia">https://discord.gg/G59vF2szQD</strong></div!-->
+                    <div id="horario"><i class="far fa-clock"></i> <span id="time">18:00</span></div>
+                    <div id="microphone">
+                        <div class="voice-volume one active"></div>
+                        <div class="voice-volume two"></div>
+                        <div class="voice-volume three"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="progress">
+            <div class="progressDisplay"></div>
+        </div>
+        <div class="hud">
+            <div class="velocimetro">
+                <div data-preset="fan" class="myBar label-center" data-value="35">
+                    <div class="light">
+                        <i class="fas fa-lightbulb lightIcon"></i>
+                    </div>
+                </div>
+                <div class="fuel">
+                    <div class="fuelBar label-center fuel" id="fuelLevel" data-stroke-dir="reverse" data-value="0"
+                        data-type="stroke" data-stroke-width="6" data-precision="0.0001"
+                        data-path="M2.28994 2.68099C19.8588 17.6397 34.1403 37.0418 43.9843 59.3707C53.8285 81.7 58.9585 106.33 58.9585 131.312"
+                        style="width: 10vw; height: 8.3vw;"></div>
+                </div>
+                <div class="engine">
+                    <div class="engineBar label-center" data-value="0" data-type="stroke" data-stroke-width="6"
+                        data-precision="0.0001"
+                        data-path="M2.28994 2.68099C19.8588 17.6397 34.1403 37.0418 43.9843 59.3707C53.8285 81.7 58.9585 106.33 58.9585 131.312"
+                        style="width: 10vw; height: 5.6vw"></div>
+                </div>
+                <div class="icons">
+
+                    <div class="seat icon">
+                        <svg class="seatbelt" fill="#d43458" viewBox="0 0 512 512" width="2vw" height="3vh"
+                            xmlns="http://www.w3.org/2000/svg" id="cinto">
+                            <path d="m209.372 262.059h29.255v51.883h-29.255z"
+                                transform="matrix(.707 -.707 .707 .707 -138.039 242.747)" />
+                            <path
+                                d="m237.657 333.657a8 8 0 0 1 -11.314 0l-48-48a8 8 0 0 1 0-11.314l26.343-26.343-12.686-12.687-76.686 76.687 10.342 10.342 64 64 10.344 10.345 76.686-76.687-12.686-12.686zm-88-8-11.314-11.314 24-24 11.314 11.314z" />
+                            <path
+                                d="m27.314 432 52.686 52.687 92.686-92.687-52.686-52.687zm26.343 13.657-11.314-11.314 42.5-42.5 11.314 11.314zm51.833-51.833-11.313-11.313 12.166-12.168 11.314 11.313z" />
+                            <path d="m273.373 209.373h29.254v29.254h-29.254z"
+                                transform="matrix(.707 -.707 .707 .707 -74.038 269.263)" />
+                            <path d="m362.348 213.662-74.348-74.349-20.687 20.687 84.687 84.687 20.687-20.687z" />
+                            <path
+                                d="m484.686 80-52.686-52.687-116.686 116.687 52.686 52.686zm-82.343-5.657 11.314 11.313-12.167 12.168-11.313-11.313zm-64 64 42.5-42.5 11.314 11.314-42.5 42.5z" />
+                            <path d="m248 48h16v48h-16z" />
+                            <path d="m248 416h16v48h-16z" />
+                            <path d="m48 248h48v16h-48z" />
+                            <path d="m416 248h48v16h-48z" />
+                            <path d="m117.892 101.893h16v48h-16z"
+                                transform="matrix(.707 -.707 .707 .707 -52.146 125.891)" />
+                            <path d="m378.107 362.107h16v48h-16z"
+                                transform="matrix(.707 -.707 .707 .707 -159.931 386.104)" />
+                        </svg>
+                        <svg class="seatbelt-on" fill="#97d05f" viewBox="0 0 512 512" width="1.5vw" height="2.5vh"
+                            viewBox="0 0 499.705 499.705" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <path d="m28.024 362.509h98.345v120h-98.345z"
+                                    transform="matrix(.707 -.707 .707 .707 -276.149 178.337)" />
+                                <path d="m373.336 17.197h98.345v120h-98.345z"
+                                    transform="matrix(.707 -.707 .707 .707 69.164 321.369)" />
+                                <path
+                                    d="m387.738 239.246 42.426-42.427-127.278-127.279-42.427 42.427-21.213-21.213-63.64 63.64 169.706 169.705 63.639-63.64z" />
+                                <path d="m102.271 94.77h29.999v45h-29.999z"
+                                    transform="matrix(.707 -.707 .707 .707 -48.575 117.269)" />
+                                <path d="m161.893 47.041h30v45h-30z" />
+                                <path d="m48.328 160.606h45v30h-45z" />
+                                <path d="m367.435 359.935h30v44.999h-30z"
+                                    transform="matrix(.707 -.707 .707 .707 -158.41 382.434)" />
+                                <path d="m407.665 307.811h45v30h-45z" />
+                                <path d="m309.099 406.378h30v45h-30z" />
+                                <path
+                                    d="m154.393 175.606-106.065 106.066 169.705 169.706 106.066-106.066zm53.033 180.312-63.64-63.64 21.214-21.213 63.639 63.64z" />
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="gear icon">
+                        <img src="gear.png" alt="">
+                        <h1 id="marcha">1</h1>
+                    </div>
+                    <div class="motor icon ">
+                        <i class="fas fa-car carInactive"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bars">
+                <div class="content">
+
+                    <div class="health">
+                        <div class="icon">
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" id="health">
+                                <div class="healthDisplay"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="armour">
+                        <div class="icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" id="health">
+                                <div class="armourDisplay"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="notify-container">
+        <div class="notify"></div>
+    </div>
+    <div class="push-container">
+        <div class="notifications"></div>
+    </div>
+    <script>
+        var bar = new ldBar(".myBar", {
+            "stroke": '#97d05f',
+            "preset": "fan",
+            "max": 500,
+            "value": 0,
+        });
+        var engine = new ldBar(".engineBar", {
+            "stroke": '#da1027',
+            "value": 80,
+            "max": 1000,
+        });
+        var fuel = new ldBar(".fuelBar", {
+            "stroke": '#edba14',
+            "value": 0,
+            "max": 100,
+        });
+    </script>
+</body>
+
+</html>

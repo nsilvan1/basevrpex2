@@ -7,6 +7,25 @@ vRP = Proxy.getInterface("vRP")
 
 local doors = {}
 
+vSERVER = Tunnel.getInterface("vrp_doors",src)
+
+BackLista = true
+
+Citizen.CreateThread(function()
+	while true do
+		local sleep = 3000
+		if BackLista then
+			local list = vSERVER.ListaDoors()
+			doors = list
+			BackLista = false
+			Wait(3000)
+			BackLista = true
+		end
+	end
+	Wait(sleep)
+	
+end)
+
 RegisterNetEvent('vrpdoorsystem:load')
 AddEventHandler('vrpdoorsystem:load',function(list)
 	doors = list
@@ -45,16 +64,17 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		local sleep = 1000
 		local x,y,z = table.unpack(GetEntityCoords(PlayerPedId()))
 		for k,v in pairs(doors) do
-			if GetDistanceBetweenCoords(x,y,z,v.x,v.y,v.z,true) <= 1.3 then
+			if GetDistanceBetweenCoords(x,y,z,v.x,v.y,v.z,true) <= 3 then
+				sleep = 5
 				local door = GetClosestObjectOfType(v.x,v.y,v.z,1.0,v.hash,false,false,false)
 				if door ~= 0 then
 					SetEntityCanBeDamaged(door,false)
 					if v.lock == false then
 						if v.text then
-							DrawText3Ds(v.x,v.y,v.z+0.2,"~g~E ~w~  FECHAR")
+							DrawText3Ds(v.x,v.y,v.z+0.2,"ABERTO")
 						end
 						NetworkRequestControlOfEntity(door)
 						FreezeEntityPosition(door,false)
@@ -62,7 +82,7 @@ Citizen.CreateThread(function()
 						local lock,heading = GetStateOfClosestDoorOfType(v.hash,v.x,v.y,v.z,lock,heading)
 						if heading > -0.02 and heading < 0.02 then
 							if v.text then
-								DrawText3Ds(v.x,v.y,v.z+0.2,"~g~E ~w~  ABRIR")
+								DrawText3Ds(v.x,v.y,v.z+0.2,"FECHADO")
 							end
 							NetworkRequestControlOfEntity(door)
 							FreezeEntityPosition(door,true)
@@ -71,6 +91,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
+		Citizen.Wait(sleep)
 	end
 end)
 
@@ -83,6 +104,6 @@ function DrawText3Ds(x,y,z,text)
 	SetTextCentre(1)
 	AddTextComponentString(text)
 	DrawText(_x,_y)
-	local factor = (string.len(text))/370
+	local factor = (string.len(text))/0
 	DrawRect(_x,_y+0.0125,0.01+factor,0.03,0,0,0,80)
 end

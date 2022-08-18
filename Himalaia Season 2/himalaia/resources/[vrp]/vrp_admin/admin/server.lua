@@ -21,7 +21,18 @@ function SendWebhookMessage(webhook,message)
 		PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({content = message}), { ['Content-Type'] = 'application/json' })
 	end
 end
+ ---------------------------------------------------------
+-- /EAT
+---------------------------------------------------------
+RegisterCommand("eat",function(source,args,rawCommand)
+    local user_id = vRP.getUserId(source)
+    if vRP.hasPermission(user_id,"admin.permissao") then
+        vRP.varyThirst(user_id, -100)
+        vRP.varyHunger(user_id, -100)
+        TriggerClientEvent("Notify",source,"sucesso","Fome e Sede 100%")
 
+    end
+end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- DISTANCE
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
