@@ -2598,24 +2598,24 @@ RegisterCommand("exit",function(source,args)
 		end
 	end
 end)
------------------------------------------------------------------------------------------------------------------------------------------
--- VAULT
------------------------------------------------------------------------------------------------------------------------------------------
-RegisterCommand("vault",function(source,args)
-	local ped = PlayerPedId()
-	local x,y,z = table.unpack(GetEntityCoords(ped))
-	for k,v in pairs(homes) do
-		local _,i = GetGroundZFor_3dCoord(v["vault"][1],v["vault"][2],v["vault"][3])
-		local distance = Vdist(x,y,z,v["vault"][1],v["vault"][2],i)
-		if distance <= 2.0 and houseTimer <= 0 and vSERVER.checkIntPermissions(k) then
-			houseTimer = 3
-			TriggerEvent("vrp_sound:source","zipperopen",0.5)
-			SetNuiFocus(true,true)
-			SendNUIMessage({ action = "showMenu" })
-			houseOpen = tostring(k)
-		end
-	end
-end)
+-- -----------------------------------------------------------------------------------------------------------------------------------------
+-- -- VAULT
+-- -----------------------------------------------------------------------------------------------------------------------------------------
+-- RegisterCommand("vault",function(source,args)
+-- 	local ped = PlayerPedId()
+-- 	local x,y,z = table.unpack(GetEntityCoords(ped))
+-- 	for k,v in pairs(homes) do
+-- 		local _,i = GetGroundZFor_3dCoord(v["vault"][1],v["vault"][2],v["vault"][3])
+-- 		local distance = Vdist(x,y,z,v["vault"][1],v["vault"][2],i)
+-- 		if distance <= 2.0 and houseTimer <= 0 and vSERVER.checkIntPermissions(k) then
+-- 			houseTimer = 3
+-- 			TriggerEvent("vrp_sound:source","zipperopen",0.5)
+-- 			SetNuiFocus(true,true)
+-- 			SendNUIMessage({ action = "showMenu" })
+-- 			houseOpen = tostring(k)
+-- 		end
+-- 	end
+-- end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- INVADE
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -2662,3 +2662,14 @@ function src.setBlipsHomes(status)
 		end)
 	end
 end
+
+-- dpn inventario
+RegisterNetEvent("dPN:inventario:vault")
+AddEventHandler("dPN:inventario:vault",function()
+	if houseOpen ~= "" and houseOpen ~= nil then
+		local vault = homes[houseOpen].vault
+		if vault then
+			TriggerEvent('dPN:inventario:Returnvault',vault,houseOpen)
+		end
+	end
+end)

@@ -32,29 +32,29 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		if not density then
-			SetVehicleDensityMultiplierThisFrame(5.0)
-			SetSomeVehicleDensityMultiplierThisFrame(5.0)
-			SetRandomVehicleDensityMultiplierThisFrame(5.0)
-			SetParkedVehicleDensityMultiplierThisFrame(5.0)
-			SetScenarioPedDensityMultiplierThisFrame(5.0,5.0)
-			SetPedDensityMultiplierThisFrame(5.0)
+			SetVehicleDensityMultiplierThisFrame(1.)
+			SetSomeVehicleDensityMultiplierThisFrame(0.0)
+			SetRandomVehicleDensityMultiplierThisFrame(0.0)
+			SetParkedVehicleDensityMultiplierThisFrame(0.0)
+			SetScenarioPedDensityMultiplierThisFrame(0.0,1.0)
+			SetPedDensityMultiplierThisFrame(1.0)
 		else
 			if IsPedSittingInAnyVehicle(PlayerPedId()) then
 				if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId()),-1) == PlayerPedId() then
-					SetVehicleDensityMultiplierThisFrame(5.0)
+					SetVehicleDensityMultiplierThisFrame(1.0)
 					SetRandomVehicleDensityMultiplierThisFrame(0.0)
 					SetParkedVehicleDensityMultiplierThisFrame(0.0)
 				else
-					SetVehicleDensityMultiplierThisFrame(5.0)
-					SetRandomVehicleDensityMultiplierThisFrame(5.0)
-					SetParkedVehicleDensityMultiplierThisFrame(5.0)
+					SetVehicleDensityMultiplierThisFrame(1.0)
+					SetRandomVehicleDensityMultiplierThisFrame(1.0)
+					SetParkedVehicleDensityMultiplierThisFrame(1.0)
 				end
 			else
-				SetParkedVehicleDensityMultiplierThisFrame(5.0)
-				SetVehicleDensityMultiplierThisFrame(5.0)
+				SetParkedVehicleDensityMultiplierThisFrame(1.0)
+				SetVehicleDensityMultiplierThisFrame(1.0)
 			end
-			SetScenarioPedDensityMultiplierThisFrame(5.0,5.0)
-			SetPedDensityMultiplierThisFrame(5.0)
+			SetScenarioPedDensityMultiplierThisFrame(0.0,1.0)
+			SetPedDensityMultiplierThisFrame(1.0)
 		end
 		Citizen.Wait(1)
 	end

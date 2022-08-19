@@ -1,11 +1,3 @@
-shared_script '@wAC/client-side/library.lua'
-
-
-
-
-
-
-
 game {'gta5'}
 
 fx_version 'cerulean'

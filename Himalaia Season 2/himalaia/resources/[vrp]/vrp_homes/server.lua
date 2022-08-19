@@ -1070,3 +1070,13 @@ function src.checkPolice()
 		return false
 	end
 end
+-- dpn inventario
+RegisterNetEvent("dPN:inventario:RequestVault")
+AddEventHandler("dPN:inventario:RequestVault",function(user_id,house)
+	if house then
+		if homes[house] then
+			TriggerEvent('dPN:inventario:returAmountVault',user_id,homes[house])
+		end
+	end
+end)
+
