@@ -110,7 +110,7 @@ Citizen.CreateThread(function()
 			elseif headshotAK or headshotAK2 or headshotM4 or headshotMPX or headshotG3 or headshotG32 or headshot12 or headshotMini12 then
 				SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) - 101)
 			end
-			a, b, headshotFive, headshotGlock, headshotFajuta, headshotPesada, headshotTec, headshotSmg, headshotSmg2, headshotMtar, headshotSig, headshotAK, headshotAK2, headshotM4, headshotMPX, headshotG3, headshotG32, headshot12, headshotMini12 = nil, nil, nil, nil, nil, nil
+			a, b, headshotFive, headshotGlock, headshotFajuta, headshotPesada, headshotTec, headshotSmg, headshotSmg2, headshotMtar, headshotSig, headshotAK, headshotAK2, headshotM4, headshotMPX, headshotG3, headshotG32, headshot12, headshotMini12 = nil, nil, nil, nil, nil, nil, nil
 		end
 	end
 end)

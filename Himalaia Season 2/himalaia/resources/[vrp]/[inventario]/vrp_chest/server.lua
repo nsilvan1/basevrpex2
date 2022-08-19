@@ -43,7 +43,7 @@ end
 local chest = {
 	["Policia"] = { 8000,"policia.permissao" },
 	["Ballas"] = { 5000,"ballas.permissao" },
-	["Groove"] = { 5000,"grove.permissao" },
+	["Groove"] = { 5000,"groove.permissao" },
 	["Vagos"] = { 5000,"vagos.permissao" },
 	["Bloods"] = { 5000,"blood.permissao" },
 	["Crips"] = { 5000,"crips.permissao" },

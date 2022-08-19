@@ -1,12 +1,3 @@
-shared_script '@wAC/client-side/library.lua'
-
-
-
-
-
-
-
-
 fx_version 'adamant'
 game 'gta5'
 

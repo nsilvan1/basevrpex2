@@ -12,9 +12,9 @@ cfg.groups = {
 		"polpar.permissao",
 		"rg2.permissao"
 	},
-	["CM"] = {
+	["Diretor"] = {
 		_config = {
-			title = "Community Manager",
+			title = "Diretor",
 			gtype = "jobdois",
 		},
 		"ceo.permissao",
@@ -214,9 +214,10 @@ cfg.groups = {
 		"streamer.permissao",
 		"mochila.permissao"
 	},
------------------------------------------------------------------------------------------------------------------------------------------
--- GANGUES
------------------------------------------------------------------------------------------------------------------------------------------
+----------------
+-- FARM DROGAS
+---------------
+-- FARM META
 ["Ballas"] = {
 	_config = {
 		title = "Ballas",
@@ -227,6 +228,7 @@ cfg.groups = {
 	"ilegal.permissao",
 	"drogas.permissao"
 },
+-- FARM COCAINA
 ["Vagos"] = {
 	_config = {
 		title = "Vagos",
@@ -237,16 +239,19 @@ cfg.groups = {
 	"ilegal.permissao",
 	"drogas.permissao"
 },
-["Grove"] = {
+-- FARM MACONHA
+["Groove"] = {
 	_config = {
 		title = "Groove",
 		gtype = "job"
 	},
-	"grove.permissao",
+	"groove.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",
 	"drogas.permissao"
 },	
+
+-- ARMA
 ["Crips"] = {
 	_config = {
 		title = "Crips",
@@ -268,12 +273,15 @@ cfg.groups = {
 	"armas.permissao"
 
 },
-["Native"] = {
+
+--- DESMANCHE  LOCKPICK
+["Motoclub"] = {
 	_config = {
-		title = "Native",
+		title = "Moto Club",
 		gtype = "job"
 	},
-	"native.permissao",
+	"motoclub.permissao",
+	"desmanche.permissao",
 	"ilegal.permissao"
 },
 ["Drift"] = {
@@ -282,8 +290,11 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"driftking.permissao",
+	"desmanche.permissao",
 	"ilegal.permissao"
 },
+
+--- LAVAGEM
 ["LifeInvader"] = {
 	_config = {
 		title = "LifeInvader",
@@ -302,6 +313,8 @@ cfg.groups = {
 	"ilegal.permissao",
 	"lavagem.permissao"
 },
+
+-- MUNIÇÃO
 ["Siciliana"] = {
 	_config = {
 		title = "Siciliana",
@@ -309,6 +322,7 @@ cfg.groups = {
 	},
 	"siciliana.permissao",
 	"ilegal.permissao",
+	"municao.permissao",
 	"municoes.permissao"
 },
 ["Triade"] = {
@@ -317,6 +331,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"triade.permissao",
+	"municao.permissao",
 	"ilegal.permissao",
 	"lavagem.permissao"
 },		

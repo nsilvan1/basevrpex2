@@ -305,6 +305,120 @@ RegisterCommand('id2',function(source,args,rawCommand)
 end)
 
 -----------------------------------------------------------------------------------------------------------------------------------------
+--[ ROUBAR ]---------------------------------------------------------------------------------------------------------------------------
+--------------
+RegisterCommand('roubar',function(source,args,rawCommand)
+	local user_id = vRP.getUserId(source)
+	local nplayer = vRPclient.getNearestPlayer(source,2)
+	if nplayer then
+		local nuser_id = vRP.getUserId(nplayer)
+		local policia = vRP.getUsersByPermission("policia.permissao")
+		if not vRP.hasPermission(user_id,"garmas.permissao") then
+			if vRP.request(nplayer,"Você está sendo roubado, deseja passar tudo?",30) then
+				local vida = vRPclient.getHealth(nplayer)
+				if vida <= 100 then
+					TriggerClientEvent('cancelando',source,true)
+					vRPclient._playAnim(source,false,{{"amb@medic@standing@kneel@idle_a","idle_a"}},true)
+					TriggerClientEvent("progress",source,30000,"roubando")
+					SetTimeout(30000,function()
+						local ndata = vRP.getUserDataTable(nuser_id)
+						if ndata ~= nil then
+							if ndata.inventory ~= nil then
+								for k,v in pairs(ndata.inventory) do
+									if vRP.getInventoryWeight(user_id)+vRP.getItemWeight(k)*v.amount <= vRP.getInventoryMaxWeight(user_id) then
+										if vRP.tryGetInventoryItem(nuser_id,k,v.amount) then
+											vRP.giveInventoryItem(user_id,v.item,v.amount)
+										end
+									else
+										TriggerClientEvent("Notify",source,"negado","Mochila não suporta <b>"..vRP.format(parseInt(v.amount)).."x "..itemlist[k].nome.."</b> por causa do peso.")
+									end
+								end
+							end
+						end
+						local weapons = vRPclient.replaceWeapons(nplayer,{})
+						for k,v in pairs(weapons) do
+							vRP.giveInventoryItem(nuser_id,"wbody|"..k,1)
+							if vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wbody|"..k) <= vRP.getInventoryMaxWeight(user_id) then
+								if vRP.tryGetInventoryItem(nuser_id,"wbody|"..k,1) then
+									vRP.giveInventoryItem(user_id,"wbody|"..k,1)
+								end
+							else
+								TriggerClientEvent("Notify",source,"negado","Mochila não suporta <b>1x "..itemlist["wbody"..k].nome.."</b> por causa do peso.")
+							end
+							if v.ammo > 0 then
+								vRP.giveInventoryItem(nuser_id,"wammo|"..k,v.ammo)
+								if vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wammo|"..k)*v.ammo <= vRP.getInventoryMaxWeight(user_id) then
+									if vRP.tryGetInventoryItem(nuser_id,"wammo|"..k,v.ammo) then
+										vRP.giveInventoryItem(user_id,"wammo|"..k,v.ammo)
+									end
+								else
+									TriggerClientEvent("Notify",source,"negado","Mochila não suporta <b>"..vRP.format(parseInt(v.ammo)).."x "..itemlist["wammo|"..k].nome.."</b> por causa do peso.")
+								end
+							end
+						end
+						local nmoney = vRP.getMoney(nuser_id)
+						if vRP.tryPayment(nuser_id,nmoney) then
+							vRP.giveMoney(user_id,nmoney)
+						end
+						vRPclient.setStandBY(source,parseInt(600))
+						vRPclient._stopAnim(source,false)
+						TriggerClientEvent('cancelando',source,false)
+						TriggerClientEvent("Notify",source,"importante","Roubo concluido com sucesso.")
+						TriggerEvent('logs:ToDiscord', discord_webhook1 , "ROUBO", "```Player "..user_id.." roubou o ID: "..nuser_id.."```", "https://www.tumarcafacil.com/wp-content/uploads/2017/06/RegistroDeMarca-01-1.png", false, false)
+					end)
+				else
+					local ndata = vRP.getUserDataTable(nuser_id)
+					if ndata ~= nil then
+						if ndata.inventory ~= nil then
+							for k,v in pairs(ndata.inventory) do
+								if vRP.getInventoryWeight(user_id)+vRP.getItemWeight(k)*v.amount <= vRP.getInventoryMaxWeight(user_id) then
+									if vRP.tryGetInventoryItem(nuser_id,k,v.amount) then
+										vRP.giveInventoryItem(user_id,v.item,v.amount)
+									end
+								else
+									TriggerClientEvent("Notify",source,"negado","Mochila não suporta <b>"..vRP.format(parseInt(v.amount)).."x "..itemlist[k].nome.."</b> por causa do peso.")
+								end
+							end
+						end
+					end
+					local weapons = vRPclient.replaceWeapons(nplayer,{})
+					for k,v in pairs(weapons) do
+						vRP.giveInventoryItem(nuser_id,"wbody|"..k,1)
+						if vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wbody|"..k) <= vRP.getInventoryMaxWeight(user_id) then
+							if vRP.tryGetInventoryItem(nuser_id,"wbody|"..k,1) then
+								vRP.giveInventoryItem(user_id,"wbody|"..k,1)
+							end
+						else
+							TriggerClientEvent("Notify",source,"negado","Mochila não suporta <b>1x "..itemlist["wbody|"..k].nome.."</b> por causa do peso.")
+						end
+						if v.ammo > 0 then
+							vRP.giveInventoryItem(nuser_id,"wammo|"..k,v.ammo)
+							if vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wammo|"..k)*v.ammo <= vRP.getInventoryMaxWeight(user_id) then
+								if vRP.tryGetInventoryItem(nuser_id,"wammo|"..k,v.ammo) then
+									vRP.giveInventoryItem(user_id,"wammo|"..k,v.ammo)
+								end
+							else
+								TriggerClientEvent("Notify",source,"negado","Mochila não suporta <b>"..vRP.format(parseInt(v.ammo)).."x "..itemlist["wammo|"..k].nome.."</b> por causa do peso.")
+							end
+						end
+					end
+					local nmoney = vRP.getMoney(nuser_id)
+					if vRP.tryPayment(nuser_id,nmoney) then
+						vRP.giveMoney(user_id,nmoney)
+					end
+					vRPclient.setStandBY(source,parseInt(600))
+					TriggerClientEvent("Notify",source,"importante","Roubo concluido com sucesso.")
+					TriggerEvent('logs:ToDiscord', discord_webhook1 , "ROUBO", "```Player "..user_id.." roubou o ID: "..nuser_id.."```", "https://www.tumarcafacil.com/wp-content/uploads/2017/06/RegistroDeMarca-01-1.png", false, false)
+				end
+			else
+				TriggerClientEvent("Notify",source,"aviso","A pessoa está resistindo ao roubo.")
+			end
+		else
+			TriggerClientEvent("Notify",source,"negado","Policiais não podem ser roubados.")
+		end
+	end
+end)
+-----------------------------------------------------------------------------------------------------------------------------------------
 --[ REVISTAR ]---------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterCommand('revistar',function(source,args,rawCommand)
@@ -320,6 +434,7 @@ RegisterCommand('revistar',function(source,args,rawCommand)
 		TriggerClientEvent('cancelando',source,true)
 		TriggerClientEvent('cancelando',nplayer,true)
 		TriggerClientEvent('carregar',nplayer,source)
+		vRPclient._playAnim(source,false,{{"misscarsteal4@director_grip","end_loop_grip"}},true)
 		vRPclient._playAnim(nplayer,false,{{"random@mugging3","handsup_standing_base"}},true)
 		TriggerClientEvent("progress",source,5000,"revistando")
 		SetTimeout(5000,function()
@@ -327,7 +442,7 @@ RegisterCommand('revistar',function(source,args,rawCommand)
 			TriggerClientEvent('chatMessage',source,"",{},"^4- -  ^5M O C H I L A^4  - - - - - - - - - - - - - - - - - - - - - - - - - - -  [  ^3"..string.format("%.2f",vRP.getInventoryWeight(nuser_id)).."kg^4  /  ^3"..string.format("%.2f",vRP.getInventoryMaxWeight(nuser_id)).."kg^4  ]  - -")
 			if data and data.inventory then
 				for k,v in pairs(data.inventory) do
-					TriggerClientEvent('chatMessage',source,"",{},"     "..vRP.format(parseInt(v.amount)).."x "..vRP.itemNameList(k))
+					TriggerClientEvent('chatMessage',source,"",{},"     "..vRP.format(parseInt(v.amount)).."x "..vRP.itemNameList(v.item))
 				end
 			end
 			TriggerClientEvent('chatMessage',source,"",{},"^4- -  ^5E Q U I P A D O^4  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
@@ -339,13 +454,14 @@ RegisterCommand('revistar',function(source,args,rawCommand)
 				end
 			end
 
+			vRPclient._stopAnim(source,false)
 			vRPclient._stopAnim(nplayer,false)
 			TriggerClientEvent('cancelando',source,false)
 			TriggerClientEvent('cancelando',nplayer,false)
 			TriggerClientEvent('carregar',nplayer,source)
 			TriggerClientEvent('chatMessage',source,"",{},"     $"..vRP.format(parseInt(money)).." Dólares")
 		end)
-		TriggerClientEvent("Notify",nplayer,"importante","Você está sendo <b>Revistado</b>.")
+		TriggerClientEvent("Notify",nplayer,"aviso","Você está sendo <b>Revistado</b>.")
 	end
 end)
 
@@ -373,23 +489,23 @@ RegisterCommand('saquear',function(source,args,rawCommand)
 						if ndata ~= nil then
 							if ndata.inventory ~= nil then
 								for k,v in pairs(ndata.inventory) do
-									if vRP.getInventoryWeight(user_id)+vRP.getItemWeight(k)*v.amount <= vRP.getInventoryMaxWeight(user_id) then
-										if vRP.tryGetInventoryItem(nuser_id,k,v.amount) then
-											vRP.giveInventoryItem(user_id,k,v.amount)
-											table.insert(itens_saque, "[ITEM]: "..vRP.itemNameList(k).." [QUANTIDADE]: "..v.amount)
+									if vRP.getInventoryWeight(user_id)+vRP.getItemWeight(v.item)*v.amount <= vRP.getInventoryMaxWeight(user_id) then
+										if vRP.tryGetInventoryItem(nuser_id,v.item,v.amount) then
+											vRP.giveInventoryItem(user_id,v.item,v.amount)
+											table.insert(itens_saque, "[ITEM]: "..vRP.itemNameList(v.item).." [QUANTIDADE]: "..v.amount)
 										end
 									else
-										TriggerClientEvent("Notify",source,"negado","Mochila não suporta <b>"..vRP.format(parseInt(v.amount)).."x "..vRP.itemNameList(k).."</b> por causa do peso.")
+										TriggerClientEvent("Notify",source,"negado","Mochila não suporta <b>"..vRP.format(parseInt(v.amount)).."x "..vRP.itemNameList(v.item).."</b> por causa do peso.")
 									end
 								end
 							end
 						end
 						local weapons = vRPclient.replaceWeapons(nplayer,{})
 						for k,v in pairs(weapons) do
-							vRP.giveInventoryItem(nuser_id,"wbody_"..k,1)
-							if vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wbody_"..k) <= vRP.getInventoryMaxWeight(user_id) then
-								if vRP.tryGetInventoryItem(nuser_id,"wbody_"..k,1) then
-									vRP.giveInventoryItem(user_id,"wbody_"..k,1)
+							vRP.giveInventoryItem(nuser_id,"wbody|"..k,1)
+							if vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wbody|"..k) <= vRP.getInventoryMaxWeight(user_id) then
+								if vRP.tryGetInventoryItem(nuser_id,"wbody|"..k,1) then
+									vRP.giveInventoryItem(user_id,"wbody|"..k,1)
 									table.insert(itens_saque, "[ITEM]: "..vRP.itemNameList("wbody|"..k).." [QUANTIDADE]: "..1)
 								end
 							else

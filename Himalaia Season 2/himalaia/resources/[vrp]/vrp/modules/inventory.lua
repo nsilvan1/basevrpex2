@@ -216,62 +216,148 @@ function vRP.getItemWeight(idname)
 	return 0
 end
 
-function vRP.computeItemsWeight(items)
+function vRP.computeItemsWeight(items) -- dpn inventario
 	local weight = 0
 	for k,v in pairs(items) do
-		local iweight = vRP.getItemWeight(k)
+		local iweight = vRP.getItemWeight(v.item)
 		weight = weight+iweight*v.amount
 	end
 	return weight
 end
 
-function vRP.giveInventoryItem(user_id,idname,amount)
-    local source = vRP.getUserSource(parseInt(user_id))
-    local amount = parseInt(amount)
-    local data = vRP.getUserDataTable(user_id)
-    if data and amount > 0 then
-        local entry = data.inventory[idname]
-        if entry then
-            entry.amount = entry.amount + amount
-        else
-            data.inventory[idname] = { amount = amount }
-        end
-    end 
-    TriggerClientEvent("itensNotify",source,"sucesso",""..amount.."x "..idname.."",""..vRP.itemIndexList(idname).."") 
-end
+-- function vRP.giveInventoryItem(user_id,idname,amount)  -- Funcao antiga
+--     local source = vRP.getUserSource(parseInt(user_id))
+--     local amount = parseInt(amount)
+--     local data = vRP.getUserDataTable(user_id)
+--     if data and amount > 0 then
+--         local entry = data.inventory[idname]
+--         if entry then
+--             entry.amount = entry.amount + amount
+--         else
+--             data.inventory[idname] = { amount = amount }
+--         end
+--     end 
+--     TriggerClientEvent("itensNotify",source,"sucesso",""..amount.."x "..idname.."",""..vRP.itemIndexList(idname).."") 
+-- end
 
-function vRP.tryGetInventoryItem(user_id,idname,amount)
-    local source = vRP.getUserSource(parseInt(user_id))
-    local amount = parseInt(amount)
-    local data = vRP.getUserDataTable(user_id)
-    if data and amount > 0 then
-        --if idname == "tora" or idname == "carnedepuma" or idname == "etiqueta" then
-            --creativeLogs(creative_itens,"**USER_ID:** "..user_id.." **ITEM:** "..idname.." - **QUANTIDADE:** "..parseInt(amount).." - "..os.date("%H:%M:%S"))
-        --end
-        TriggerClientEvent("itensNotify",source,"negado",""..amount.."x "..idname.."",""..vRP.itemIndexList(idname).."") 
-        local entry = data.inventory[idname]
-        if entry and entry.amount >= amount then
-            entry.amount = entry.amount - amount
+-- function vRP.tryGetInventoryItem(user_id,idname,amount) -- Funcao antiga
+--     local source = vRP.getUserSource(parseInt(user_id))
+--     local amount = parseInt(amount)
+--     local data = vRP.getUserDataTable(user_id)
+--     if data and amount > 0 then
+--         --if idname == "tora" or idname == "carnedepuma" or idname == "etiqueta" then
+--             --creativeLogs(creative_itens,"**USER_ID:** "..user_id.." **ITEM:** "..idname.." - **QUANTIDADE:** "..parseInt(amount).." - "..os.date("%H:%M:%S"))
+--         --end
+--         TriggerClientEvent("itensNotify",source,"negado",""..amount.."x "..idname.."",""..vRP.itemIndexList(idname).."") 
+--         local entry = data.inventory[idname]
+--         if entry and entry.amount >= amount then
+--             entry.amount = entry.amount - amount
 
-            if entry.amount <= 0 then
-                data.inventory[idname] = nil
+--             if entry.amount <= 0 then
+--                 data.inventory[idname] = nil
+--             end
+--             return true
+--         end
+--     end
+--     return false
+-- end
+
+--- dpn inventario
+function vRP.tryGetInventoryItem(user_id, itemName, amount, slot)
+    if type(slot) ~= "number" then
+        slot = nil
+    end
+
+    local dataTable = vRP.getUserDataTable(user_id)
+    if dataTable and dataTable.inventory then
+        local playerInventory = dataTable.inventory
+        if slot then
+            slot = tostring(slot)
+            if playerInventory[slot] then
+                if playerInventory[slot].item == itemName then
+                    if playerInventory[slot].amount >= amount then
+                        if playerInventory[slot].amount == amount then
+                            playerInventory[slot] = nil
+                        else
+                            playerInventory[slot].amount = (playerInventory[slot].amount - amount)
+                        end
+                        return true
+                    end
+                end
             end
-            return true
+        else
+            if vRP.getInventoryItemAmount(user_id, itemName) < amount then 
+                return false 
+            end
+
+            local totalQuantity = 0
+            for k,v in pairs(playerInventory) do
+                if v.item == itemName then
+                    totalQuantity = totalQuantity + v.amount                    
+                    if totalQuantity >= amount then
+                        playerInventory[k].amount = (totalQuantity - amount)
+                        if totalQuantity == amount then
+                            playerInventory[k] = nil
+                        end
+                        return true
+                    else
+                        playerInventory[k] = nil
+                    end
+                end
+            end
         end
     end
     return false
 end
 
+
+function vRP.delteItem(user_id,idname)
+	local table = vRP.getUserDataTable(user_id)
+	local data = table.inventory
+	for k,v in pairs(data) do
+		if tostring(v.item) == tostring(idname) then
+			data[tostring(k)] = nil
+		end
+	end
+end
+
+function vRP.updateItens(user_id,idname)
+	local table = vRP.getUserDataTable(user_id)
+	local data = table.inventory
+	for k,v in pairs(data) do
+		if tostring(k) == tostring(idname) then
+			data[tostring(idname)] = nil
+			return true
+		end
+	end
+end
+-- function vRP.getInventoryItemAmount(user_id,idname)  -- funcao antiga
+-- 	local data = vRP.getUserDataTable(user_id)
+-- 	if data and data.inventory then
+-- 		local entry = data.inventory[idname]
+-- 		if entry then
+-- 			return entry.amount
+-- 		end
+-- 	end
+-- 	return 0
+-- end
+
+
+-- dpn inventario
 function vRP.getInventoryItemAmount(user_id,idname)
 	local data = vRP.getUserDataTable(user_id)
+	local quantidade = 0
 	if data and data.inventory then
-		local entry = data.inventory[idname]
-		if entry then
-			return entry.amount
+		for k,v in pairs(data.inventory) do
+			if v.item == idname then
+				quantidade = parseInt(quantidade) + parseInt(v.amount)
+			end
 		end
+		return quantidade
 	end
 	return 0
 end
+
 
 function vRP.getInventory(user_id)
 	local data = vRP.getUserDataTable(user_id)
@@ -875,4 +961,101 @@ end
 -----------------------------------------------------------------------------------------------------------------------------------------
 function vRP.vehicleType(vname)
 	return vehglobal[vname].tipo
+end
+
+
+-- inventory dpn
+function returnList(item)
+	if itemlist[item] ~= nil then
+		return itemlist[item]
+	end
+end
+
+function vRP.giveInventoryItem(user_id,idname,amount,slot)
+	local amount = parseInt(amount)
+	local inventory = vRP.getUserDataTable(user_id)
+	local data = inventory.inventory
+	local stop = false
+	local newSlotPlayer = 0
+
+	if data and amount > 0 then
+		if tostring(slot) == tostring('true') or  tostring(slot) == tostring('false') then
+			slot = nil
+		end
+		if idname then
+			if slot then
+				if data[tostring(slot)] == nil then
+					data[tostring(slot)] = { item = idname, amount = parseInt(amount) }
+				else
+					if idname == data[tostring(slot)].item then
+						data[tostring(slot)].amount = parseInt(data[slot].amount) + parseInt(amount)
+					end
+				end
+			else
+				for k,v in pairs(inventory.inventory) do
+					if v.item == idname then
+						local slot = k
+						data[tostring(slot)].amount = parseInt(data[slot].amount) + parseInt(amount)
+						stop = true
+						break
+					end
+				end
+	
+				if stop == false then
+					repeat
+						newSlotPlayer = newSlotPlayer + 1
+					until data[tostring(newSlotPlayer)] == nil or (data[tostring(newSlotPlayer)] and data[tostring(newSlotPlayer)].item == idname)
+					newSlotPlayer = tostring(newSlotPlayer)
+					data[tostring(newSlotPlayer)] = { item = idname, amount = parseInt(amount) }
+				end
+			end
+		end
+	end
+end
+
+
+function vRP.updateSlot(user_id,item,oldSlot,newSlot,amount)
+	local inventory = vRP.getUserDataTable(user_id)
+	local data = inventory.inventory
+	if data and parseInt(amount) > -1 then
+		local amountTotal = vRP.getInventoryItemAmountSlot(user_id,tostring(newSlot))
+		local amountTotalAntiga = vRP.getInventoryItemAmountSlot(user_id,tostring(oldSlot))
+
+		if data[tostring(newSlot)] then
+			local entrada = data[tostring(newSlot)]
+			if entrada.item == item then
+				local fixo = vRP.getInventoryItemAmountSlot(user_id,tostring(newSlot))
+				if parseInt(amount) <= parseInt(amountTotalAntiga) then
+					data[tostring(oldSlot)].amount = parseInt(amountTotalAntiga) - parseInt(amount)
+					data[tostring(newSlot)].amount = parseInt(amount) + parseInt(fixo)
+				end
+				if parseInt(data[tostring(oldSlot)].amount) <= 0 then
+					data[tostring(oldSlot)] = nil
+				end
+			end
+		else
+			if parseInt(amountTotalAntiga) == parseInt(amount) then
+				local temp = data[tostring(oldSlot)]
+				data[tostring(oldSlot)] = data[tostring(newSlot)]
+				data[tostring(newSlot)] = temp
+			elseif parseInt(amountTotalAntiga) ~= parseInt(amount) then
+				if parseInt(amount) <= parseInt(amountTotalAntiga) then
+					data[tostring(oldSlot)].amount = parseInt(amountTotalAntiga) - parseInt(amount)
+					data[tostring(newSlot)] = { item = item, amount = parseInt(amount) }
+				end
+			end
+		end
+
+	end
+end
+
+function vRP.getInventoryItemAmountSlot(user_id,slot)
+	local data = vRP.getUserDataTable(user_id)
+	if data and data.inventory then
+		local item = data.inventory[slot]
+		if item then
+			return item.amount
+		end
+	end
+	return 0
 end
