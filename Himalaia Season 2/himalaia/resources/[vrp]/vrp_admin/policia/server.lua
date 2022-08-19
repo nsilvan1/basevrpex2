@@ -567,107 +567,113 @@ RegisterCommand('rg',function(source,args,rawCommand)
 	end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
--- ALGEMAR
+-- ALGEMAR G
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterCommand('al',function(source,args,rawCommand)
-	local source = source
-	local user_id = vRP.getUserId(source)
-	local nplayer = vRPclient.getNearestPlayer(source,2)
-	if nplayer then
-		if not vRPclient.isHandcuffed(source) then
-			if vRP.getInventoryItemAmount(user_id,"algemas") >= 1 then
-				if vRPclient.isHandcuffed(nplayer) then
-					TriggerClientEvent('carregar',nplayer,source)
-					vRPclient._playAnim(source,false,{{"mp_arresting","a_uncuff"}},false)
-					SetTimeout(5000,function()
-						vRPclient.toggleHandcuff(nplayer)
-						TriggerClientEvent('carregar',nplayer,source)
-						TriggerClientEvent("vrp_sound:source",source,'uncuff',0.1)
-						TriggerClientEvent("vrp_sound:source",nplayer,'uncuff',0.1)
-						TriggerClientEvent('removealgemas',nplayer)
-					end)
-				else
-					TriggerClientEvent('cancelando',source,true)
-					TriggerClientEvent('cancelando',nplayer,true)
-					TriggerClientEvent('carregar',nplayer,source)
-					vRPclient._playAnim(source,false,{{"mp_arrest_paired","cop_p2_back_left"}},false)
-					vRPclient._playAnim(nplayer,false,{{"mp_arrest_paired","crook_p2_back_left"}},false)
-					SetTimeout(3500,function()
-						vRPclient._stopAnim(source,false)
-						vRPclient.toggleHandcuff(nplayer)
-						TriggerClientEvent('carregar',nplayer,source)
-						TriggerClientEvent('cancelando',source,false)
-						TriggerClientEvent('cancelando',nplayer,false)
-						TriggerClientEvent("vrp_sound:source",source,'cuff',0.1)
-						TriggerClientEvent("vrp_sound:source",nplayer,'cuff',0.1)
-						TriggerClientEvent('setalgemas',nplayer)
-					end)
-				end
-			else
-				if vRP.hasPermission(user_id,"admin.permissao") or vRP.hasPermission(user_id,"policia.permissao") then
-					if vRPclient.isHandcuffed(nplayer) then
-						TriggerClientEvent('carregar',nplayer,source)
-						vRPclient._playAnim(source,false,{{"mp_arresting","a_uncuff"}},false)
-						SetTimeout(5000,function()
-							vRPclient.toggleHandcuff(nplayer)
-							TriggerClientEvent('carregar',nplayer,source)
-							TriggerClientEvent("vrp_sound:source",source,'uncuff',0.1)
-							TriggerClientEvent("vrp_sound:source",nplayer,'uncuff',0.1)
-							TriggerClientEvent('removealgemas',nplayer)
-						end)
-					else
-						TriggerClientEvent('cancelando',source,true)
-						TriggerClientEvent('cancelando',nplayer,true)
-						TriggerClientEvent('carregar',nplayer,source)
-						vRPclient._playAnim(source,false,{{"mp_arrest_paired","cop_p2_back_left"}},false)
-						vRPclient._playAnim(nplayer,false,{{"mp_arrest_paired","crook_p2_back_left"}},false)
-						SetTimeout(3500,function()
-							vRPclient._stopAnim(source,false)
-							vRPclient.toggleHandcuff(nplayer)
-							TriggerClientEvent('carregar',nplayer,source)
-							TriggerClientEvent('cancelando',source,false)
-							TriggerClientEvent('cancelando',nplayer,false)
-							TriggerClientEvent("vrp_sound:source",source,'cuff',0.1)
-							TriggerClientEvent("vrp_sound:source",nplayer,'cuff',0.1)
-							TriggerClientEvent('setalgemas',nplayer)
-						end)
-					end
-				end
-			end
-		end
-	end
+RegisterServerEvent("vrp_policia:algemar")
+AddEventHandler("vrp_policia:algemar", function()
+    local source = source
+    local user_id = vRP.getUserId(source)
+    local nplayer = vRPclient.getNearestPlayer(source, 2)
+    if nplayer then
+        if not vRPclient.isHandcuffed(source) then
+            if vRP.getInventoryItemAmount(user_id, "algemas") >= 1 then
+                if vRPclient.isHandcuffed(nplayer) then
+                    TriggerClientEvent('carregar', nplayer, source)
+                    vRPclient._playAnim(source, false,
+                                        {{"mp_arresting", "a_uncuff"}}, false)
+                    SetTimeout(5000, function()
+                        vRPclient.toggleHandcuff(nplayer)
+                        TriggerClientEvent('carregar', nplayer, source)
+                        TriggerClientEvent("vrp_sound:source", source, 'uncuff',
+                                           0.1)
+                        TriggerClientEvent("vrp_sound:source", nplayer,
+                                           'uncuff', 0.1)
+                        TriggerClientEvent('removealgemas', nplayer)
+                    end)
+                else
+                    TriggerClientEvent('cancelando', source, true)
+                    TriggerClientEvent('cancelando', nplayer, true)
+                    TriggerClientEvent('carregar', nplayer, source)
+                    vRPclient._playAnim(source, false, {
+                        {"mp_arrest_paired", "cop_p2_back_left"}
+                    }, false)
+                    vRPclient._playAnim(nplayer, false, {
+                        {"mp_arrest_paired", "crook_p2_back_left"}
+                    }, false)
+                    SetTimeout(3500, function()
+                        vRPclient._stopAnim(source, false)
+                        vRPclient.toggleHandcuff(nplayer)
+                        TriggerClientEvent('carregar', nplayer, source)
+                        TriggerClientEvent('cancelando', source, false)
+                        TriggerClientEvent('cancelando', nplayer, false)
+                        TriggerClientEvent("vrp_sound:source", source, 'cuff',
+                                           0.1)
+                        TriggerClientEvent("vrp_sound:source", nplayer, 'cuff',
+                                           0.1)
+                        TriggerClientEvent('setalgemas', nplayer)
+                    end)
+                end
+            else
+                if vRP.hasPermission(user_id, "admin.permissao") or
+                    vRP.hasPermission(user_id, "policia.permissao") then
+                    if vRPclient.isHandcuffed(nplayer) then
+                        TriggerClientEvent('carregar', nplayer, source)
+                        vRPclient._playAnim(source, false,
+                                            {{"mp_arresting", "a_uncuff"}},
+                                            false)
+                        SetTimeout(5000, function()
+                            vRPclient.toggleHandcuff(nplayer)
+                            TriggerClientEvent('carregar', nplayer, source)
+                            TriggerClientEvent("vrp_sound:source", source,
+                                               'uncuff', 0.1)
+                            TriggerClientEvent("vrp_sound:source", nplayer,
+                                               'uncuff', 0.1)
+                            TriggerClientEvent('removealgemas', nplayer)
+                        end)
+                    else
+                        TriggerClientEvent('cancelando', source, true)
+                        TriggerClientEvent('cancelando', nplayer, true)
+                        TriggerClientEvent('carregar', nplayer, source)
+                        vRPclient._playAnim(source, false, {
+                            {"mp_arrest_paired", "cop_p2_back_left"}
+                        }, false)
+                        vRPclient._playAnim(nplayer, false, {
+                            {"mp_arrest_paired", "crook_p2_back_left"}
+                        }, false)
+                        SetTimeout(3500, function()
+                            vRPclient._stopAnim(source, false)
+                            vRPclient.toggleHandcuff(nplayer)
+                            TriggerClientEvent('carregar', nplayer, source)
+                            TriggerClientEvent('cancelando', source, false)
+                            TriggerClientEvent('cancelando', nplayer, false)
+                            TriggerClientEvent("vrp_sound:source", source,
+                                               'cuff', 0.1)
+                            TriggerClientEvent("vrp_sound:source", nplayer,
+                                               'cuff', 0.1)
+                            TriggerClientEvent('setalgemas', nplayer)
+                        end)
+                    end
+                end
+            end
+        end
+    end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
--- CARREGAR
------------------------------------------------------------------------------------------------------------------------------------------
-RegisterCommand('c',function(source,args,rawCommand)
-	local source = source
-	local user_id = vRP.getUserId(source)
-	local nplayer = vRPclient.getNearestPlayer(source,2)
-	if vRP.hasPermission(user_id,"admin.permissao") or vRP.hasPermission(user_id,"polpar.permissao") or vRP.hasPermission(user_id,"paramedico.permissao") then	
-		if nplayer then
-			if not vRPclient.isHandcuffed(source) then
-				TriggerClientEvent('carregar',nplayer,source)
-			end
-		end
-	end
-end)
------------------------------------------------------------------------------------------------------------------------------------------
--- CARREGAR
+-- CARREGAR PRESSIONANDO H
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterServerEvent("vrp_policia:carregar")
 AddEventHandler("vrp_policia:carregar",function()
-	local source = source
-	local user_id = vRP.getUserId(source)
-	local nplayer = vRPclient.getNearestPlayer(source,2)
-	if vRP.hasPermission(user_id,"admin.permissao") then	
-		if nplayer then
-			if not vRPclient.isHandcuffed(source) then
-				TriggerClientEvent('carregar',nplayer,source)
-			end
-		end
-	end
+    local user_id = vRP.getUserId(source)
+    if user_id then
+        local nplayer = vRPclient.getNearestPlayer(source,2)
+        if nplayer then
+            if vRP.hasPermission(user_id,"policia.permissao") or vRP.hasPermission(user_id,"admin.permissao") then
+                TriggerClientEvent('carregar',nplayer,source)
+            end
+        end
+    end
 end)
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- CINTO 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
