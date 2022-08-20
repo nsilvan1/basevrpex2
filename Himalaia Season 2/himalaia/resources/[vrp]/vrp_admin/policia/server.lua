@@ -263,45 +263,98 @@ RegisterCommand('pr',function(source,args,rawCommand)
 		end
 	end
 end)
------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
 -- TOOGLE
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterCommand('toogle',function(source,args,rawCommand)
-	local user_id = vRP.getUserId(source)
-	local identity = vRP.getUserIdentity(user_id)
-	if vRP.hasPermission(user_id,"policia.permissao") then
-		TriggerEvent('eblips:remove',source)
-		vRP.addUserGroup(user_id,"PaisanaPolicia")
-		vRPclient.setArmour(source,0)
-		TriggerClientEvent("Notify",source,"aviso","Você saiu de serviço.")
-		SendWebhookMessage(webhookpolicia,"```prolog\n[POLICIAL]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[===========SAIU DE SERVICO==========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
-		TriggerClientEvent('desligarRadios',source)
-	elseif vRP.hasPermission(user_id,"paisanapolicia.permissao") then
-		TriggerEvent('eblips:add',{ name = "Policial", src = source, color = 47 })
-		vRP.addUserGroup(user_id,"Policia")
-		TriggerClientEvent("Notify",source,"sucesso","Você entrou em serviço.")
-		SendWebhookMessage(webhookpolicia,"```prolog\n[POLICIAL]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[==========ENTROU EM SERVICO=========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
-	elseif vRP.hasPermission(user_id,"medico.permissao") then
-		TriggerEvent('eblips:remove',source)
-		vRP.addUserGroup(user_id,"paisanamedico")
-		TriggerClientEvent("Notify",source,"aviso","Você saiu de serviço.")
-		SendWebhookMessage(webhookparamedico,"```prolog\n[PARAMEDICO]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[===========SAIU DE SERVICO==========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
-		TriggerClientEvent('desligarRadios',source)
-	elseif vRP.hasPermission(user_id,"paisanamedico.permissao") then
-		TriggerEvent('eblips:add',{ name = "Medico", src = source, color = 61 })
-		vRP.addUserGroup(user_id,"medico")
-		TriggerClientEvent("Notify",source,"sucesso","Você entrou em serviço.")
-		SendWebhookMessage(webhookparamedico,"```prolog\n[PARAMEDICO]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[==========ENTROU EM SERVICO=========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
-	elseif vRP.hasPermission(user_id,"mecanico.permissao") then
-		TriggerEvent('eblips:remove',source)
-		vRP.addUserGroup(user_id,"paisanamecanico")
-		TriggerClientEvent("Notify",source,"aviso","Você saiu de serviço.")
-		TriggerClientEvent('desligarRadios',source)
-	elseif vRP.hasPermission(user_id,"paisanamecanico.permissao") then
-		TriggerEvent('eblips:add',{ name = "Mecanico", src = source, color = 61 })
-		vRP.addUserGroup(user_id,"mecanico")
-		TriggerClientEvent("Notify",source,"sucesso","Você entrou em serviço.")
-	end
+RegisterCommand('toogle', function(source, args, rawCommand)
+    local user_id = vRP.getUserId(source)
+    local identity = vRP.getUserIdentity(user_id)
+    -- Verifica se a policia está ativo
+    local status = "Entrou"
+
+    if vRP.hasPermission(user_id, "policia.permissao")  or vRP.hasPermission(user_id, "paisanapolicia.permissao")  then
+      
+        if vRP.hasPermission(user_id, "policia.permissao") then
+            status = 'Saiu'
+            vRP.addUserGroup(user_id, "PaisanaPolicia")
+        elseif vRP.hasPermission(user_id, "paisanapolicia.permissao") then
+            vRP.addUserGroup(user_id, "Policia")
+            status = 'Entrou'
+        end
+
+        if status == 'Saiu' then 
+          TriggerEvent('eblips:remove', source)
+          vRPclient.giveWeapons(source, {}, true)
+          vRPclient.setArmour(source, 0)
+          TriggerClientEvent('desligarRadios', source)
+          TriggerClientEvent("Notify", source, "aviso", "Você saiu de serviço.")          
+        else 
+            TriggerEvent('eblips:add', {name = "Policial", src = source, color = 47})
+            TriggerClientEvent("Notify", source, "sucesso",
+            "Você entrou em serviço.")
+        end
+        SendWebhookMessage(webhookpolicia,
+                           "```prolog\n[Policial]: » " .. user_id .. " " ..
+                               identity.name .. " " .. identity.firstname ..
+                               " \n[PONTO]: → " .. status ..
+                               os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S") ..
+                               " \r```")
+    end
+    -- ##############################################--HOSPITAL--######################################################
+    if vRP.hasPermission(user_id, "hospital.permissao") or vRP.hasPermission(user_id, "paisanahospital.permissao") then
+
+        if vRP.hasPermission(user_id, "hospital.permissao") then
+            status = 'Saiu'
+            vRP.addUserGroup(user_id, "PaisanaHospital")
+        elseif vRP.hasPermission(user_id, "paisanahospital.permissao") then
+            vRP.addUserGroup(user_id, "Hospital")
+            status = 'Entrou'
+        end
+
+        if status == 'Saiu' then 
+            TriggerEvent('eblips:remove', source)
+            TriggerClientEvent('desligarRadios', source)
+            TriggerClientEvent("Notify", source, "aviso", "Você saiu de serviço.")          
+        else 
+            TriggerEvent('eblips:add', {name = "Médico", src = source, color = 61})
+            TriggerClientEvent("Notify", source, "sucesso",
+            "Você entrou em serviço.")
+        end
+        SendWebhookMessage(webhookhospital,
+        "```prolog\n[PARAMEDICO]: » " .. user_id .. " " ..
+            identity.name .. " " .. identity.firstname ..
+            " \n[PONTO]: → " .. status ..
+            os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S") ..
+            " \r```")
+    end 
+     -- ##############################################--MECANICO--######################################################
+    if vRP.hasPermission(user_id, "mecanico.permissao") or vRP.hasPermission(user_id, "paisanamecanico.permissao") then
+
+        if vRP.hasPermission(user_id, "mecanico.permissao") then
+            status = 'Saiu'
+            vRP.addUserGroup(user_id, "PaisanaMecanico")
+
+        elseif vRP.hasPermission(user_id, "paisanamecanico.permissao") then
+            vRP.addUserGroup(user_id, "Mecanico")
+            status = 'Entrou'
+        end
+        
+        if status == 'Saiu' then 
+            TriggerEvent('eblips:remove', source)
+            TriggerClientEvent('desligarRadios', source)
+            TriggerClientEvent("Notify", source, "aviso", "Você saiu de serviço.")          
+        else 
+            TriggerEvent('eblips:add', {name = "Mecanico", src = source, color = 55})
+            TriggerClientEvent("Notify", source, "sucesso",
+            "Você entrou em serviço.")
+        end
+        SendWebhookMessage(webhookmecanico,
+        "```prolog\n[MECANICO]: » " .. user_id .. " " ..
+            identity.name .. " " .. identity.firstname ..
+            " \n[PONTO]: → " .. status ..
+            os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S") ..
+            " \r```")
+    end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- TOOGLE2
@@ -315,7 +368,7 @@ RegisterCommand('toogle2',function(source,args,rawCommand)
 		TriggerClientEvent("Notify",source,"aviso","Você voltou para patrulha.")
 		SendWebhookMessage(webhookpolicia,"```prolog\n[POLICIAL]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[===========SAIU DE SERVICO==========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
 	elseif vRP.hasPermission(user_id,"policia.permissao") then
-		TriggerEvent('eblips:add',{ name = "Policial em ação", src = source, color = 46 })
+		TriggerEvent('eblips:add',{ name = "Policial em ação", src = source, color = 47 })
 		vRP.addUserGroup(user_id,"PoliciaAcao")
 		TriggerClientEvent("Notify",source,"sucesso","Você entrou em ação.")
 		SendWebhookMessage(webhookpolicia,"```prolog\n[POLICIAL]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[==========ENTROU EM SERVICO=========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
@@ -567,107 +620,113 @@ RegisterCommand('rg',function(source,args,rawCommand)
 	end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
--- ALGEMAR
+-- ALGEMAR G
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterCommand('al',function(source,args,rawCommand)
-	local source = source
-	local user_id = vRP.getUserId(source)
-	local nplayer = vRPclient.getNearestPlayer(source,2)
-	if nplayer then
-		if not vRPclient.isHandcuffed(source) then
-			if vRP.getInventoryItemAmount(user_id,"algemas") >= 1 then
-				if vRPclient.isHandcuffed(nplayer) then
-					TriggerClientEvent('carregar',nplayer,source)
-					vRPclient._playAnim(source,false,{{"mp_arresting","a_uncuff"}},false)
-					SetTimeout(5000,function()
-						vRPclient.toggleHandcuff(nplayer)
-						TriggerClientEvent('carregar',nplayer,source)
-						TriggerClientEvent("vrp_sound:source",source,'uncuff',0.1)
-						TriggerClientEvent("vrp_sound:source",nplayer,'uncuff',0.1)
-						TriggerClientEvent('removealgemas',nplayer)
-					end)
-				else
-					TriggerClientEvent('cancelando',source,true)
-					TriggerClientEvent('cancelando',nplayer,true)
-					TriggerClientEvent('carregar',nplayer,source)
-					vRPclient._playAnim(source,false,{{"mp_arrest_paired","cop_p2_back_left"}},false)
-					vRPclient._playAnim(nplayer,false,{{"mp_arrest_paired","crook_p2_back_left"}},false)
-					SetTimeout(3500,function()
-						vRPclient._stopAnim(source,false)
-						vRPclient.toggleHandcuff(nplayer)
-						TriggerClientEvent('carregar',nplayer,source)
-						TriggerClientEvent('cancelando',source,false)
-						TriggerClientEvent('cancelando',nplayer,false)
-						TriggerClientEvent("vrp_sound:source",source,'cuff',0.1)
-						TriggerClientEvent("vrp_sound:source",nplayer,'cuff',0.1)
-						TriggerClientEvent('setalgemas',nplayer)
-					end)
-				end
-			else
-				if vRP.hasPermission(user_id,"admin.permissao") or vRP.hasPermission(user_id,"policia.permissao") then
-					if vRPclient.isHandcuffed(nplayer) then
-						TriggerClientEvent('carregar',nplayer,source)
-						vRPclient._playAnim(source,false,{{"mp_arresting","a_uncuff"}},false)
-						SetTimeout(5000,function()
-							vRPclient.toggleHandcuff(nplayer)
-							TriggerClientEvent('carregar',nplayer,source)
-							TriggerClientEvent("vrp_sound:source",source,'uncuff',0.1)
-							TriggerClientEvent("vrp_sound:source",nplayer,'uncuff',0.1)
-							TriggerClientEvent('removealgemas',nplayer)
-						end)
-					else
-						TriggerClientEvent('cancelando',source,true)
-						TriggerClientEvent('cancelando',nplayer,true)
-						TriggerClientEvent('carregar',nplayer,source)
-						vRPclient._playAnim(source,false,{{"mp_arrest_paired","cop_p2_back_left"}},false)
-						vRPclient._playAnim(nplayer,false,{{"mp_arrest_paired","crook_p2_back_left"}},false)
-						SetTimeout(3500,function()
-							vRPclient._stopAnim(source,false)
-							vRPclient.toggleHandcuff(nplayer)
-							TriggerClientEvent('carregar',nplayer,source)
-							TriggerClientEvent('cancelando',source,false)
-							TriggerClientEvent('cancelando',nplayer,false)
-							TriggerClientEvent("vrp_sound:source",source,'cuff',0.1)
-							TriggerClientEvent("vrp_sound:source",nplayer,'cuff',0.1)
-							TriggerClientEvent('setalgemas',nplayer)
-						end)
-					end
-				end
-			end
-		end
-	end
+RegisterServerEvent("vrp_policia:algemar")
+AddEventHandler("vrp_policia:algemar", function()
+    local source = source
+    local user_id = vRP.getUserId(source)
+    local nplayer = vRPclient.getNearestPlayer(source, 2)
+    if nplayer then
+        if not vRPclient.isHandcuffed(source) then
+            if vRP.getInventoryItemAmount(user_id, "algemas") >= 1 then
+                if vRPclient.isHandcuffed(nplayer) then
+                    TriggerClientEvent('carregar', nplayer, source)
+                    vRPclient._playAnim(source, false,
+                                        {{"mp_arresting", "a_uncuff"}}, false)
+                    SetTimeout(5000, function()
+                        vRPclient.toggleHandcuff(nplayer)
+                        TriggerClientEvent('carregar', nplayer, source)
+                        TriggerClientEvent("vrp_sound:source", source, 'uncuff',
+                                           0.1)
+                        TriggerClientEvent("vrp_sound:source", nplayer,
+                                           'uncuff', 0.1)
+                        TriggerClientEvent('removealgemas', nplayer)
+                    end)
+                else
+                    TriggerClientEvent('cancelando', source, true)
+                    TriggerClientEvent('cancelando', nplayer, true)
+                    TriggerClientEvent('carregar', nplayer, source)
+                    vRPclient._playAnim(source, false, {
+                        {"mp_arrest_paired", "cop_p2_back_left"}
+                    }, false)
+                    vRPclient._playAnim(nplayer, false, {
+                        {"mp_arrest_paired", "crook_p2_back_left"}
+                    }, false)
+                    SetTimeout(3500, function()
+                        vRPclient._stopAnim(source, false)
+                        vRPclient.toggleHandcuff(nplayer)
+                        TriggerClientEvent('carregar', nplayer, source)
+                        TriggerClientEvent('cancelando', source, false)
+                        TriggerClientEvent('cancelando', nplayer, false)
+                        TriggerClientEvent("vrp_sound:source", source, 'cuff',
+                                           0.1)
+                        TriggerClientEvent("vrp_sound:source", nplayer, 'cuff',
+                                           0.1)
+                        TriggerClientEvent('setalgemas', nplayer)
+                    end)
+                end
+            else
+                if vRP.hasPermission(user_id, "admin.permissao") or
+                    vRP.hasPermission(user_id, "policia.permissao") then
+                    if vRPclient.isHandcuffed(nplayer) then
+                        TriggerClientEvent('carregar', nplayer, source)
+                        vRPclient._playAnim(source, false,
+                                            {{"mp_arresting", "a_uncuff"}},
+                                            false)
+                        SetTimeout(5000, function()
+                            vRPclient.toggleHandcuff(nplayer)
+                            TriggerClientEvent('carregar', nplayer, source)
+                            TriggerClientEvent("vrp_sound:source", source,
+                                               'uncuff', 0.1)
+                            TriggerClientEvent("vrp_sound:source", nplayer,
+                                               'uncuff', 0.1)
+                            TriggerClientEvent('removealgemas', nplayer)
+                        end)
+                    else
+                        TriggerClientEvent('cancelando', source, true)
+                        TriggerClientEvent('cancelando', nplayer, true)
+                        TriggerClientEvent('carregar', nplayer, source)
+                        vRPclient._playAnim(source, false, {
+                            {"mp_arrest_paired", "cop_p2_back_left"}
+                        }, false)
+                        vRPclient._playAnim(nplayer, false, {
+                            {"mp_arrest_paired", "crook_p2_back_left"}
+                        }, false)
+                        SetTimeout(3500, function()
+                            vRPclient._stopAnim(source, false)
+                            vRPclient.toggleHandcuff(nplayer)
+                            TriggerClientEvent('carregar', nplayer, source)
+                            TriggerClientEvent('cancelando', source, false)
+                            TriggerClientEvent('cancelando', nplayer, false)
+                            TriggerClientEvent("vrp_sound:source", source,
+                                               'cuff', 0.1)
+                            TriggerClientEvent("vrp_sound:source", nplayer,
+                                               'cuff', 0.1)
+                            TriggerClientEvent('setalgemas', nplayer)
+                        end)
+                    end
+                end
+            end
+        end
+    end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
--- CARREGAR
------------------------------------------------------------------------------------------------------------------------------------------
-RegisterCommand('c',function(source,args,rawCommand)
-	local source = source
-	local user_id = vRP.getUserId(source)
-	local nplayer = vRPclient.getNearestPlayer(source,2)
-	if vRP.hasPermission(user_id,"admin.permissao") or vRP.hasPermission(user_id,"polpar.permissao") or vRP.hasPermission(user_id,"paramedico.permissao") then	
-		if nplayer then
-			if not vRPclient.isHandcuffed(source) then
-				TriggerClientEvent('carregar',nplayer,source)
-			end
-		end
-	end
-end)
------------------------------------------------------------------------------------------------------------------------------------------
--- CARREGAR
+-- CARREGAR PRESSIONANDO H
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterServerEvent("vrp_policia:carregar")
 AddEventHandler("vrp_policia:carregar",function()
-	local source = source
-	local user_id = vRP.getUserId(source)
-	local nplayer = vRPclient.getNearestPlayer(source,2)
-	if vRP.hasPermission(user_id,"admin.permissao") then	
-		if nplayer then
-			if not vRPclient.isHandcuffed(source) then
-				TriggerClientEvent('carregar',nplayer,source)
-			end
-		end
-	end
+    local user_id = vRP.getUserId(source)
+    if user_id then
+        local nplayer = vRPclient.getNearestPlayer(source,2)
+        if nplayer then
+            if vRP.hasPermission(user_id,"policia.permissao") or vRP.hasPermission(user_id,"admin.permissao") then
+                TriggerClientEvent('carregar',nplayer,source)
+            end
+        end
+    end
 end)
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- CINTO 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------

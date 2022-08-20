@@ -1,19 +1,19 @@
-fx_version "bodacious"
-game "gta5"
 
-ui_page "web-side/index.html"
-
-client_scripts {
+fx_version 'adamant'
+game {'gta5'}
+client_scripts  { 
 	"@vrp/lib/utils.lua",
-	"client-side/*"
+	"client.lua" 
 }
-
 server_scripts {
 	"@vrp/lib/utils.lua",
-	"server-side/*"
+	"server.lua"
 }
-
 files {
-	"web-side/*",
-	"web-side/**/*"
-}                            
+	"ui/app.js",
+	"ui/index.html",
+	"ui/style.css"
+}
+ui_page {
+	"ui/index.html"
+}

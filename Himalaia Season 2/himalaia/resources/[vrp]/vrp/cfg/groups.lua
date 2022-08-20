@@ -104,7 +104,7 @@ cfg.groups = {
 -----------------------------------------------------------------------------------------------------------------------------------------
 	["PoliciaAcao"] = {
 		_config = {
-			title = "Policia em Ação",
+			title = "Policia em Ação", -- Em serviço acao
 			gtype = "job"
 		},
 		"policiaacao.permissao",
@@ -116,36 +116,38 @@ cfg.groups = {
 			title = "Policia",
 			gtype = "job"
 		},
-		"policia.permissao",
+		"policia.permissao", -- Em serviço acao
 		"polpar.permissao",
 		"portadp.permissao",
+		"portahp.permissao",
 		"salario.permissao",
 		"avisos.permissao",
 		"sem.permissao"
 	},	
 	["PaisanaPolicia"] = {
 		_config = {
-			title = "PaisanaPolicia",
+			title = "PaisanaPolicia", -- fora de serviço
 			gtype = "job"
 		},
 		"paisanapolicia.permissao",
 		"sem.permissao"
 	},
-	["Paramedico"] = {
+	["Hospital"] = {
 		_config = {
 			title = "Hospital",
 			gtype = "job"
 		},
-		"paramedico.permissao",
+		"hospital.permissao", -- Em serviço
+		"portahp.permissao",
 		"polpar.permissao",
 		"sem.permissao"
 	}, 	
-	["PaisanaParamedico"] = {
+	["PaisanaHospital"] = {
 		_config = {
-			title = "PaisanaParamedico",
+			title = "PaisanaHospital", -- fora de serviço
 			gtype = "job"
 		},
-		"paisanaparamedico.permissao",
+		"paisanahospital.permissao",
 		"sem.permissao"
 	},
 	["Mecanico"] = {
@@ -154,6 +156,7 @@ cfg.groups = {
 			gtype = "job"
 		},
 		"mecanico.permissao",
+		"portamec.permissao",
 		"sem.permissao"
 	},
 	["PaisanaMecanico"] = {
@@ -165,6 +168,7 @@ cfg.groups = {
 	},
 	["Taxista"] = {
 		"taxista.permissao",
+		"portataxi.permissao",
 		"sem.permissao"
 	},
 	["PaisanaTaxista"] = {
@@ -225,6 +229,7 @@ cfg.groups = {
 	},
 	"ballas.permissao",
 	"trafico.permissao",
+	"portaballas.permissao",
 	"ilegal.permissao",
 	"drogas.permissao"
 },
@@ -235,6 +240,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"vagos.permissao",
+	"portavagos.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",
 	"drogas.permissao"
@@ -246,6 +252,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"groove.permissao",
+	"portagroove.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",
 	"drogas.permissao"
@@ -258,6 +265,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"crips.permissao",
+	"portacrips.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",
 	"armas.permissao"
@@ -268,6 +276,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"blood.permissao",
+	"portablood.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",
 	"armas.permissao"
@@ -281,6 +290,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"motoclub.permissao",
+	"portamotoclub.permissao",
 	"desmanche.permissao",
 	"ilegal.permissao"
 },
@@ -290,6 +300,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"driftking.permissao",
+	"portadriftking.permissao",
 	"desmanche.permissao",
 	"ilegal.permissao"
 },
@@ -301,6 +312,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"lifeinvader.permissao",
+	"portaslifeinvader.permissao",
 	"ilegal.permissao",
 	"lavagem.permissao"
 },
@@ -310,6 +322,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"bahamas.permissao",
+	"portabahamas.permissao",
 	"ilegal.permissao",
 	"lavagem.permissao"
 },
@@ -321,6 +334,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"siciliana.permissao",
+	"portasiciliana.permissao",
 	"ilegal.permissao",
 	"municao.permissao",
 	"municoes.permissao"
@@ -331,6 +345,7 @@ cfg.groups = {
 		gtype = "job"
 	},
 	"triade.permissao",
+	"portatriade.permissao",
 	"municao.permissao",
 	"ilegal.permissao",
 	"lavagem.permissao"
