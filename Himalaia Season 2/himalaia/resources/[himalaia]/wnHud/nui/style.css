@@ -23,13 +23,18 @@ body{
     top: 66%;
 }
 
-.logo{
-    width: 120px;
+.logo {
     position: absolute;
-    top: 20px;
-    left: 0;
-    right: 0;
-    margin: auto;
+    right: 3vh; top: 3vh;
+    width: 12vh;
+    height: 12vh;
+    transform: rotateY(0deg);
+    left: 0; right: 0; top: 1vh; margin: auto;
+    opacity: .7;
+}
+
+.logo img {
+    width: 100%;
 }
 
 #hud{

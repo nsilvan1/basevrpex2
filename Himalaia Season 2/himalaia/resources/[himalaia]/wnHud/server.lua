@@ -17,7 +17,7 @@ RegisterCommand('morfina',function(source,args,rawCommand)
 	local source = source
     local user_id = vRP.getUserId(source)
 	local identity = vRP.getUserIdentity(user_id)
-    if vRP.hasPermission(user_id,"mindmaster.permissao") then
+    if vRP.hasPermission(user_id,"admin.permissao") then
 		vthirst = -100
 		vRP.varyThirst(user_id,vthirst)
 		vhunger = -100
@@ -29,7 +29,7 @@ RegisterCommand('morfina2',function(source,args,rawCommand)
 	local source = source
     local user_id = vRP.getUserId(source)
 	local identity = vRP.getUserIdentity(user_id)
-    if vRP.hasPermission(user_id,"mindmaster.permissao") then
+    if vRP.hasPermission(user_id,"admin.permissao") then
 		vthirst = 50
 		vRP.varyThirst(user_id,vthirst)
 		vhunger = 50
@@ -41,7 +41,7 @@ RegisterCommand('morfina3',function(source,args,rawCommand)
 	local source = source
     local user_id = vRP.getUserId(source)
 	local identity = vRP.getUserIdentity(user_id)
-    if vRP.hasPermission(user_id,"mindmaster.permissao") then
+    if vRP.hasPermission(user_id,"admin.permissao") then
 		vthirst = 50
 		vRP.varyThirst(user_id,vthirst)
 	end

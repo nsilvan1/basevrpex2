@@ -263,45 +263,98 @@ RegisterCommand('pr',function(source,args,rawCommand)
 		end
 	end
 end)
------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
 -- TOOGLE
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterCommand('toogle',function(source,args,rawCommand)
-	local user_id = vRP.getUserId(source)
-	local identity = vRP.getUserIdentity(user_id)
-	if vRP.hasPermission(user_id,"policia.permissao") then
-		TriggerEvent('eblips:remove',source)
-		vRP.addUserGroup(user_id,"PaisanaPolicia")
-		vRPclient.setArmour(source,0)
-		TriggerClientEvent("Notify",source,"aviso","Você saiu de serviço.")
-		SendWebhookMessage(webhookpolicia,"```prolog\n[POLICIAL]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[===========SAIU DE SERVICO==========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
-		TriggerClientEvent('desligarRadios',source)
-	elseif vRP.hasPermission(user_id,"paisanapolicia.permissao") then
-		TriggerEvent('eblips:add',{ name = "Policial", src = source, color = 47 })
-		vRP.addUserGroup(user_id,"Policia")
-		TriggerClientEvent("Notify",source,"sucesso","Você entrou em serviço.")
-		SendWebhookMessage(webhookpolicia,"```prolog\n[POLICIAL]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[==========ENTROU EM SERVICO=========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
-	elseif vRP.hasPermission(user_id,"medico.permissao") then
-		TriggerEvent('eblips:remove',source)
-		vRP.addUserGroup(user_id,"paisanamedico")
-		TriggerClientEvent("Notify",source,"aviso","Você saiu de serviço.")
-		SendWebhookMessage(webhookparamedico,"```prolog\n[PARAMEDICO]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[===========SAIU DE SERVICO==========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
-		TriggerClientEvent('desligarRadios',source)
-	elseif vRP.hasPermission(user_id,"paisanamedico.permissao") then
-		TriggerEvent('eblips:add',{ name = "Medico", src = source, color = 61 })
-		vRP.addUserGroup(user_id,"medico")
-		TriggerClientEvent("Notify",source,"sucesso","Você entrou em serviço.")
-		SendWebhookMessage(webhookparamedico,"```prolog\n[PARAMEDICO]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[==========ENTROU EM SERVICO=========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
-	elseif vRP.hasPermission(user_id,"mecanico.permissao") then
-		TriggerEvent('eblips:remove',source)
-		vRP.addUserGroup(user_id,"paisanamecanico")
-		TriggerClientEvent("Notify",source,"aviso","Você saiu de serviço.")
-		TriggerClientEvent('desligarRadios',source)
-	elseif vRP.hasPermission(user_id,"paisanamecanico.permissao") then
-		TriggerEvent('eblips:add',{ name = "Mecanico", src = source, color = 61 })
-		vRP.addUserGroup(user_id,"mecanico")
-		TriggerClientEvent("Notify",source,"sucesso","Você entrou em serviço.")
-	end
+RegisterCommand('toogle', function(source, args, rawCommand)
+    local user_id = vRP.getUserId(source)
+    local identity = vRP.getUserIdentity(user_id)
+    -- Verifica se a policia está ativo
+    local status = "Entrou"
+
+    if vRP.hasPermission(user_id, "policia.permissao")  or vRP.hasPermission(user_id, "paisanapolicia.permissao")  then
+      
+        if vRP.hasPermission(user_id, "policia.permissao") then
+            status = 'Saiu'
+            vRP.addUserGroup(user_id, "PaisanaPolicia")
+        elseif vRP.hasPermission(user_id, "paisanapolicia.permissao") then
+            vRP.addUserGroup(user_id, "Policia")
+            status = 'Entrou'
+        end
+
+        if status == 'Saiu' then 
+          TriggerEvent('eblips:remove', source)
+          vRPclient.giveWeapons(source, {}, true)
+          vRPclient.setArmour(source, 0)
+          TriggerClientEvent('desligarRadios', source)
+          TriggerClientEvent("Notify", source, "aviso", "Você saiu de serviço.")          
+        else 
+            TriggerEvent('eblips:add', {name = "Policial", src = source, color = 47})
+            TriggerClientEvent("Notify", source, "sucesso",
+            "Você entrou em serviço.")
+        end
+        SendWebhookMessage(webhookpolicia,
+                           "```prolog\n[Policial]: » " .. user_id .. " " ..
+                               identity.name .. " " .. identity.firstname ..
+                               " \n[PONTO]: → " .. status ..
+                               os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S") ..
+                               " \r```")
+    end
+    -- ##############################################--HOSPITAL--######################################################
+    if vRP.hasPermission(user_id, "hospital.permissao") or vRP.hasPermission(user_id, "paisanahospital.permissao") then
+
+        if vRP.hasPermission(user_id, "hospital.permissao") then
+            status = 'Saiu'
+            vRP.addUserGroup(user_id, "PaisanaHospital")
+        elseif vRP.hasPermission(user_id, "paisanahospital.permissao") then
+            vRP.addUserGroup(user_id, "Hospital")
+            status = 'Entrou'
+        end
+
+        if status == 'Saiu' then 
+            TriggerEvent('eblips:remove', source)
+            TriggerClientEvent('desligarRadios', source)
+            TriggerClientEvent("Notify", source, "aviso", "Você saiu de serviço.")          
+        else 
+            TriggerEvent('eblips:add', {name = "Médico", src = source, color = 61})
+            TriggerClientEvent("Notify", source, "sucesso",
+            "Você entrou em serviço.")
+        end
+        SendWebhookMessage(webhookhospital,
+        "```prolog\n[PARAMEDICO]: » " .. user_id .. " " ..
+            identity.name .. " " .. identity.firstname ..
+            " \n[PONTO]: → " .. status ..
+            os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S") ..
+            " \r```")
+    end 
+     -- ##############################################--MECANICO--######################################################
+    if vRP.hasPermission(user_id, "mecanico.permissao") or vRP.hasPermission(user_id, "paisanamecanico.permissao") then
+
+        if vRP.hasPermission(user_id, "mecanico.permissao") then
+            status = 'Saiu'
+            vRP.addUserGroup(user_id, "PaisanaMecanico")
+
+        elseif vRP.hasPermission(user_id, "paisanamecanico.permissao") then
+            vRP.addUserGroup(user_id, "Mecanico")
+            status = 'Entrou'
+        end
+        
+        if status == 'Saiu' then 
+            TriggerEvent('eblips:remove', source)
+            TriggerClientEvent('desligarRadios', source)
+            TriggerClientEvent("Notify", source, "aviso", "Você saiu de serviço.")          
+        else 
+            TriggerEvent('eblips:add', {name = "Mecanico", src = source, color = 55})
+            TriggerClientEvent("Notify", source, "sucesso",
+            "Você entrou em serviço.")
+        end
+        SendWebhookMessage(webhookmecanico,
+        "```prolog\n[MECANICO]: » " .. user_id .. " " ..
+            identity.name .. " " .. identity.firstname ..
+            " \n[PONTO]: → " .. status ..
+            os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S") ..
+            " \r```")
+    end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- TOOGLE2
@@ -315,7 +368,7 @@ RegisterCommand('toogle2',function(source,args,rawCommand)
 		TriggerClientEvent("Notify",source,"aviso","Você voltou para patrulha.")
 		SendWebhookMessage(webhookpolicia,"```prolog\n[POLICIAL]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[===========SAIU DE SERVICO==========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
 	elseif vRP.hasPermission(user_id,"policia.permissao") then
-		TriggerEvent('eblips:add',{ name = "Policial em ação", src = source, color = 46 })
+		TriggerEvent('eblips:add',{ name = "Policial em ação", src = source, color = 47 })
 		vRP.addUserGroup(user_id,"PoliciaAcao")
 		TriggerClientEvent("Notify",source,"sucesso","Você entrou em ação.")
 		SendWebhookMessage(webhookpolicia,"```prolog\n[POLICIAL]: "..user_id.." "..identity.name.." "..identity.firstname.." \n[==========ENTROU EM SERVICO=========] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")

@@ -7,8 +7,6 @@ function setVeloBar(velo) {
     fill_element.style.width = `${fill_value}%`
 }
 
-
-
 $(function () {
     $(document).ready(() => { })
     var oldSpeed
