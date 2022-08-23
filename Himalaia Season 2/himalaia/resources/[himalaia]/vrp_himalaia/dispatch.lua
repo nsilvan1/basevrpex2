@@ -1,63 +1,34 @@
+----------------------------------------------------------------------------------------------------------------------------------------
+-- /NPC CONTROL
 -----------------------------------------------------------------------------------------------------------------------------------------
--- DENSITY NPCS
------------------------------------------------------------------------------------------------------------------------------------------
--- Citizen.CreateThread(function()
---     while true do
-			
---     	SetVehicleDensityMultiplierThisFrame(0.0)
--- 		SetPedDensityMultiplierThisFrame(0.5)
--- 		SetRandomVehicleDensityMultiplierThisFrame(0.5)
--- 		SetParkedVehicleDensityMultiplierThisFrame(0.0)
--- 		SetScenarioPedDensityMultiplierThisFrame(0.5, 0.5)
-		
--- 		local playerPed = GetPlayerPed(-1)
--- 		local pos = GetEntityCoords(playerPed) 
--- 		RemoveVehiclesFromGeneratorsInArea(pos['x'] - 500.0, pos['y'] - 500.0, pos['z'] - 500.0, pos['x'] + 500.0, pos['y'] + 500.0, pos['z'] + 500.0);
-    	
--- 		Citizen.Wait(1)
--- 	end
-
--- end)
-
------------------------------------------------------------------------------------------------------------------------------------------
--- DENSITY NPCS
------------------------------------------------------------------------------------------------------------------------------------------
-local density = false
 Citizen.CreateThread(function()
-	SetTimeout(60000,function()
-		density = true
-	end)
-end)
+    while true do
+    Citizen.Wait(0)
+    SetVehicleDensityMultiplierThisFrame(0.2) --Seleciona densidade do trafico
+    SetPedDensityMultiplierThisFrame(0.1) --seleciona a densidade de Npc
+    SetRandomVehicleDensityMultiplierThisFrame(0.2) --seleciona a densidade de viaturas estacionadas a andar etc
+    SetParkedVehicleDensityMultiplierThisFrame(0.5) --seleciona a densidade de viaturas estacionadas
+    SetScenarioPedDensityMultiplierThisFrame(0.2, 0.2) --seleciona a densidade de Npc a andar pela cidade
+    SetGarbageTrucks(true) --Desactiva os Camioes do Lixo de dar Spawn Aleatoriamente
+    SetRandomBoats(false) --Desactiva os Barcos de dar Spawn na agua
+    SetCreateRandomCops(false) --Desactiva a Policia a andar pela cidade
+    SetCreateRandomCopsNotOnScenarios(false) --Para o Spanw Aleatorio de Policias Fora do Cenario
+    SetCreateRandomCopsOnScenarios(false) --Para o Spanw Aleatorio de Policias no Cenario
+    DisablePlayerVehicleRewards(PlayerId()) --Nao mexer --> Impossibilita que os players possam ganhar armas nas viaturas da policia e ems
+    RemoveAllPickupsOfType(0xDF711959) --Carbine rifle
+    RemoveAllPickupsOfType(0xF9AFB48F) --Pistol
+    RemoveAllPickupsOfType(0xA9355DCD) --Pumpshotgun
+    local x,y,z = table.unpack(GetEntityCoords(PlayerPedId()))
+    ClearAreaOfVehicles(x, y, z, 1000, false, false, false, false, false)
+    RemoveVehiclesFromGeneratorsInArea(x - 500.0, y - 500.0, z - 500.0, x + 500.0, y + 500.0, z + 500.0);
+    --HideHudComponentThisFrame(14)-- Remover Mira
+    RemoveMultiplayerHudCash(0x968F270E39141ECA) -- Remove o Dinheiro Original do Gta
+    RemoveMultiplayerBankCash(0xC7C6789AA1CFEDD0) --Remove o Dinheiro Original do Gta Que esta no Banco
+    for i = 1, 15 do
+    EnableDispatchService(i, false)-- Disabel Dispatch
+      end
+    end
 
-Citizen.CreateThread(function()
-	while true do
-		if not density then
-			SetVehicleDensityMultiplierThisFrame(1.)
-			SetSomeVehicleDensityMultiplierThisFrame(0.0)
-			SetRandomVehicleDensityMultiplierThisFrame(0.0)
-			SetParkedVehicleDensityMultiplierThisFrame(0.0)
-			SetScenarioPedDensityMultiplierThisFrame(0.0,1.0)
-			SetPedDensityMultiplierThisFrame(1.0)
-		else
-			if IsPedSittingInAnyVehicle(PlayerPedId()) then
-				if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId()),-1) == PlayerPedId() then
-					SetVehicleDensityMultiplierThisFrame(1.0)
-					SetRandomVehicleDensityMultiplierThisFrame(0.0)
-					SetParkedVehicleDensityMultiplierThisFrame(0.0)
-				else
-					SetVehicleDensityMultiplierThisFrame(1.0)
-					SetRandomVehicleDensityMultiplierThisFrame(1.0)
-					SetParkedVehicleDensityMultiplierThisFrame(1.0)
-				end
-			else
-				SetParkedVehicleDensityMultiplierThisFrame(1.0)
-				SetVehicleDensityMultiplierThisFrame(1.0)
-			end
-			SetScenarioPedDensityMultiplierThisFrame(0.0,1.0)
-			SetPedDensityMultiplierThisFrame(1.0)
-		end
-		Citizen.Wait(1)
-	end
 end)
 -------------------
 -- Discord rich

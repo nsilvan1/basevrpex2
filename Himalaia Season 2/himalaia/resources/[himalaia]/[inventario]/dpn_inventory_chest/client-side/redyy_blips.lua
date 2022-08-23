@@ -48,8 +48,25 @@ end)
 function startBlipThread()
 	Citizen.CreateThread(function()
 		while showBlip do
-			DrawMarker(21, blipCoords[1], blipCoords[2], blipCoords[3]-0.6,0,0,0,0.0,0,0,0.6,0.6,0.6,255,255,255,150,0,0,0,1)
+			DrawTextEmoji(blipCoords[1], blipCoords[2], blipCoords[3]-0.3,"📦") -- COLOCAR SEU EMOJI DENTRO DA STRING
 			Citizen.Wait(0)
 		end
 	end)
+end
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-- DRAW TEXT EM 3D
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+function DrawTextEmoji(x,y,z,text)
+    local onScreen,_x,_y = World3dToScreen2d(x,y,z)
+    SetTextFont(4)
+    SetTextScale(0.35,0.35)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
 end

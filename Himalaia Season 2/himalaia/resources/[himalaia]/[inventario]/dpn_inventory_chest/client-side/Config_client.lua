@@ -37,9 +37,9 @@ ConfigClient = {
 	disableIncludedTrunk = true, -- Ativa bau de carro em outra tecla
 	keybindTrunk = "PAGEUP", -- Tecla a ser usada acima
 	separatedChest = true, -- Abrir bau no E
-	disableIncludedChest = false, -- Desativar bau nas aspas
+	disableIncludedChest = true, -- Desativar bau nas aspas
 	separatedShop = true, -- Desabilita as lojinhas no aspas
-	percentual = 1,
+	percentual = 2,
 
     lojas = {
         -- caso queira fazer mais uma loja copie daqui:
@@ -182,202 +182,32 @@ ConfigClient = {
             weight = 5000, 
             perm = "policia.permissao",
             slots = 100, 
-            webhook = "https://discord.com/api/webhooks/971539013011910666/6F8qPWo6bGj5YTMxO9TxKM6AgiG3bUdewxfsSh3CHt5nJ8Mb25_4KIVJ1l76YB4Pqy3X",
-        },
-
-        ['TCPBau'] = {
-            loc = {116.02, 3603.53, 39.76},
-            weight = 5000, 
-            perm = "tcp.permissao",
-            slots = 100, 
-            webhook = "https://discord.com/api/webhooks//6F8qPWo6bGj5YTMxO9TxKM6AgiG3bUdewxfsSh3CHt5nJ8Mb25_4KIVJ1l76YB4Pqy3X",
-        },
-
-        ['ADABau'] = {
-            loc = {3685.8, 4504.35, 26.22},
-            weight = 5000, 
-            perm = "ada.permissao",
-            slots = 100, 
-            webhook = "s70046093050138704/MMxlzx5nSlg5AmRwkbVwfYUED3cZruipk96FWrfQIeAeozdl2lejCBemikzPkGzVk97X",
-        },       
-		
-        ['PCCBau'] = {
-            loc = {2095.0, 3785.71, 36.51},
-            weight = 5000, 
-            perm = "pcc.permissao",
-            slots = 100, 
-            webhook = "s70046495652970596/StadJE6z4-rCXqaLahbHYy0eV4U1o3YtT9fxK4725cSBMZbdUx7-LlEtdIFM9tFK5w54",
-        },
-
-        ['BDMBau'] = {
-            loc = {258.38, 6930.58, 19.7},
-            weight = 5000, 
-            perm = "bdm.permissao",
-            slots = 100, 
-            webhook = "s70046398802300928/YvPEJBN_ah81uR9s_58vW_jC9TMoYgsY_o38C1MFwojWlT5sFR0fLWMegq2Lx7IdpMn3",
-        },
-
-        ['MiliciaBau'] = {
-            loc = {5544.96, -5387.3, 28.63},
-            weight = 5000, 
-            perm = "milicia.permissao",
-            slots = 100, 
-            webhook = "s70046577035055155/Yui6iGA8lF6o_hLySU8uJGsVzE2GT3NNQ9o_dNieFvRjHWNn5J1KjUZy7kz7EwXK3i3A",
-        },
-
-        ['MotoclubBau'] = {
-            loc = {992.25,-135.29,74.07},
-            weight = 5000, 
-            perm = "motoclub.permissao",
-            slots = 100, 
             webhook = "",
         },
 
-        ['SonsofAnarchyBau'] = {
-            loc = {882.58,-2107.34,30.77},
-            weight = 5000, 
-            perm = "sonsofanarchy.permissao",
-            slots = 100, 
-            webhook = "",
-        },	
-
-        ['VanillaBau'] = {
-            loc = {106.58, -1299.46, 28.77},
-            weight = 5000, 
-            perm = "vanilla.permissao",
-            slots = 100, 
-            webhook = "",
-        },	
-
-        ['Motoblube'] = {
-            loc = {977.16, -104.19, 74.85},
-            weight = 5000, 
-            perm = "motoclube.permissao",
-            slots = 100, 
-            webhook = "",
-        },
-        ['Mafia'] = {
-            loc = {-1881.79, 2060.82, 140.99},
-            weight = 5000, 
-            perm = "mafia.permissao",
-            slots = 100, 
-            webhook = "",
-        },
-        ['MeduzaBau'] = {
-            loc = {750.96, -581.96, 33.65},
-            weight = 5000, 
-            perm = "medyza.permissao",
-            slots = 100, 
-            webhook = "s68518101186531358/JkW0bYyGZW3fFrpuj_jSPljIFo3onbjOAJ01GBfJ7YEutAcCGW0Ov2Vp0ZXSGafduNEv",
-        },
-
-        ['FuriusBau'] = {
-            loc = {146.38,-3007.71,7.05},
-            weight = 5000, 
-            perm = "furius.permissao",
-            slots = 100, 
-            webhook = "",
-        },
-
-        ['PoliciaCivilBau'] = {
-            loc = {-938.92, -2099.81, 9.3},
+        ['Bau Hospital'] = {
+            loc = {307.05, -601.48, 43.29},
             weight = 5000, 
             perm = "policia.permissao",
             slots = 100, 
             webhook = "",
         },
 
-        ['PoliciaMilitarBau'] = {
-            loc = {2527.32, -341.29, 101.9},
-            weight = 5000, 
-            perm = "policia.permissao",
-            slots = 100, 
-            webhook = "s60200557077885020/bCWjvZrOZL4F2jr7aikeKlJJ_GIPxQt7H0Woagzrfwl0mmtr5eQcaFFPBoKJO7knBI0n",
-        },
-		
-        ['PoliciaBopeBau'] = {
-            loc = {276.16, -347.36, 49.54},
+        ['Bau Mecanica'] = {
+            loc = {803.62, -908.6, 25.26},
             weight = 5000, 
             perm = "policia.permissao",
             slots = 100, 
             webhook = "",
         },
 
-        ['PoliciaRotaBau'] = {
-            loc = {-2010.9,-505.6,12.23},
+        ['Bau Ballas'] = {
+            loc = {106.24, -1981.47, 20.97},
             weight = 5000, 
-            perm = "policia.permissao",
+            perm = "ballas.permissao",
             slots = 100, 
             webhook = "",
         },
-
-        ['cassinoaBau'] = {
-            loc = {959.44, 34.21, 71.84},
-            weight = 5000, 
-            perm = "cassino.permissao",
-            slots = 100, 
-            webhook = "s67501790897668177/MGpPxR1obBy4peugwSdOJC0SiLL-j4usXrQVhCn6T4qnYsjR4zSVj-bjer0WjK66HUlx",
-        },				
-		
-        ['PoliciaRodoviarioBau'] = {
-            loc = {1535.82,797.34,77.62},
-            weight = 5000, 
-            perm = "policia.permissao",
-            slots = 100, 
-            webhook = "",
-        },	
-
-        ['HospitalBau'] = {
-            loc = {301.81,-599.46,43.28},
-            weight = 5000, 
-            perm = "paramedico.permissao",
-            slots = 100, 
-            webhook = "",
-        },	
-
-        ['Yakuza'] = {
-            loc = {-872.75, -1456.98, 7.53},
-            weight = 5000, 
-            perm = "yakuza.permissao",
-            slots = 100, 
-            webhook = "s70046654893940787/pl5H3lthNDIUzUzHkvz5g82fx4lbTRCt1QNV3SKdMCrxsyDIp8MHAfJpbriiipGVXBIF",
-        },	
-
-        ['MecanicaBau'] = {
-            loc = {-793.89, -2592.38, 13.79},
-            weight = 5000, 
-            perm = "mecanico.permissao",
-            slots = 100, 
-            webhook = "",
-        },	
-        ['casavip1'] = {
-            loc = {-2675.33, 1304.26, 152.02},
-            weight = 100000, 
-            perm = "casavip.permissao",
-            slots = 500, 
-            webhook = "",
-        },
-        ['casavip3'] = {
-            loc = {-887.76, 53.2, 53.3},
-            weight = 100000, 
-            perm = "casavip.permissao",
-            slots = 500, 
-            webhook = "",
-        },
-        ['casavip4'] = {
-            loc = {2555.38, 6184.51, 168.4},
-            weight = 100000, 
-            perm = "casavip.permissao",
-            slots = 500, 
-            webhook = "",
-        },
-        ['casavip2'] = {
-            loc = {9.36, 529.43, 170.62},
-            weight = 100000, 
-            perm = "casavip2.permissao",
-            slots = 500, 
-            webhook = "",
-        },		
     } 
 
 }
