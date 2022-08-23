@@ -89,7 +89,22 @@ cfg.list = {
 [82] = { text = true, hash = -2023754432, ['x'] = -1075.39, ['y'] = -822.39, ['z'] = 5.48, lock = false, perm = "portadp.permissao", other = 15 },
 [83] = { text = true, hash = -2023754432, ['x'] = -1078.12, ['y'] = -820.89, ['z'] = 5.48, lock = false, perm = "portadp.permissao" },
 
+[84] = { text = true, hash = 1122314606, ['x'] = 105.6, ['y'] = -1977.29, ['z'] = 20.97, lock = true, perm = "portaballas.permissao" },
+[85] = { text = true, hash = -1730259609,['x'] = 110.66, ['y'] = -1978.6, ['z'] = 20.97, lock = true, perm = "portaballas.permissao" },
+[86] = { text = true, hash = 1947176169, ['x'] = 107.94, ['y'] = -1975.81, ['z'] = 20.97, lock = true, perm = "portaballas.permissao", other = 87 },
+[87] = { text = true, hash = 1184805384, ['x'] = 107.94, ['y'] = -1975.81, ['z'] = 20.97, lock = true, perm = "portaballas.permissao", other = 86 },
+[88] = { text = true, hash = 1805008497, ['x'] = 94.66, ['y'] = -1985.31, ['z'] = 20.44, lock = true, perm = "portaballas.permissao", other = 89 },
+[89] = { text = true, hash = -167783606, ['x'] = 94.66, ['y'] = -1985.31, ['z'] = 20.44, lock = true, perm = "portaballas.permissao", other = 88 },
+[90] = { text = true, hash = 1805008497, ['x'] = 92.05, ['y'] = -1982.44, ['z'] = 20.48, lock = true, perm = "portaballas.permissao", other = 91},
+[91] = { text = true, hash = -167783606, ['x'] = 92.05, ['y'] = -1982.44, ['z'] = 20.48, lock = true, perm = "portaballas.permissao", other = 90 },
+[92] = { text = true, hash = -1912632538,['x'] = 113.09, ['y'] = -1974.07, ['z'] = 21.32, lock = true, perm = "portaballas.permissao" },
+[93] = { text = true, hash = -204046185, ['x'] = 117.96, ['y'] = -1973.74, ['z'] = 21.35, lock = true, perm = "portaballas.permissao", other = 94 },
+[94] = { text = true, hash = 989957872,  ['x'] = 117.96, ['y'] = -1973.74, ['z'] = 21.35, lock = true, perm = "portaballas.permissao" , other = 93},
+[95] = { text = true, hash = -1912632538,['x'] = 114.31, ['y'] = -1961.9, ['z'] = 21.33, lock = true, perm = "portaballas.permissao" },
+
+
+
 
 }
 
-return cfg
+return cfg 

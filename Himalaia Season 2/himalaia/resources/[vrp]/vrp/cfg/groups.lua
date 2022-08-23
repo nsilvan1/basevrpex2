@@ -306,35 +306,35 @@ cfg.groups = {
 },
 
 --- LAVAGEM
-["LifeInvader"] = {
+["Vanilla"] = {
 	_config = {
-		title = "LifeInvader",
+		title = "Vanilla",
 		gtype = "job"
 	},
-	"lifeinvader.permissao",
-	"portaslifeinvader.permissao",
+	"vanilla.permissao",
+	"portasvanilla.permissao",
 	"ilegal.permissao",
 	"lavagem.permissao"
 },
-["Bahamas"] = {
+["Tequilala"] = {
 	_config = {
-		title = "Bahamas",
+		title = "Tequi-la-la",
 		gtype = "job"
 	},
-	"bahamas.permissao",
-	"portabahamas.permissao",
+	"tequilala.permissao",
+	"portatequilala.permissao",
 	"ilegal.permissao",
 	"lavagem.permissao"
 },
 
 -- MUNIÇÃO
-["Siciliana"] = {
+["Bratva"] = {
 	_config = {
-		title = "Siciliana",
+		title = "Bratva",
 		gtype = "job"
 	},
-	"siciliana.permissao",
-	"portasiciliana.permissao",
+	"bratva.permissao",
+	"portabratva.permissao",
 	"ilegal.permissao",
 	"municao.permissao",
 	"municoes.permissao"

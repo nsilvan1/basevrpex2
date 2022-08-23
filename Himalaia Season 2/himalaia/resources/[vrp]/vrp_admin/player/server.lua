@@ -15,6 +15,7 @@ Tunnel.bindInterface("vrp_player",Psrc)
 local webhookgarmas = ""
 local webhookenviardinheiro = ""
 local webhooksaquear = ""
+local webhookcar = ""
 
 function SendWebhookMessage(webhook,message)
 	if webhook ~= nil and webhook ~= "" then
@@ -52,6 +53,48 @@ function src.checkAttachs()
 		end
 	end
 end
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-- /CAR
+-----------------------------------------------------------------------------------------------------------------------------------------
+RegisterCommand('car', function(source, args, rawCommand)
+    local user_id = vRP.getUserId(source)
+    local identity = vRP.getUserIdentity(user_id)
+    if vRP.hasPermission(user_id, "admin.permissao") or
+        vRP.hasPermission(user_id, "owner.permissao") then
+        if args[1] then
+            TriggerClientEvent('spawnarveiculoefgj231', source, args[1])
+
+            PerformHttpRequest(webhookcar, function(err, text, headers) end,
+                               'POST', json.encode({
+                embeds = {
+                    {
+                        title = "REGISTRO DE CARROS:⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+                        thumbnail = {
+                            url = "https://i.imgur.com/RG45RCQ.jpg"
+                        },
+                        fields = {
+                            {
+                                name = "**QUE VEICULO FOI SPAWNADO?:**",
+                                value = " `" .. (args[1]) .. "` "
+                            }, {
+                                name = "**QUEM SPAWNOU?:**",
+                                value = "`[ID]: " .. user_id .. " | " ..
+                                    identity.name .. " " .. identity.firstname ..
+                                    " `"
+                            }
+                        },
+                        footer = {
+                            text = os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S"),
+                            icon_url = "https://i.imgur.com/RG45RCQ.jpg"
+                        },
+                        color = 0225500
+                    }
+                }
+            }), {['Content-Type'] = 'application/json'})
+        end
+    end
+end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- CHECK ROUPAS
 -----------------------------------------------------------------------------------------------------------------------------------------

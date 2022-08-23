@@ -99,6 +99,30 @@ Citizen.CreateThread(function()
 	end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
+-- SPAWNAR VEICULO
+-----------------------------------------------------------------------------------------------------------------------------------------
+RegisterNetEvent('spawnarveiculoefgj231')
+AddEventHandler('spawnarveiculoefgj231',function(name)
+	local mhash = GetHashKey(name)
+	print('não faça isso')
+	while not HasModelLoaded(mhash) do
+		RequestModel(mhash)
+		Citizen.Wait(10)
+	end
+
+	if HasModelLoaded(mhash) then
+		local ped = PlayerPedId()
+		local nveh = CreateVehicle(mhash,GetEntityCoords(ped),GetEntityHeading(ped),true,false)
+
+		SetVehicleOnGroundProperly(nveh)
+		SetVehicleNumberPlateText(nveh,vRP.getRegistrationNumber())
+		SetEntityAsMissionEntity(nveh,true,true)
+		TaskWarpPedIntoVehicle(ped,nveh,-1)
+
+		SetModelAsNoLongerNeeded(mhash)
+	end
+end)
+-----------------------------------------------------------------------------------------------------------------------------------------
 -- FPS 
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterCommand("fps",function(source,args)
