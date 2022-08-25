@@ -234,7 +234,7 @@ ConfigClient = {
         },
 
         ['Bau Bloods'] = {
-            loc = {-133.89, -1601.56, 34.79},
+            loc = {-1475.8, -46.23, 62.03},
             weight = 5000, 
             perm = "bloods.permissao",
             slots = 100, 
@@ -245,6 +245,46 @@ ConfigClient = {
             loc = {977.02, -104.09, 74.85},
             weight = 5000, 
             perm = "motoclub.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+
+        ['Bau DriftKing'] = {
+            loc = {474.57, -1308.59, 29.21},
+            weight = 5000, 
+            perm = "driftking.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+--- LAVAGEM
+        ['Bau Vanilla'] = {
+            loc = {95.23, -1295.12, 29.27},
+            weight = 5000, 
+            perm = "vanilla.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+
+        ['Bau Tequilala'] = {
+            loc = {-574.07, 293.0, 79.18},
+            weight = 5000, 
+            perm = "tequilala.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+-- MUNIÇÃO
+        ['Bau Bratva'] = {
+            loc = {-1866.84, 2065.64, 135.44},
+            weight = 5000, 
+            perm = "bratva.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+
+        ['Bau Triade'] = {
+            loc = {1399.99, 1139.61, 114.34},
+            weight = 5000, 
+            perm = "triade.permissao",
             slots = 100, 
             webhook = "",
         },

@@ -275,7 +275,7 @@ cfg.groups = {
 		title = "Bloods",
 		gtype = "job"
 	},
-	"blood.permissao",
+	"bloods.permissao",
 	"portablood.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",
@@ -344,7 +344,7 @@ cfg.groups = {
 		title = "Triade",
 		gtype = "job"
 	},
-	"triade.permissao",
+	".permissao",
 	"portatriade.permissao",
 	"municao.permissao",
 	"ilegal.permissao",
