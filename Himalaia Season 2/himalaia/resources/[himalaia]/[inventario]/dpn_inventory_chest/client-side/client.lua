@@ -401,7 +401,9 @@ RegisterCommand("abrirInventarioDopeNuis", function()
             url = ConfigClient['ip']
         }) 
         -- TriggerEvent('nation_hud:updateHud', false)
-        TriggerEvent('wnHud:updateHud', false)
+        -- TriggerEvent('wnHud:updateHud', false)
+        TriggerEvent('vrp_hud:updateHud', false)
+
 
     end
 end)
@@ -854,7 +856,9 @@ RegisterNUICallback("closeInventory", function(cb)
     dPNserver.closeInventory(tableCar.vnetid, chestOpenReturn)
     chestOpenReturn = nil
     -- TriggerEvent('nation_hud:updateHud', true)
-    TriggerEvent('wnHud:updateHud', true)
+    -- TriggerEvent('wnHud:updateHud', true)
+    TriggerEvent('vrp_hud:updateHud', true)
+
 
 end)
 

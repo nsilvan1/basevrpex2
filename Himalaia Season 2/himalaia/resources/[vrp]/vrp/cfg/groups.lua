@@ -246,12 +246,12 @@ cfg.groups = {
 	"drogas.permissao"
 },
 -- FARM MACONHA
-["Groove"] = {
+["Grove"] = {
 	_config = {
-		title = "Groove",
+		title = "Grove",
 		gtype = "job"
 	},
-	"groove.permissao",
+	"grove.permissao",
 	"portagroove.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",

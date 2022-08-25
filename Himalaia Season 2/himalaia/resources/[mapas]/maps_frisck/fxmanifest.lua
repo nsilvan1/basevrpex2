@@ -29,6 +29,7 @@ files {
     'interiorproxies.meta',
     'mapzoomdata.meta',
     'stream/*.ytd'
+    ---
 } 
 
 data_file 'INTERIOR_PROXY_ORDER_FILE' 'interiorproxies.meta'

@@ -283,15 +283,15 @@ AddEventHandler("queue:playerConnecting",function(source,ids,name,setKickReason,
 	local ids = ids
 
 	if ids ~= nil and #ids > 0 then
-		deferrals.update("[CRUZ] Carregando identidades.")
+		deferrals.update("[DEV] Carregando identidades.")
 		local user_id = vRP.getUserIdByIdentifiers(ids)
 		if user_id then
-			deferrals.update("[CRUZ] Carregando banimentos.")
+			deferrals.update("[DEV] Carregando banimentos.")
 			if not vRP.isBanned(user_id) then
-				deferrals.update("[CRUZ] Carregando whitelist.")
+				deferrals.update("[DEV] Carregando whitelist.")
 				if vRP.isWhitelisted(user_id) then
 					if vRP.rusers[user_id] == nil then
-						deferrals.update("[CRUZ] Carregando banco de dados.")
+						deferrals.update("[DEV] Carregando banco de dados.")
 						local sdata = vRP.getUData(user_id,"vRP:datatable")
 
 						vRP.users[ids[1]] = user_id
@@ -317,20 +317,20 @@ AddEventHandler("queue:playerConnecting",function(source,ids,name,setKickReason,
 						deferrals.done()
 					end
 				else
-					deferrals.done("[CRUZ] Nosso servidor tem Whitelist! [ Entre no nosso Discord: https://discord.gg/BmN9dWb9Nj ] [ ID: "..user_id.." ]")
+					deferrals.done("[DEV] Nosso servidor tem Whitelist! [ Entre no nosso Discord: https://discord.gg/BmN9dWb9Nj ] [ ID: "..user_id.." ]")
 					TriggerEvent("queue:playerConnectingRemoveQueues",ids)
 				end
 			else
-				deferrals.done("[CRUZ] Você foi banido da cidade. [ ID: "..user_id.." ]")
+				deferrals.done("[DEV] Você foi banido da cidade. [ ID: "..user_id.." ]")
 				--print(user_id)
 				TriggerEvent("queue:playerConnectingRemoveQueues",ids)
 			end
 		else
-			deferrals.done("[CRUZ] Ocorreu um problema de identificação.")
+			deferrals.done("[DEV] Ocorreu um problema de identificação.")
 			TriggerEvent("queue:playerConnectingRemoveQueues",ids)
 		end
 	else
-		deferrals.done("[CRUZ] Ocorreu um problema de identidade.")
+		deferrals.done("[DEV] Ocorreu um problema de identidade.")
 		TriggerEvent("queue:playerConnectingRemoveQueues",ids)
 	end
 end)

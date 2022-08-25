@@ -898,9 +898,9 @@ RegisterCommand("spec",function(source,args)
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- /a arma
+-- /w arma
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-RegisterCommand('a',function(source,args,rawCommand)
+RegisterCommand('w',function(source,args,rawCommand)
     local user_id = vRP.getUserId(source)
     if user_id then
         if args[1] == "taser" and vRP.hasPermission(user_id,"admin.permissao") then

@@ -200,7 +200,7 @@ ConfigClient = {
             slots = 100, 
             webhook = "",
         },
-
+-- DROGA
         ['Bau Ballas'] = {
             loc = {106.24, -1981.47, 20.97},
             weight = 5000, 
@@ -208,6 +208,46 @@ ConfigClient = {
             slots = 100, 
             webhook = "",
         },
-    } 
 
+        ['Bau Vagos'] = {
+            loc = {353.08, -2055.09, 22.25},
+            weight = 5000, 
+            perm = "vagos.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+
+        ['Bau Grove'] = {
+            loc = {-133.89, -1601.56, 34.79},
+            weight = 5000, 
+            perm = "grove.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+-- ARMA
+        ['Bau Crips'] = {
+            loc = {973.03, -1844.27, 26.41},
+            weight = 5000, 
+            perm = "crips.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+
+        ['Bau Bloods'] = {
+            loc = {-133.89, -1601.56, 34.79},
+            weight = 5000, 
+            perm = "bloods.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+ --- DESMANCHE  LOCKPICK
+        ['Bau Motoclub'] = {
+            loc = {977.02, -104.09, 74.85},
+            weight = 5000, 
+            perm = "motoclub.permissao",
+            slots = 100, 
+            webhook = "",
+        },
+    } 
+     
 }

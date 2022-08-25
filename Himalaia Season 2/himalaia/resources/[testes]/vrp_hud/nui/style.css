@@ -1,0 +1,219 @@
+
+html,body {
+	font-size: 12px;
+	overflow: hidden;
+	background: transparent;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#displayLogo {
+	top: 80px;
+	right: 75px;
+	width: 128px;
+	height: 91px;
+	opacity: 0.5;
+	position: absolute !important;
+	background: url("logo.png") no-repeat;
+}
+
+#displayHud {
+	right: 50px;
+	bottom: 50px;
+	max-width: 300px;
+	position: absolute !important;
+}
+
+#displayTop {
+	float: right;
+	width: 280px;
+	padding: 0 37px;
+	text-align: right;
+}
+
+#displayMiddle {
+	float: right;
+	width: 280px;
+	color: #c6c6c6;
+	text-align: right;
+	padding: 15px 37px;
+	text-shadow: 1px 1px #000;
+}
+
+#displayMiddle s {
+	opacity: 0.75;
+	padding: 0 10px;
+	text-decoration: none;
+}
+
+#displayBottom {
+	float: right;
+	width: 220px;
+}
+
+#displayImages {
+	position: absolute;
+}
+
+#backHealth {
+	float: left;
+	width: 32px;
+	height: 31px;
+	margin-left: 3px;
+	position: relative;
+	/* background: red; */
+	border: 1px solid #CCCCCC;
+}
+
+#displayHealth {
+	bottom: 0;
+	float: left;
+	width: 32px;
+	position: absolute;
+	background:red;
+	transition: all 0.9s;
+}
+
+#backArmour {
+	float: left;
+	width: 32px;
+	height: 31px;
+	margin-left: 3px;
+	position: relative;
+	/* background: #a22b22; */
+	border: 1px solid #CCCCCC;
+	display: none;
+}
+
+#displayArmour {
+	bottom: 0;
+	float: left;
+	width: 32px;
+	position: absolute;
+	background: #9405a1;
+	transition: all 0.9s;
+	
+}
+
+#backWater {
+	float: left;
+	width: 32px;
+	height: 31px;
+	margin-left: 3px;
+	position: relative;
+	/* background: #1c4471; */
+	border: 1px solid #CCCCCC;
+}
+
+#displayWater {
+	bottom: 0;
+	float: left;
+	width: 32px;
+	position: absolute;
+	background: #2861a1;
+	transition: all 0.9s;
+}
+
+#backFood {
+	float: left;
+	width: 32px;
+	height: 31px;
+	margin-left: 3px;
+	position: relative;
+	/* background: #843914; */
+	border: 1px solid #CCCCCC;
+}
+
+#displayFood {
+	bottom: 0;
+	float: left;
+	width: 32px;
+	position: absolute;
+	background: #c5551d;
+	transition: all 0.9s;
+}
+
+#backStress {
+	float: left;
+	width: 32px;
+	height: 31px;
+	margin-left: 3px;
+	position: relative;
+	/* background: #065148; */
+	border: 1px solid #CCCCCC;
+}
+
+#displayStress {
+	bottom: 0;
+	float: left;
+	width: 32px;
+	position: absolute;
+	background: #096a5e;
+	transition: all 0.9s;
+}
+
+#backOxigen {
+	float: left;
+	width: 32px;
+	height: 31px;
+	margin-left: 3px;
+	position: relative;
+	/* background: #485772; */
+	border: 1px solid #CCCCCC;
+}
+
+#displayOxigen {
+	bottom: 0;
+	float: left;
+	width: 32px;
+	position: absolute;
+	background: #586b8b;
+	transition: all 0.9s;
+}
+
+#voice01 {
+	width: 3px;
+	float: left;
+	height: 13px;
+	background: #fff;
+	margin-top: 20px;
+}
+
+#voice02 {
+	width: 3px;
+	float: left;
+	height: 23px;
+	background: #fff;
+	margin-top: 10px;
+	margin-left: 5px;
+}
+
+#voice03 {
+	width: 3px;
+	float: left;
+	height: 33px;
+	background: #fff;
+	margin-left: 5px;
+}
+
+#seatBelt-on {
+	float: right;
+}
+
+#seatBelt-off {
+	float: right;
+}
+
+#gasoline, #mph {
+	float: right;
+	color: #939393;
+	padding-left: 20px;
+	text-shadow: 1px 1px #000;
+}
+
+#gasoline s, #mph s {
+	color: #e5e5e5;
+	font-size: 28px;
+	padding-left: 5px;
+	text-decoration: none;
+	font-family: "Jura",sans-serif;
+}
