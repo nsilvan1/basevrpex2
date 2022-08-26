@@ -128,7 +128,8 @@
     letter-spacing: 1px;
     justify-content: center;
     text-transform: uppercase;
-    background-color: #a600ff;
+    /* background-color: #a600ff; */
+    background-color: #ebebeb52;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 

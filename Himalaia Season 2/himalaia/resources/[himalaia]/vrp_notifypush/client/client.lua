@@ -49,7 +49,7 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- NOTIFY
 -----------------------------------------------------------------------------------------------------------------------------------------
-RegisterKeyMapping("notify","Abrir as notificações","keyboard","f1")
+RegisterKeyMapping("notify","Abrir as notificações","keyboard","1")
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- NOTIFYPUSH
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -127,5 +127,5 @@ RegisterNUICallback("setWay",function(data)
 end)
 
 RegisterCommand("oie", function()
-	TriggerEvent("NotifyPush",{ code = 20, title = "Tráfico em andamento", text = "Venda de drogas", x = x ,y = y , z = z , rgba = {140,35,35} })
+	TriggerEvent("NotifyPush",{ code = 'QRU', title = "Tráfico em andamento", text = "Venda de drogas", x = x ,y = y , z = z , rgba = {140,35,35} })
 end)

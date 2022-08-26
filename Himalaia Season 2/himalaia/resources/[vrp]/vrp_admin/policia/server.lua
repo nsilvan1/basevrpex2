@@ -869,7 +869,7 @@ RegisterCommand('anuncio',function(source,args,rawCommand)
 			if mensagem == "" or nome == "" then
 				return
 			end
-			TriggerClientEvent("Notify",-1,"importante",mensagem.."<br><b>Mensagem enviada por:</b> "..nome,60000)
+			TriggerClientEvent("Notify",-1,"importante",mensagem.."<br><b>Por:</b> "..nome,60000)
 		end
 	end
 end)
