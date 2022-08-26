@@ -1,31 +1,19 @@
 -----------------------------------------------------------------------------------------------------------------------------------------
--- NOTIFY
+-- NOTIFY CSS,MENSAGEM,TEMPO
 -----------------------------------------------------------------------------------------------------------------------------------------
 RegisterNetEvent("Notify")
-AddEventHandler("Notify",function(css,mensagem,time)
-	SendNUIMessage({ css = css, mensagem = mensagem, time = time })
+AddEventHandler("Notify", function(css, message, delay)
+    if not delay then
+        delay = 13000
+    end
+    SendNUIMessage({ css = css, message = message, delay = delay })
 end)
 
-
-RegisterNetEvent("NotifyAdm")
-AddEventHandler("NotifyAdm",function(nomeadm,mensagem)
-	SendNUIMessage({ css = "aviso", mensagem = "<b>"..mensagem.."</b><br>- Administrador :<b> "..nomeadm.."</b>", time = 30000 })
-end)
-
-RegisterNetEvent("NotifyPol")
-AddEventHandler("NotifyPol",function(nomeadm,mensagem)
-	SendNUIMessage({ css = "importante", mensagem = "<b>"..mensagem.."</b><br> - <b>"..nomeadm.."</b>", time = 30000 })
-end)
-
-RegisterNetEvent("NotifyAdmCallback")
-AddEventHandler("NotifyAdmCallback",function(nomeadm,mensagem)
-	SendNUIMessage({ css = "retorno", mensagem = "<b>"..mensagem.."</b><br>- "..nomeadm, time = 15000 })
-end)
-
-RegisterCommand("teste",function(source,args)
-	TriggerEvent('Notify', 'sucesso',"Testado com sucesso")
-	TriggerEvent('Notify', 'negado',"Testado com sucesso")
-	TriggerEvent('Notify', 'importante',"Testado com sucesso")	
-	TriggerEvent('Notify', 'aviso',"Testado com sucesso")	
-
+RegisterCommand("tes",function(source,args)
+	TriggerEvent('Notify', 'sucesso',"Testada com sucesso!")
+	TriggerEvent('Notify', 'negado',"Testada com sucesso!")
+	TriggerEvent('Notify', 'importante',"Testada com sucesso!")	
+	TriggerEvent('Notify', 'aviso',"Testada com sucesso!")	
+	TriggerEvent('Notify', 'financeiro',"Testada com sucesso!")	
+	TriggerEvent('Notify', 'vtuning',"Testada com sucesso!")	
 end)
