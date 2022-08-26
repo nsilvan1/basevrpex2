@@ -762,7 +762,7 @@ end)
 -- CALL
 -----------------------------------------------------------------------------------------------------------------------------------------
 local blips = {}
-RegisterCommand('call',function(source,args,rawCommand)
+RegisterCommand('chamar',function(source,args,rawCommand)
 	local source = source
 	local answered = false
 	local user_id = vRP.getUserId(source)
@@ -782,14 +782,23 @@ RegisterCommand('call',function(source,args,rawCommand)
 		vRPclient._stopAnim(source,false)
 		vRPclient._DeletarObjeto(source)
 		local especialidade = false
-		if args[1] == "adm" then
+		if args[1] == "policia" then
+			players = vRP.getUsersByPermission("policia.permissao")
+			especialidade = "policiais"
+		elseif args[1] == "medico" then
+			players = vRP.getUsersByPermission("paramedico.permissao")
+			especialidade = "paramédicos"
+		elseif args[1] == "mecanico" then
+			players = vRP.getUsersByPermission("mecanico.permissao")
+			especialidade = "mecânicos"
+		elseif args[1] == "adm" then
 			players = vRP.getUsersByPermission("suporte.permissao")	
-			especialidade = "Administradores"
+            especialidade = "Administradores"
 		end
 		local adm = ""
 		if especialidade == "Administradores" then
 			adm = "[ADM] "
-		end
+        end
 		
 		vRPclient.playSound(source,"Event_Message_Purple","GTAO_FM_Events_Soundset")
 		if #players == 0  and especialidade ~= "policiais" then
