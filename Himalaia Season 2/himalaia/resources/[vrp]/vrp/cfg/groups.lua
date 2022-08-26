@@ -294,7 +294,7 @@ cfg.groups = {
 	"desmanche.permissao",
 	"ilegal.permissao"
 },
-["Drift"] = {
+["DriftKing"] = {
 	_config = {
 		title = "DriftKing",
 		gtype = "job"

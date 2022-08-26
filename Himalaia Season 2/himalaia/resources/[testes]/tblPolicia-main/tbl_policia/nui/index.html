@@ -1,0 +1,318 @@
+<html>
+<header>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style_nui.css">
+</header>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_sidebar.html -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item menu-items active">
+          <button class="nav-link" onclick="openDiv('policial')">
+            <span class="menu-title">Policiais</span>
+          </button>
+        </li>
+        <li class="nav-item menu-items active">
+          <button class="nav-link" onclick="openDiv('multas')">
+            <span class="menu-title">Multa</span>
+          </button>
+        </li>
+        <li class="nav-item menu-items active">
+          <button class="nav-link" onclick="openDiv('procurado')">
+            <span class="menu-title">Procurado</span>
+          </button>
+        </li>
+        <li class="nav-item menu-items active">
+          <button class="nav-link" onclick="openDiv('detido')">
+            <span class="menu-title">Apreensão</span>
+          </button>
+        </li>
+        <li class="nav-item menu-items active">
+          <button class="nav-link" onclick="openDiv('relatorios')">
+            <span class="menu-title">Relatorio</span>
+          </button>
+        </li>
+        <li class="nav-item menu-items active">
+          <button class="nav-link" onclick="openDiv('cargo')">
+            <span class="menu-title">Cargo</span>
+          </button>
+        </li>
+        <li class="nav-item menu-items active">
+          <button class="nav-link" onclick="openDiv('leis')">
+            <span class="menu-title">Leis</span>
+          </button>
+        </li>
+        <li class="nav-item menu-items active">
+          <button class="nav-link" onclick="openDiv('prender')">
+            <span class="menu-title">prender</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_navbar.html -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row" id="policial" name="policial" style="display: none;">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">policial</h4>
+                  <button class="badge btn-outline-info" onclick="modalDinamicAddUser()"> adicionar Pessoa</button>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th> passaporte </th>
+                          <th> Nome </th>
+                          <th> Fone</th>
+                          <th> cargo</th>
+                          <th> Cria Lei</th>
+                          <th> </th>
+                          <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody id="policialTable">
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="cargo" name="cargo" style="display: none;">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">cargo</h4>
+                  <button class="badge btn-outline-info" onclick="modalDinamicCargo(0,'insira o nome do cargo')">
+                    adicionar cargo</button>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th> cargo </th>
+                          <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody id="cargoTable">
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="multas" name="multas" style="display: none;">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Multas</h4>
+                  <div class="table-responsive">
+                    <div class="row">
+                      <div class="col-6">
+                        <input type="number" class="modal-text"  id='multaPass' placeholder="informe o passaporte">
+                        <h6 id='multaPassValid' style="display: none;">favor informar o passaporte</h6>
+                      </div>
+                      <div class="col-6">
+                        <input type="number" class="modal-text"  id='multaValor' placeholder="informe o valor da multa">
+                        <h6 id='multaValorValid' style="display: none;">favor informar o valor</h6>
+                      </div>
+                    </div>
+                    <button class="badge btn-outline-info" onclick="addMulta()">Confirmar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="detido" name="detido" style="display: none;">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Apreensão</h4>
+                  <div class="table-responsive">
+                    <div class="row">
+                      <div class="col-6">
+                        <input type="number" id='detidoPass' class="modal-text" placeholder="informe o passaporte">
+                        <h6 id='detidoPassValid' style="display: none;">favor informar o passaporte</h6>
+                      </div>
+                      <div class="col-6">
+                        <input type="number" id='detidoValor' class="modal-text" placeholder="informe o valor da multa">
+                        <h6 id='detidoValorValid' style="display: none;">favor informar o valor</h6>
+                      </div>
+                    </div>
+                    <button class="badge btn-outline-info" onclick="addDetido()">Confirmar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="procurado" name="procurado" style="display: none;">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Procurado</h4>
+                  <div class="table-responsive">
+                    <div class="row">
+                      <div class="col-6">
+                        <input type="number" class="modal-text" id='procuradoPass' placeholder="informe o passaporte">
+                        <h6 id='procuradoPassValid' style="display: none;">favor informar o passaporte</h6>
+                      </div>
+                      <div class="col-6">
+                        <button class="badge btn-outline-info" onclick="pesquisarPessoaProcurado()">Confirmar</button>
+                      </div>
+                      <div class="col-12">
+                        <div id='dvProcurado'></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th> passaporte </th>
+                          <th> Nome </th>
+                          <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody id="procuradoTable">
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="relatorios" name="relatorios" style="display: none;">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Relatório</h4>
+                  <button class="badge btn-outline-info" onclick="modalDinamicAddRelatorio()"> adicionar Relatorios</button>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th> BO </th>
+                          <th> Oficial </th>
+                          <th> Artigo </th>
+                          <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody id="relatoriosTable">
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="leis" name="leis" style="display: none;">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Leis</h4>
+                  <div class="table-responsive" id="dvCriaLei">
+                    <div class="row">
+                      <div class="col-3">
+                        <input type="text" class="modal-text" id='leisArtigo' placeholder="informe o artigo">
+                      </div>
+                      <div class="col-3">
+                        <input type="text" class="modal-text" id='leisCrime' placeholder="informe o crime">
+                      </div>
+                      <div class="col-3">
+                        <input type="number" class="modal-text" id='leisServico' placeholder="informe a quantidade de serviço">
+                      </div>
+                      <div class="col-3">
+                        <button class="badge btn-outline-info" onclick="addLeis()">Confirmar</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th> artigo </th>
+                          <th> crime </th>
+                          <th> serviços </th>
+                          <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody id="leisTable">
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="prender" name="prender" style="display: none;">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Prender</h4>
+                  <div class="table-responsive">
+                    <div class="row">
+                      <div class="col-6">
+                        <input type="number" class="modal-text"  id='prenderPass' placeholder="informe o passaporte">
+                        <h6 id='prenderPassValid' style="display: none;">favor informar o passaporte</h6>
+                      </div>
+                      <div class="col-6">
+                        <input type="number" class="modal-text"  id='prenderValor' placeholder="informe o tempo da prisão">
+                        <h6 id='prenderValorValid' style="display: none;">informe o tempo</h6>
+                      </div>
+                    </div>
+                    <button class="badge btn-outline-info" onclick="prender()">Confirmar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- partial:partials/_footer.html -->
+      <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+  </div>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+    crossorigin="anonymous"></script>
+  <script src="ui.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+  <div class="modal fade modalClass" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Options</h4>
+        </div>
+        <div class="modal-body">
+          <h4>Modal content..</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
