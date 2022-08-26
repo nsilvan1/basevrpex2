@@ -253,7 +253,7 @@ Citizen.CreateThread(function()
 	end
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
--- REMOVER ARMA ABAIXO DE 40MPH DENTRO DO CARRO 
+-- REMOVER ARMA ABAIXO DE 40MPH DENTRO DO CARRO - atirar de dentro do carro
 -----------------------------------------------------------------------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
@@ -261,7 +261,7 @@ Citizen.CreateThread(function()
         local ped = PlayerPedId()
         if IsPedInAnyVehicle(ped) then
             -- BLOQUEIA QUALQUER ARMA DE ATIRAR
-            SetPlayerCanDoDriveBy(PlayerId(),false)
+            SetPlayerCanDoDriveBy(PlayerId(),true) -- se true pode ATIRAR, se false NAO PODE ATIRAR
 
             local vehicle = GetVehiclePedIsIn(ped)
             local speed = GetEntitySpeed(vehicle)*3.6

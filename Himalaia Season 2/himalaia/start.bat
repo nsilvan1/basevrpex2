@@ -1,10 +1,10 @@
 @echo off
 
 echo ===-------------------------------===
-echo     Cruz Academy FREE (2.0)
-echo     Developed by: Cruz
-echo     Discord: https://discord.gg/pXX2NeW8Tr
-echo     Contact: cruzbases@gmail.com
+echo     Himalaia 2.0
+echo     Developed by: Himalaia
+echo     Discord: 
+echo     Contact: 
 echo ===-------------------------------===
 
 pause

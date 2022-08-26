@@ -246,12 +246,12 @@ cfg.groups = {
 	"drogas.permissao"
 },
 -- FARM MACONHA
-["Groove"] = {
+["Grove"] = {
 	_config = {
-		title = "Groove",
+		title = "Grove",
 		gtype = "job"
 	},
-	"groove.permissao",
+	"grove.permissao",
 	"portagroove.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",
@@ -275,7 +275,7 @@ cfg.groups = {
 		title = "Bloods",
 		gtype = "job"
 	},
-	"blood.permissao",
+	"bloods.permissao",
 	"portablood.permissao",
 	"trafico.permissao",
 	"ilegal.permissao",
@@ -294,7 +294,7 @@ cfg.groups = {
 	"desmanche.permissao",
 	"ilegal.permissao"
 },
-["Drift"] = {
+["DriftKing"] = {
 	_config = {
 		title = "DriftKing",
 		gtype = "job"
@@ -344,7 +344,7 @@ cfg.groups = {
 		title = "Triade",
 		gtype = "job"
 	},
-	"triade.permissao",
+	".permissao",
 	"portatriade.permissao",
 	"municao.permissao",
 	"ilegal.permissao",
