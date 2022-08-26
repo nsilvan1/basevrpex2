@@ -7,6 +7,8 @@ client_scripts {
 	"emergencyblips/client.lua",
 	"hospital/client.lua",
 	"player/client.lua",
+	"/puxararma/configpuxararma.lua",
+	"/puxararma/clientpuxararma.lua",
 	"policia/client.lua"
 
 
@@ -19,6 +21,7 @@ server_scripts {
 	"emergencyblips/server.lua",
 	"hospital/server.lua",
 	"player/server.lua",
+	"/puxararma/configpuxararma.lua",
 	"policia/server.lua"
 
 
