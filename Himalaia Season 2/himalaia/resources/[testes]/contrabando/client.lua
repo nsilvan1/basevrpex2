@@ -190,3 +190,25 @@ function DrawText3D(x,y,z,text)
 	DrawRect(0.0,0.0125,factor,0.03,40,36,52,240)
 	ClearDrawOrigin()
 end
+-------------------------------------------------------------------------------------------------
+--[ NPC ]-------------------------------------------------------------------------------------
+-----------------
+
+local pedlist = {
+	{['x'] = 394.53, ['y'] = -2057.01, ['z'] = 21.42, ["h"] = 238.02, ["hash"] = 0xE6631195,  ["hash2"] = "ig_cletus"},
+	{['x'] = 394.79, ['y'] = -2059.24, ['z'] = 21.23, ["h"] = 238.02, ["hash"] = 0x9D0087A8,  ["hash2"] = "ig_claypain"},
+	{['x'] = 397.3, ['y'] = -2056.85, ['z'] = 21.34, ["h"] = 238.02, ["hash"] = 0x5442C66B,  ["hash2"] = "a_m_m_acult_01"},
+
+   }
+   
+   CreateThread(function()
+	for k,v in pairs(pedlist) do
+	 RequestModel(GetHashKey(v.hash2))
+	 while not HasModelLoaded(GetHashKey(v.hash2)) do Wait(100) end
+	 ped = CreatePed(4,v.hash,v.x,v.y,v.z-1,v.h,false,true)
+	 peds = ped
+	 FreezeEntityPosition(ped,true)
+	 SetEntityInvincible(ped,true)
+	 SetBlockingOfNonTemporaryEvents(ped,true)
+	end
+   end)
