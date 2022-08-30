@@ -1,0 +1,5 @@
+Files in the folder sanpedro.rpf go to:
+GTAV\mods\x64m.rpf\levels\gta5\_cityw\sanpedro_01\sanpedro.rpf
+
+Files in the folder sp1_11.rpf go to:
+GTAV\mods\x64m.rpf\levels\gta5\_cityw\sanpedro_01\sp1_11.rpf
