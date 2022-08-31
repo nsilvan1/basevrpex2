@@ -5,17 +5,12 @@ client_scripts {
 	"admin/client.lua",
 	"emergencyblips/client.lua",
 	"hospital/client.lua",
-	"puxararma/clientpuxararma.lua",
-	"puxararma/configpuxararma.lua",
-
+	"player/client.lua",
+	"/puxararma/configpuxararma.lua",
+	"/puxararma/clientpuxararma.lua",
+	"policia/client.lua",
 	"yaga_antcl/client.lua",
-	"yaga_antcl/config.lua",
-
-
-
-	"policia/client.lua"
-
-
+	"yaga_antcl/config.lua"
 
 
 }
@@ -25,15 +20,9 @@ server_scripts {
 	"emergencyblips/server.lua",
 	"hospital/server.lua",
 	"player/server.lua",
-
+	"/puxararma/configpuxararma.lua",
+	"policia/server.lua",
 	"yaga_antcl/server.lua",
-	"yaga_antcl/config.lua",
-
-
-	"puxararma/configpuxararma.lua",
-	"policia/server.lua"
-
-
-
+	"yaga_antcl/config.lua"
 
 }

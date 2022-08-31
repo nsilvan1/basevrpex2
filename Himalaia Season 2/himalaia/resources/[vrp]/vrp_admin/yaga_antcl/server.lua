@@ -2,11 +2,11 @@ local Tunnel = module("vrp","lib/Tunnel")
 local Proxy = module("vrp","lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 
-local webhook = "https://discord.com/api/webhooks/1014302271510687764/mrgqMXNK85Lzdx-X83MlouQb_Uso5eNLX3_b4UyOSQULB0pn0w-LwtUXNuG7TS4dU4jv"    ------ SEU WEBHOOK AQUI --- 
+local webhookcl = "https://discord.com/api/webhooks/1014302271510687764/mrgqMXNK85Lzdx-X83MlouQb_Uso5eNLX3_b4UyOSQULB0pn0w-LwtUXNuG7TS4dU4jv"    ------ SEU WEBHOOK AQUI --- 
 
 
 
-RegisterCommand("combat", function(source, args, rawcmd)
+RegisterCommand("cl", function(source, args, rawcmd)
     TriggerClientEvent("yaga_antcl:show", source)
 end)
 
@@ -68,5 +68,5 @@ function SendLog(user_id, source, crds, identifier, reason)
             },
         }
     }
-    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({ username = Config.LogBotName,embeds = embeds}), { ['Content-Type'] = 'application/json' })
+    PerformHttpRequest(webhookcl, function(err, text, headers) end, 'POST', json.encode({ username = Config.LogBotName,embeds = embeds}), { ['Content-Type'] = 'application/json' })
 end
