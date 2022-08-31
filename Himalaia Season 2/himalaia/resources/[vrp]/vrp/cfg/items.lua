@@ -32,7 +32,6 @@ cfg.items = {
 	["algemas"] = { "Algemas",1 },
 	["cordas"] = { "Cordas",1 },
 	["capuz"] = { "Capuz",0.5 },
-	["colete"] = { "colete",0.3 },
 	["lockpick"] = { "Lockpick",10 },
 	["masterpick"] = { "Masterpick",10 },
 	["militec"] = { "Militec-1",0.8 },
