@@ -414,10 +414,14 @@ RegisterCommand('god',function(source,args,rawCommand)
             if nplayer then
                 vRPclient.killGod(nplayer)
                 vRPclient.setHealth(nplayer,400)
+                vRPclient.setArmour(nplayer,400)
+
             end
         else
             vRPclient.killGod(source)
 			vRPclient.setHealth(source,400)
+            vRPclient.setArmour(source,400)
+
         end
     end
 end)
@@ -943,7 +947,7 @@ RegisterCommand('w',function(source,args,rawCommand)
             vRPclient.giveWeapons(source,{["weapon_flashlight"] = { ammo = 250 }})
         elseif args[1] == "colete" and vRP.hasPermission(user_id,"admin.permissao") then
             vRPclient.setArmour(source,100)
-        elseif args[1] == "limpiar" and vRP.hasPermission(user_id,"admin.permissao") then
+        elseif args[1] == "limpar" and vRP.hasPermission(user_id,"admin.permissao") then
             vRPclient.giveWeapons(source,{},true)
         elseif vRP.hasPermission(user_id,"admin.permissao") then
             TriggerClientEvent("Notify",source,"negado","Especifique uma arma.")

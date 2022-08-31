@@ -63,8 +63,8 @@ ConfigServer = {
         dropar = "https://.com/api/webhooks//4LvKxlL4fBNj3wgDDUQkEMWYTKbOwo7W5wXOVsg3co4bRCCfTEzf9Zj0MyuKNTC73DGp",
         equip = "https://.com/api/webhooks//L0WXVwWMDBNiRPjAoQRRM56e9SZRGOyKlOYwg5DlnP7z-x7wtFebQ1B1UAwLNWsLyhDu",
         casa = "https://discord./api/webhooks//",
-        carro = "https://discord./api//954352024898641972/rALuGOkn6PMRUap1AcUWEAUU6OYbiPaLf3MvBDwX4p87QsFtt2Mv1vOzmalyQ1Q6Bs6n",
-        antidupe = "https://discord./api//954352170147389460/k1qVVyqzl_I9qhTLNleOgNiv6vM4XQUm7efsN4ti0wl-jSXJ6KsCJJqFFo74dwGe6wnk",
+        carro = "https://discord./api///rALuGOkn6PMRUap1AcUWEAUU6OYbiPaLf3MvBDwX4p87QsFtt2Mv1vOzmalyQ1Q6Bs6n",
+        antidupe = "https://discord./api///k1qVVyqzl_I9qhTLNleOgNiv6vM4XQUm7efsN4ti0wl-jSXJ6KsCJJqFFo74dwGe6wnk",
     }, -- Webhook de enviar, dropar e equipar, bau de casa, bau de carro, anti-dump respectivamente
 
     listaDeItens = {

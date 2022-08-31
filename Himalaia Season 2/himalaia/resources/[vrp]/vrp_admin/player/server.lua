@@ -146,6 +146,7 @@ local itemlist = {
 	["repairkit"] = { index = "repairkit", nome = "Kit de Reparos" },
 	["algemas"] = { index = "algemas", nome = "Algemas" },
 	["capuz"] = { index = "capuz", nome = "Capuz" },
+	["colete"] = { index = "colete", nome = "Colete" },
 	["lockpick"] = { index = "lockpick", nome = "Lockpick" },
 	["masterpick"] = { index = "masterpick", nome = "Masterpick" },
 	["militec"] = { index = "militec", nome = "Militec-1" },

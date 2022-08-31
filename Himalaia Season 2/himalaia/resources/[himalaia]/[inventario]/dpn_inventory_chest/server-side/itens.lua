@@ -954,11 +954,28 @@ function itensUse(source, user_id, item, amount, type, slot)
                     end)
                 end
             end    
-        elseif item == "colete" then
-            if vRP.tryGetInventoryItem(user_id,"colete",1,slot) then
+        elseif item == "colete2" then
+            if vRP.tryGetInventoryItem(user_id,"colete2",1,slot) then
                 vRPclient.setArmour(source,200)
                 dPNclient.updateInventory(source)
             end	
         end    
+    elseif itemName == "colete" then
+        if vRP.tryGetInventoryItem(user_id,"colete",1) then
+                        actived[user_id] = true
+                        vCLIENT.closeInventory(source)
+                        TriggerClientEvent('vrp_inventory:Update',source,'updateMochila')
+                        TriggerClientEvent('cancelando',source,true)
+                        vRPclient._playAnim(source,false,{{"oddjobs@basejump@ig_15","puton_parachute"}},false)
+                        TriggerClientEvent("progress",source,2700,"Equipando Colete")
+                        SetTimeout(2700,function()
+                            vRPclient.setArmour(source,300)
+                            TriggerClientEvent("Notify",source,"sucesso","<b>Colete</b> colocado com sucesso.",8000)
+                            actived[user_id] = nil
+                            TriggerClientEvent('cancelando',source,false)
+                            TriggerClientEvent('repararpneus',source,vehicle)
+                            vRPclient._stopAnim(source,false)
+                        end)
+                    end
     end        
 end
