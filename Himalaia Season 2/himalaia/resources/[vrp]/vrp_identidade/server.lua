@@ -24,14 +24,23 @@ function vRPN.Identidade()
 	if user_id then
 		local cash = vRP.getMoney(user_id)
 		local banco = vRP.getBankMoney(user_id)
+		local coins = vRP.getCoins(user_id)
 		local identity = vRP.getUserIdentity(user_id)
 		local multas = vRP.getUData(user_id,"vRP:multas")
 		local mymultas = json.decode(multas) or 0
+		local paypal = vRP.getUData(user_id,"vRP:paypal")
+		local mypaypal = json.decode(paypal) or 0
+		local bills = vRP.getBills(user_id)
 		local job = vRPN.getUserGroupByType(user_id,"job")
-		local jobdois = vRPN.getUserGroupByType(user_id,"job2")
+		local cargo = vRPN.getUserGroupByType(user_id,"cargo")
 		local vip = vRPN.getUserGroupByType(user_id,"vip")
+		local porte = vRPN.getUserGroupByType(user_id,"porte")
+		local aero = vRPN.getUserGroupByType(user_id,"aero")
+		local pontos = 0 
+		local pontos2 = 0
+		local cnh2 = 0
 		if identity then
-			return vRP.format(parseInt(cash)),vRP.format(parseInt(banco)),identity.name,identity.firstname,identity.age,identity.user_id,identity.registration,identity.phone,job,jobdois,vip,vRP.format(parseInt(mymultas))
+			return vRP.format(parseInt(cash)),vRP.format(parseInt(banco)),vRP.format(parseInt(mypaypal)),identity.name,identity.firstname,identity.age,identity.user_id,identity.registration,identity.phone,job,cargo,vip,vRP.format(parseInt(mymultas)),vRP.format(parseInt(mybills)),identity.phone
 		end
 	end
 end

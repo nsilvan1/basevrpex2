@@ -68,14 +68,6 @@ local function FormatStackTrace()
 	return _in(`FORMAT_STACK_TRACE` & 0xFFFFFFFF, nil, 0, Citizen.ResultAsString())
 end
 
-local newThreads = {}
-local threads = setmetatable({}, {
-	-- This circumvents undefined behaviour in "next" (and therefore "pairs")
-	__newindex = newThreads,
-	-- This is needed for CreateThreadNow to work correctly
-	__index = newThreads
-})
-
 local boundaryIdx = 1
 
 local function dummyUseBoundary(idx)
@@ -110,330 +102,39 @@ end
 local runWithBoundaryStart = getBoundaryFunc(Citizen.SubmitBoundaryStart)
 local runWithBoundaryEnd = getBoundaryFunc(Citizen.SubmitBoundaryEnd)
 
---[[
-	The system implements a simple Single Level Queue (SLQ) system with two
-	queues:
-
-		1. A "new" queue which contains newly created or re-inserted coroutines
-		that are to be executed during the "next" tick event.
-
-		2. A "active" queue which contains all active threads to be executed
-		each tick event.
-
-	Each queue is modeled by a doubly linked list with synthetic "records" for
-	the head and tail nodes. Each thread "record" is modeled with a Lua array
-	for size & lookup efficiency.
---]]
-
---[[  Create a thread record  --]]
-local function SLQ_Record(name, thread, bid)
-	bid = bid or 0
-	name = name or "thread"
-	return {
-		--[[ [SLQ_CORO] = ]] thread,
-		--[[ [SLQ_NAME] = ]] name,
-		--[[ [SLQ_WAKE] = ]] 0,
-		--[[ [SLQ_BOUNDARY] = ]] bid,
-		--[[ [SLQ_NEXT] = ]] nil,
-		--[[ [SLQ_PREV] = ]] nil,
-	}
-end
-
---[[ Return true if the SLQ record already has linked elements --]]
-local function SLQ_isAttached(record)
-	return record[5 --[[SLQ_NEXT]]] ~= nil
-		or record[6 --[[SLQ_PREV]]] ~= nil
-end
-
---[[ Link two records --]]
-local function SLQ_Attach(head, tail)
-	head[5 --[[SLQ_NEXT]]] = tail
-	tail[6 --[[SLQ_PREV]]] = head
-end
-
---[[ Create a queue --]]
-local function SLQ_Queue(name)
-	local head = SLQ_Record(("%s_head"):format(name))
-	local tail = SLQ_Record(("%s_tail"):format(name))
-	SLQ_Attach(head, tail)
-
-	return {
-		--[[ [SLQ_Q_HEAD] = ]] head,
-		--[[ [SLQ_Q_TAIL] = ]] tail
-	}
-end
-
---[[ Append a SLQ record to the tail of a queue --]]
-local function SLQ_AppendTail(queue, record)
-	if SLQ_isAttached(record) then
-		error("Unexpected SLQ state; record.{prev|next} is non-nil")
-	else
-		SLQ_Attach(queue[2 --[[SLQ_Q_TAIL]]][6 --[[SLQ_PREV]]], record)
-		SLQ_Attach(record, queue[2 --[[SLQ_Q_TAIL]]])
-	end
-end
-
---[[ Remove a SLQ record from a queue, connecting its next & previous records --]]
-local function SLQ_RemoveRecord(record)
-	-- head = the queue head or another coroutine record;
-	-- tail = the queue tail or another coroutine record;
-	SLQ_Attach(record[6 --[[SLQ_PREV]]], record[5 --[[SLQ_NEXT]]])
-
-	record[5 --[[SLQ_NEXT]]] = nil
-	record[6 --[[SLQ_PREV]]] = nil
-end
-
---[[
-
-	Thread handling
-
-]]
-local runningThread = nil -- Current active thread.
-local thread_lu = { } -- coroutine to thread record lookup
-local thread_queue = {
-	-- A queue of threads created "this" TickRoutine whose execution does not
-	-- resume/begin until the next TickRoutine.
-	--[[ [SLQ_T_NEW] = ]] SLQ_Queue("new"),
-
-	-- A linked list of all coroutines to be iterated through the next
-	-- TickRoutine.
-	--[[ [SLQ_T_SLQ] = ]] SLQ_Queue("slq"),
-
-	-- A linked list of recycled record tables.
-	--[[ [SLQ_T_RECYCLE] = ]] nil, --[[ [SLQ_T_RECYCLE_COUNT] = ]] 0,
-}
-
---[[ Creates a new coroutine and SLQ record, with body f. --]]
-local function thread_createRecord(f, name)
-	boundaryIdx = boundaryIdx + 1
-
-	local bid = boundaryIdx
-	local coro = coroutine_create(function()
-		return runWithBoundaryStart(f, bid)
-	end)
-
-	local record = nil
-	if thread_queue[3 --[[SLQ_T_RECYCLE]]] ~= nil then
-		record = thread_queue[3 --[[SLQ_T_RECYCLE]]]
-
-		-- Ensure recycle list is initialized
-		thread_queue[3 --[[SLQ_T_RECYCLE]]] = record[5 --[[SLQ_NEXT]]]
-		thread_queue[4 --[[SLQ_T_RECYCLE_COUNT]]] = thread_queue[4 --[[SLQ_T_RECYCLE_COUNT]]] - 1
-
-		-- Initialize data
-		record[1 --[[SLQ_CORO]]] = coro
-		record[2 --[[SLQ_NAME]]] = name or "thread"
-		record[3 --[[SLQ_WAKE]]] = 0
-		record[4 --[[SLQ_BOUNDARY]]] = bid
-		record[5 --[[SLQ_NEXT]]] = nil
-		record[6 --[[SLQ_PREV]]] = nil
-	else
-		record = SLQ_Record(name, coro, bid)
-	end
-
-	thread_lu[coro] = record
-	return record
-end
-
-local function resumeThread(thread, coro) -- Internal utility
-	if coroutine_status(coro) == "dead" then
-
-		-- Citizen.Await: 'thread' has the potential to be nil as it references
-		-- a coroutine not bound to the scheduler.
-		if thread ~= nil then
-			SLQ_RemoveRecord(thread)
-
-			-- Cleanup coroutine references.
-			thread_lu[coro] = nil
-			thread[1 --[[SLQ_CORO]]] = nil
-
-			-- Coroutine has died: attempt to recycle the linked list node to
-			-- handle the case of many shortly lived threads being created on a
-			-- per-frame basis.
-			local rc = thread_queue[4 --[[SLQ_T_RECYCLE_COUNT]]]
-			if rc < 16 then -- Append recycled record to root of 'recycle' chain.
-				thread[2 --[[SLQ_NAME]]] = ""
-				--thread[3 --[[SLQ_WAKE]]] = 0
-				--thread[4 --[[SLQ_BOUNDARY]]] = 0
-				thread[5 --[[SLQ_NEXT]]] = nil
-				thread[6 --[[SLQ_PREV]]] = nil
-				if thread_queue[3 --[[SLQ_T_RECYCLE]]] then
-					SLQ_Attach(thread, thread_queue[3 --[[SLQ_T_RECYCLE]]])
-				end
-
-				thread_queue[3 --[[SLQ_T_RECYCLE]]] = thread
-				thread_queue[4 --[[SLQ_T_RECYCLE_COUNT]]] = rc + 1
-			end
-		end
-
-		coroutine_close(coro)
-		return false
-	end
-
-	runningThread = coro
-	
-	if thread then
-		_ProfilerEnterScope(thread[2 --[[SLQ_NAME]]])
-
-		Citizen_SubmitBoundaryStart(thread[4 --[[SLQ_BOUNDARY]]], coro)
-	end
-	
-	local ok, wakeTimeOrErr = coroutine_resume(coro)
-	
-	if ok then
-		thread = thread_lu[coro]
-		if thread then
-			thread[3 --[[SLQ_WAKE]]] = wakeTimeOrErr or 0
-			hadThread = true
-		end
-	else
-		--Citizen.Trace("Error resuming coroutine: " .. debug.traceback(coro, wakeTimeOrErr) .. "\n")
-		local fst = FormatStackTrace()
-		
-		if fst then
-			Citizen.Trace("^1SCRIPT ERROR: " .. wakeTimeOrErr .. "^7\n")
-			Citizen.Trace(fst)
-		end
-	end
-	
-	runningThread = nil
-	
-	_ProfilerExitScope()
-
-	return true
-end
-
-function Citizen.CreateThread(threadFunction)
-	local di = debug_getinfo(threadFunction, 'S')
-
-	local name = ('thread %s[%d..%d]'):format(di.short_src, di.linedefined, di.lastlinedefined)
-	local record = thread_createRecord(threadFunction, name)
-
-	SLQ_AppendTail(thread_queue[1 --[[SLQ_T_NEW]]], record)
-	hadThread = true
-end
-
-function Citizen.Wait(msec)
-	coroutine_yield(curTime + msec)
-end
-
--- legacy alias (and to prevent people from calling the game's function)
-Wait = Citizen.Wait
-CreateThread = Citizen.CreateThread
-
-function Citizen.CreateThreadNow(threadFunction, name)
-	curTime = GetGameTimer()
-
-	local di = debug_getinfo(threadFunction, 'S')
-	local name = name or ('thread_now %s[%d..%d]'):format(di.short_src, di.linedefined, di.lastlinedefined)
-	local record = thread_createRecord(threadFunction, name)
-
-	-- Worst case scenario the record removes itself from the 'new' queue.
-	SLQ_AppendTail(thread_queue[1 --[[SLQ_T_NEW]]], record)
-	
-	local coro = record[1 --[[SLQ_CORO]]]
-	if not resumeThread(record, coro) then
-		return false
-	end
-	
-	return coroutine_status(coro) ~= "dead"
-end
+local AwaitSentinel = Citizen.AwaitSentinel()
+Citizen.AwaitSentinel = nil
 
 function Citizen.Await(promise)
 	local coro = coroutine_running()
-	if not coro then
-		error("Current execution context is not in the scheduler, you should use CreateThread / SetTimeout or Event system (AddEventHandler) to be able to Await")
-	end
+	assert(coro, "Current execution context is not in the scheduler, you should use CreateThread / SetTimeout or Event system (AddEventHandler) to be able to Await")
 
-	-- Indicates if the promise has already been resolved or rejected
-	-- This is a hack since the API does not expose its state
-	local isDone = false
-	local result, err
-	promise = promise:next(function(...)
-		isDone = true
-		result = {...}
-	end,function(error)
-		isDone = true
-		err = error
-	end)
-
-	if not isDone then
-		local threadData = thread_lu[coro]
-		if threadData ~= nil then
-			SLQ_RemoveRecord(threadData)
-		end
-
-		local function reattach()
-			if threadData ~= nil and not SLQ_isAttached(threadData) then
-				SLQ_AppendTail(thread_queue[1 --[[SLQ_T_NEW]]], threadData)
-			end
-
-			resumeThread(threadData, coro)
-		end
-
+	if promise.state == 0 then
+		local reattach = coroutine_yield(AwaitSentinel)
 		promise:next(reattach, reattach)
-		Citizen.Wait(0)
+		coroutine_yield()
 	end
 
-	if err then
-		error(err)
+	if promise.state == 2 then
+		error(promise.value, 2)
 	end
 
-	return table_unpack(result)
+	return promise.value
 end
 
-function Citizen.SetTimeout(msec, callback)
-	local record = thread_createRecord(callback)
-	record[3 --[[SLQ_WAKE]]] = curTime + msec
+Citizen.SetBoundaryRoutine(function(f)
+	boundaryIdx = boundaryIdx + 1
 
-	SLQ_AppendTail(thread_queue[1 --[[SLQ_T_NEW]]], record)
-	hadThread = true
-end
-
-SetTimeout = Citizen.SetTimeout
-
-Citizen.SetTickRoutine(function(tickTime, profilerEnabled)
-	if not hadThread then
-		return
-	end
-
-	-- flag to skip thread exec if we don't have any
-	local thisHadThread = false
-	curTime = tickTime
-	hadProfiler = profilerEnabled
-
-	local queue,queue_new = thread_queue[2 --[[SLQ_T_SLQ]]],thread_queue[1 --[[SLQ_T_NEW]]]
-	local head_record,tail_record = queue[1 --[[SLQ_Q_HEAD]]],queue[2 --[[SLQ_Q_TAIL]]]
-
-	-- Append new threads to the end of the execution queue.
-	if queue_new[1 --[[SLQ_Q_HEAD]]][5 --[[SLQ_NEXT]]] ~= queue_new[2 --[[SLQ_Q_TAIL]]] then
-		SLQ_Attach(tail_record[6 --[[SLQ_PREV]]], queue_new[1 --[[SLQ_Q_HEAD]]][5 --[[SLQ_NEXT]]])
-		SLQ_Attach(queue_new[2 --[[SLQ_Q_TAIL]]][6 --[[SLQ_PREV]]], tail_record)
-
-		-- Clear the new queue
-		queue_new[1 --[[SLQ_Q_HEAD]]][5 --[[SLQ_NEXT]]] = queue_new[2 --[[SLQ_Q_TAIL]]]
-		queue_new[2 --[[SLQ_Q_TAIL]]][6 --[[SLQ_PREV]]] = queue_new[1 --[[SLQ_Q_HEAD]]]
-
-		thisHadThread = true
-	end
-
-	-- Iterate over each thread in the queue. Caching "next" in case the
-	-- coroutine dies or is temporarily removed from the execution queue.
-	local record = head_record[5 --[[SLQ_NEXT]]]
-	while record ~= tail_record do
-		local record_next = record[5 --[[SLQ_NEXT]]]
-		if curTime >= record[3 --[[SLQ_WAKE]]] then
-			resumeThread(record, record[1 --[[SLQ_CORO]]])
-		end
-
-		record = record_next
-		thisHadThread = true
-	end
-
-	if not thisHadThread then
-		hadThread = false
+	local bid = boundaryIdx
+	return bid, function()
+		return runWithBoundaryStart(f, bid)
 	end
 end)
+
+-- root-level alias (to prevent people from calling the game's function accidentally)
+Wait = Citizen.Wait
+CreateThread = Citizen.CreateThread
+SetTimeout = Citizen.SetTimeout
 
 --[[
 
@@ -491,11 +192,13 @@ Citizen.SetEventRoutine(function(eventName, eventPayload, eventSource)
 					handlerFn = handlerMT.__call
 				end
 
-				local di = debug_getinfo(handlerFn)
-			
-				Citizen.CreateThreadNow(function()
-					handler(table_unpack(data))
-				end, ('event %s [%s[%d..%d]]'):format(eventName, di.short_src, di.linedefined, di.lastlinedefined))
+				if type(handlerFn) == 'function' then
+					local di = debug_getinfo(handlerFn)
+				
+					Citizen.CreateThreadNow(function()
+						handler(table_unpack(data))
+					end, ('event %s [%s[%d..%d]]'):format(eventName, di.short_src, di.linedefined, di.lastlinedefined))
+				end
 			end
 		end
 	end
@@ -511,7 +214,7 @@ Citizen.SetStackTraceRoutine(function(bs, ts, be, te)
 	end
 
 	local t
-	local n = 1
+	local n = 0
 	
 	local frames = {}
 	local skip = false
@@ -519,14 +222,14 @@ Citizen.SetStackTraceRoutine(function(bs, ts, be, te)
 	if bs then
 		skip = true
 	end
-	
+
 	repeat
 		if ts then
 			t = debug_getinfo(ts, n, 'nlfS')
 		else
-			t = debug_getinfo(n, 'nlfS')
+			t = debug_getinfo(n + 1, 'nlfS')
 		end
-		
+
 		if t then
 			if t.name == 'wrap' and t.source == '@citizen:/scripting/lua/scheduler.lua' then
 				if not stackTraceBoundaryIdx then
@@ -602,7 +305,7 @@ end
 
 function RemoveEventHandler(eventData)
 	if not eventData.key and not eventData.name then
-		error('Invalid event data passed to RemoveEventHandler()')
+		error('Invalid event data passed to RemoveEventHandler()', 2)
 	end
 
 	-- remove the entry
@@ -610,7 +313,7 @@ function RemoveEventHandler(eventData)
 end
 
 local ignoreNetEvent = {
-	'__cfx_internal:commandFallback'
+	['__cfx_internal:commandFallback'] = true,
 }
 
 function RegisterNetEvent(eventName, cb)
@@ -809,7 +512,6 @@ Citizen.SetCallRefRoutine(function(refId, argsSerialized)
 
 	if not waited then
 		if err then
-			--error(err)
 			if err ~= '' then
 				Citizen.Trace(err)
 			end
@@ -962,7 +664,7 @@ msgpack.extend_clear(EXT_FUNCREF, EXT_LOCALFUNCREF)
 -- RPC INVOCATION
 InvokeRpcEvent = function(source, ref, args)
 	if not coroutine_running() then
-		error('RPC delegates can only be invoked from a thread.')
+		error('RPC delegates can only be invoked from a thread.', 2)
 	end
 
 	local src = source
@@ -1004,11 +706,11 @@ funcref_mt = msgpack.extend({
 	end,
 
 	__index = function(t, k)
-		error('Cannot index a funcref')
+		error('Cannot index a funcref', 2)
 	end,
 
 	__newindex = function(t, k, v)
-		error('Cannot set indexes on a funcref')
+		error('Cannot set indexes on a funcref', 2)
 	end,
 
 	__call = function(t, ...)
@@ -1039,6 +741,10 @@ funcref_mt = msgpack.extend({
 				return table_unpack(Citizen.Await(p))
 			end
 
+			if not rvs then
+				error()
+			end
+
 			return table_unpack(rvs)
 		else
 			return InvokeRpcEvent(tonumber(netSource.source:sub(5)), ref, {...})
@@ -1052,7 +758,7 @@ funcref_mt = msgpack.extend({
 		if refstr then
 			return refstr
 		else
-			error(("Unknown funcref type: %d %s"):format(tag, type(self)))
+			error(("Unknown funcref type: %d %s"):format(tag, type(self)), 2)
 		end
 	end,
 
@@ -1122,11 +828,28 @@ local function lazyEventHandler() -- lazy initializer so we don't add an event w
 	lazyEventHandler = function() end
 end
 
+-- Helper for newlines in nested error message
+local function prefixNewlines(str, prefix)
+	str = tostring(str)
+
+	local out = ''
+
+	for bit in str:gmatch('[^\r\n]*\r?\n') do
+		out = out .. prefix .. bit
+	end
+
+	if #out == 0 or out:sub(#out) ~= '\n' then
+		out = out .. '\n'
+	end
+
+	return out
+end
+
 -- Handle an export with multiple return values.
-local function exportProcessResult(resource, k, status, ...)
+local function exportProcessResult(resource, exportName, status, ...)
 	if not status then
 		local result = tostring(select(1, ...))
-		error('An error happened while calling export ' .. k .. ' of resource ' .. resource .. ' (' .. result .. '), see above for details')
+		error(('\n^5 An error occurred while calling export `%s` in resource `%s`:\n%s^5 ---'):format(exportName, resource, prefixNewlines(result, '  ')), 2)
 	end
 	return ...
 end
@@ -1152,7 +875,7 @@ setmetatable(exports, {
 					end)
 
 					if not exportsCallbackCache[resource][k] then
-						error('No such export ' .. k .. ' in resource ' .. resource)
+						error('No such export ' .. k .. ' in resource ' .. resource, 2)
 					end
 				end
 
@@ -1162,13 +885,13 @@ setmetatable(exports, {
 			end,
 
 			__newindex = function(t, k, v)
-				error('cannot set values on an export resource')
+				error('cannot set values on an export resource', 2)
 			end
 		})
 	end,
 
 	__newindex = function(t, k, v)
-		error('cannot set values on exports')
+		error('cannot set values on exports', 2)
 	end,
 
 	__call = function(t, exportName, func)
@@ -1207,7 +930,7 @@ if not isDuplicityVersion then
 			end)
 
 			if err then
-				Citizen.Trace("error during NUI callback " .. type .. ": " .. err .. "\n")
+				Citizen.Trace("error during NUI callback " .. type .. ": " .. tostring(err) .. "\n")
 			end
 		end)
 	end
@@ -1247,10 +970,20 @@ end
 
 GlobalState = NewStateBag('global')
 
-local entityTM = {
+local function GetEntityStateBagId(entityGuid)
+	if isDuplicityVersion or NetworkGetEntityIsNetworked(entityGuid) then
+		return ('entity:%d'):format(NetworkGetNetworkIdFromEntity(entityGuid))
+	else
+		EnsureEntityStateBag(entityGuid)
+		return ('localEntity:%d'):format(entityGuid)
+	end
+end
+
+local entityMT
+entityMT = {
 	__index = function(t, s)
 		if s == 'state' then
-			local es = ('entity:%d'):format(NetworkGetNetworkIdFromEntity(t.__data))
+			local es = GetEntityStateBagId(t.__data)
 			
 			if isDuplicityVersion then
 				EnsureEntityStateBag(t.__data)
@@ -1263,7 +996,7 @@ local entityTM = {
 	end,
 	
 	__newindex = function()
-		error('Not allowed at this time.')
+		error('Setting values on Entity is not supported at this time.', 2)
 	end,
 	
 	__ext = EXT_ENTITY,
@@ -1277,13 +1010,14 @@ local entityTM = {
 		
 		return setmetatable({
 			__data = ref
-		}, entityTM)
+		}, entityMT)
 	end
 }
 
-msgpack.extend(entityTM)
+msgpack.extend(entityMT)
 
-local playerTM = {
+local playerMT
+playerMT = {
 	__index = function(t, s)
 		if s == 'state' then
 			local pid = t.__data
@@ -1301,7 +1035,7 @@ local playerTM = {
 	end,
 	
 	__newindex = function()
-		error('Not allowed at this time.')
+		error('Setting values on Player is not supported at this time.', 2)
 	end,
 	
 	__ext = EXT_PLAYER,
@@ -1315,17 +1049,17 @@ local playerTM = {
 		
 		return setmetatable({
 			__data = ref
-		}, playerTM)
+		}, playerMT)
 	end
 }
 
-msgpack.extend(playerTM)
+msgpack.extend(playerMT)
 
 function Entity(ent)
 	if type(ent) == 'number' then
 		return setmetatable({
 			__data = ent
-		}, entityTM)
+		}, entityMT)
 	end
 	
 	return ent
@@ -1335,7 +1069,7 @@ function Player(ent)
 	if type(ent) == 'number' or type(ent) == 'string' then
 		return setmetatable({
 			__data = tonumber(ent)
-		}, playerTM)
+		}, playerMT)
 	end
 	
 	return ent

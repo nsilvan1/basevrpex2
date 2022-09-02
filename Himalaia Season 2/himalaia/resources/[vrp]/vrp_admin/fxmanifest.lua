@@ -8,9 +8,9 @@ client_scripts {
 	"player/client.lua",
 	"/puxararma/configpuxararma.lua",
 	"/puxararma/clientpuxararma.lua",
-	"policia/client.lua"
-
-
+	"policia/client.lua",
+	"yaga_antcl/client.lua",
+	"yaga_antcl/config.lua"
 
 
 }
@@ -21,9 +21,8 @@ server_scripts {
 	"hospital/server.lua",
 	"player/server.lua",
 	"/puxararma/configpuxararma.lua",
-	"policia/server.lua"
-
-
-
+	"policia/server.lua",
+	"yaga_antcl/server.lua",
+	"yaga_antcl/config.lua"
 
 }
